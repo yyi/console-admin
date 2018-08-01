@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应急演练统计异常状况</title>
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+</head>
+
+<body class="gray-bg">
+<div id="u_header" class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-10">
+        <div class="title-queryform">
+            <form id = "queryForm" role="form" class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">演练年份：</label>
+                    <input type="text" placeholder="请输入年份,例如:2017" id="inputDate" name="inputDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">季度：</label>
+                    <select class="form-control" id="quarter_query" name="quarter">
+                        <option value="1">第一季度</option>
+                        <option value="2">第二季度</option>
+                        <option value="3">第三季度</option>
+                        <option value="4">第四季度</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="title-querybtn">
+            <a class="btn btn-primary" id="queryBtn">查询</a>
+        </div>
+    </div>
+</div>
+<div id="u_toolbar" class="row wrapper border-bottom white-bg wrapper-content">
+    <div class="col-sm-12">
+        <div class="toolbar-box text-left">
+            <a id="export_btn" class="btn btn-primary" type="button" href=''
+               data-backdrop="static" data-keyboard="false"><i class="fa fa-book"></i>&nbsp;导出数据
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row datagrid-box white-bg border-bottom">
+    <div class="col-sm-12">
+        <table id="emergencyPracticeLogStatGrid"></table>
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+<script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+<script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+<!-- 自定义js -->
+<!--/*/
+<th:block th:include="common/fragment::contextUrl(@{/rest})">
+    /*/-->
+    <script type="text/javascript">
+        var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+<script type="text/javascript" th:inline="javascript">
+
+    var dictionary = [[${data}]];
+    var systemLogUrl = contextUrl + '/emergencyPracticeLogStat';
+    var elementObj = {
+        contextUrl:contextUrl,
+        urlContext: systemLogUrl,
+        urlElementQuery: systemLogUrl + '/list'
+    };
+</script>
+<script src="../../static/static/js/daily/emergencyPracticeLogStat.js" th:src="@{/static/js/daily/emergencyPracticeLogStat.js}"></script>
+</body>
+
+</html>

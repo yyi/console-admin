@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备信息维护</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+</head>
+
+<body :controller="equipmentMiantain" class="gray-bg">
+    <div id="u_header" class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <div class="title-queryform">
+                <form id="queryForm" role="form" class="form-inline">
+                    <div class="form-group">
+                        <label for="" class="control-label">任务名称：</label>
+                        <input type="text" placeholder="请输入任务名称" id="taskName_query" name="taskName" class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="title-querybtn">
+                <a class="btn btn-primary" id="queryBtn">查询</a>
+            </div>
+        </div>
+    </div>
+    <div id="u_toolbar" class="row wrapper border-bottom white-bg wrapper-content">
+        <div class="col-sm-12">
+            <div class="toolbar-box text-left">
+                <button id="edit_btn" class="btn btn-success" type="button"><i class="fa fa-edit"></i>&nbsp;修改</button>
+            </div>
+        </div>
+    </div>
+    <div class="row datagrid-box white-bg border-bottom">
+        <div class="col-sm-12">
+            <table id="maindatagrid"></table>
+        </div>
+    </div>
+    <!-- 不同类型的信息设备管理 start -->
+    <!-- 现场业务基本情况 -->
+    <div class="modal fade" id="businessBaseinfoModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="businessBaseinfoModalLabel">信息设备管理-现场交易基本信息数据维护</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="businessbaseinfomaindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="ltd">填报人</td>
+                                <td colspan="12">
+                                    <input :duplex="@baseinfo[0].userName" type="text" placeholder="请输入填报人" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr style="height: 33px">
+                                <td class="ltd" style="width: 120px">设备类型</td>
+                                <td class="text-center">存在情况</td>
+                                <td class="text-center">客户机数量</td>
+                                <td class="text-center">日常客户数量</td>
+                                <td class="text-center">备注</td>
+                                <td class="text-center">备用5</td>
+                                <td class="text-center">备用6</td>
+                                <td class="text-center">备用7</td>
+                            </tr>
+                            <!--ms-for: (ine,ele) in @baseinfo-->
+                            <tr>
+                                <td class="ltd">{{ele.elementName}}</td>
+                                <td class="text-center" style="width:70px">
+                                    <select class="form-control table-fz-control" :duplex="@baseinfo[ine].isExists" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" class="form-control" :duplex="@baseinfo[ine].id">
+                                    <input type="hidden" class="form-control" :duplex="@baseinfo[ine].elementId">
+                                    <input type="hidden" class="form-control" :duplex="@baseinfo[ine].businessId">
+                                    <input type="text" :attr="{disabled:(baseinfo[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@baseinfo[ine].clientCount">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(baseinfo[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@baseinfo[ine].customerCount">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(baseinfo[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@baseinfo[ine].remark">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(baseinfo[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@baseinfo[ine].rsrvStr1">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(baseinfo[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@baseinfo[ine].rsrvStr2">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(baseinfo[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@baseinfo[ine].rsrvStr3">
+                                </td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="businessBaseinfoSaveModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 现场业务基本情况结束 -->
+    <!-- 互联网线路 -->
+    <div class="modal fade" id="businessInternetModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="businessInternetModalLabel">信息设备管理-现场交易互联网线路数据维护</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="businessinternetmaindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="ltd" style="width:100px;">填报人</td>
+                                <td colspan="12">
+                                    <input :duplex="@internet[0].userName" type="text" placeholder="请输入填报人" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr style="height: 33px">
+                                <td class="ltd">线路</td>
+                                <td class="text-center">存在性</td>
+                                <td class="text-center">运营商</td>
+                                <td class="text-center">条件二</td>
+                                <td class="text-center">条件三</td>
+                                <td class="text-center">条件四</td>
+                                <td class="text-center">条件五</td>
+                            </tr>
+                            <!--ms-for: (ine,ele) in @internet-->
+                            <tr>
+                                <td class="ltd">{{ele.elementName}}</td>
+                                <td class="text-center" style="width:70px">
+                                    <select class="form-control table-fz-control" :duplex="@internet[ine].isExists" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" class="form-control" :duplex="@internet[ine].id">
+                                    <input type="hidden" class="form-control" :duplex="@internet[ine].taskExecutionId">
+                                    <input type="text" :attr="{disabled:(internet[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@internet[ine].condition1">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(internet[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@internet[ine].condition2">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(internet[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@internet[ine].condition3">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(internet[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@internet[ine].condition4">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(internet[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@internet[ine].condition5">
+                                </td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="businessInternetSaveModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 互联网线路结束 -->
+    <!-- 行情接收情况 -->
+    <div class="modal fade" id="businessAcceptModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="businessAcceptModalLabel">信息设备管理-现场交易行情接收情况数据维护</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="businessacceptmaindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="ltd" style="width:80px;">填报人</td>
+                                <td colspan="12">
+                                    <input :duplex="@accept[0].userName" type="text" placeholder="请输入填报人" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr style="height: 33px">
+                                <td class="ltd">设备类型</td>
+                                <td class="text-center">存在情况</td>
+                                <td class="text-center">卫星小站编号</td>
+                                <td class="text-center">接收机序列号</td>
+                                <td class="text-center">接收机型号</td>
+                                <td class="text-center">接收机日期</td>
+                                <td class="text-center">网关机型号</td>
+                                <td class="text-center">网关机日期</td>
+                                <td class="text-center">接受行情类别</td>
+                                <td class="text-center">外网机型号</td>
+                                <td class="text-center">外网机日期</td>
+                                <td class="text-center">内网机型号</td>
+                                <td class="text-center">内网机日期</td>
+                            </tr>
+                            <!--ms-for: (ine,ele) in @accept-->
+                            <tr>
+                                <td class="ltd">{{ele.elementName}}</td>
+                                <td class="text-center" style="width:70px">
+                                    <select class="form-control table-fz-control" :duplex="@accept[ine].isExists" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" class="form-control" :duplex="@accept[ine].id">
+                                    <input type="hidden" class="form-control" :duplex="@accept[ine].elementId">
+                                    <input type="hidden" class="form-control" :duplex="@accept[ine].businessId">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].satelliteStationNo">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].receiverNo">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].receiverType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].receiverDate" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].gatewayType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].gatewayDate" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].receiverMarketType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].extranetType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].extranetDate" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].intranetType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(accept[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@accept[ine].intranetDate" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="businessAcceptSaveModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 行情接收情况结束 -->
+    <!-- 行情服务器 -->
+    <div class="modal fade" id="businessServerModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="businessServerModalLabel">信息设备管理-现场交易交易服务器数据维护</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="businessservermaindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="ltd" style="width: 100px">填报人</td>
+                                <td colspan="12">
+                                    <input :duplex="@server[0].userName" type="text" placeholder="请输入填报人" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr style="height: 33px">
+                                <td class="ltd">服务器名</td>
+                                <td class="text-center">存在情况</td>
+                                <td class="text-center">品牌</td>
+                                <td class="text-center">购置时间</td>
+                                <td class="text-center">操作系统</td>
+                                <td class="text-center">是否虚拟机</td>
+                                <td class="text-center">交易系统</td>
+                                <td class="text-center">备份方式</td>
+                                <td class="text-center">其他重点软件</td>
+                                <td class="text-center">备用8</td>
+                                <td class="text-center">备用9</td>
+                            </tr>
+                            <!--ms-for: (ine,ele) in @server-->
+                            <tr>
+                                <td class="ltd">{{ele.elementName}}</td>
+                                <td class="text-center" style="width:70px">
+                                    <select class="form-control table-fz-control" :duplex="@server[ine].isExists" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" class="form-control" :duplex="@server[ine].id">
+                                    <input type="hidden" class="form-control" :duplex="@server[ine].elementId">
+                                    <input type="hidden" class="form-control" :duplex="@server[ine].businessId">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].brand">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].purchaseTime" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].operationSystem">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].isVirtual">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].tradeSystem">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].backupType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].otherSoftware">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].rsrvStr1">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(server[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@server[ine].rsrvStr2">
+                                </td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="businessServerSaveModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 交易服务器结束 -->
+    <!-- 行情软件 -->
+    <div class="modal fade" id="businessSoftwareModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="businessSoftwareModalLabel">信息设备管理-现场交易行情软件数据维护</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="businesssoftwaremaindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="ltd" style="width: 100px">填报人</td>
+                                <td colspan="12">
+                                    <input :duplex="@software[0].userName" type="text" placeholder="请输入填报人" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr style="height: 33px">
+                                <td class="ltd">设备类型</td>
+                                <td class="text-center" style="width: 70px">存在情况</td>
+                                <td class="text-center">软件名</td>
+                                <td class="text-center">软件版本</td>
+                                <td class="text-center">使用时间</td>
+                            </tr>
+                            <!--ms-for: (ine,ele) in @software-->
+                            <tr>
+                                <td class="ltd">{{ele.elementName}}</td>
+                                <td class="text-center" style="width:60px">
+                                    <select class="form-control table-fz-control" :duplex="@software[ine].isExists" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" class="form-control" :duplex="@software[ine].id">
+                                    <input type="hidden" class="form-control" :duplex="@software[ine].elementId">
+                                    <input type="hidden" class="form-control" :duplex="@software[ine].businessId">
+                                    <input type="text" :attr="{disabled:(software[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@software[ine].name">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(software[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@software[ine].version">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(software[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@software[ine].usingTime" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="businessSoftwareSaveModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 行情软件结束 -->
+    <!-- 电话交易 -->
+    <div class="modal fade" id="businessPhoneModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="businessPhoneModalLabel">信息设备管理-现场交易电话委托数据维护</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="businessphonemaindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="text-center">填报人</td>
+                                <td colspan="7">
+                                    <input :duplex="@phone[0].userName" type="text" placeholder="请输入填报人" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" width="20%">电话坐席</td>
+                                <td colspan="7">
+                                    <select class="form-control table-fz-control" :duplex="@phone[0].phoneSeat" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" width="20%">数量</td>
+                                <td colspan="7">
+                                    <input :duplex="@phone[0].seatCount" type="text" placeholder="电话坐席数量" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr style="height: 33px">
+                                <td class="ltd">设备类型</td>
+                                <td class="text-center">存在情况</td>
+                                <td class="text-center">服务器型号</td>
+                                <td class="text-center">购置时间</td>
+                                <td class="text-center">备份方式</td>
+                                <td class="text-center">使用线路</td>
+                                <td class="text-center">备用5</td>
+                                <td class="text-center">备用6</td>
+                            </tr>
+                            <!--ms-for: (ine,ele) in @phone-->
+                            <tr>
+                                <td class="ltd">{{ele.elementName}}</td>
+                                <td class="text-center" style="width:60px">
+                                    <select class="form-control table-fz-control" :duplex="@phone[ine].isExists" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" class="form-control" :duplex="@phone[ine].id">
+                                    <input type="hidden" class="form-control" :duplex="@phone[ine].elementId">
+                                    <input type="hidden" class="form-control" :duplex="@phone[ine].businessId">
+                                    <input type="text" :attr="{disabled:(phone[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@phone[ine].serverType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(phone[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@phone[ine].purchaseTime" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(phone[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@phone[ine].backupType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(phone[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@phone[ine].usingLine">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(phone[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@phone[ine].rsrvStr1">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(phone[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@phone[ine].rsrvStr2">
+                                </td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="businessPhoneSaveModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 电话交易结束 -->
+    <!-- 其他设备 -->
+    <div class="modal fade" id="businessOtherModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1150px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="businessOtherModalLabel">信息设备管理-现场交易其他设备数据维护</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="businessothermaindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="ltd" style="width: 80px">填报人</td>
+                                <td colspan="12">
+                                    <input :duplex="@other[0].userName" type="text" placeholder="请输入填报人" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                            <tr style="height: 33px">
+                                <td class="ltd">设备类型</td>
+                                <td class="text-center">存在情况</td>
+                                <td class="text-center">品牌情况</td>
+                                <td class="text-center" style="width:120px">购置时间</td>
+                                <td class="text-center">操作系统</td>
+                                <td class="text-center">部署软件</td>
+                                <td class="text-center">备份方式</td>
+                                <td class="text-center">备注</td>
+                            </tr>
+                            <!--ms-for: (ine,ele) in @other-->
+                            <tr>
+                                <td class="ltd">{{ele.elementName}}</td>
+                                <td class="text-center" style="width:70px">
+                                    <select class="form-control table-fz-control" :duplex="@other[ine].isExists" :attr="{name:'ine'+ine}">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" class="form-control" :duplex="@other[ine].id">
+                                    <input type="hidden" class="form-control" :duplex="@other[ine].elementId">
+                                    <input type="hidden" class="form-control" :duplex="@other[ine].businessId">
+                                    <input type="text" :attr="{disabled:(other[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@other[ine].brandType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(other[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@other[ine].purchaseTime" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(other[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@other[ine].operationSystem">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(other[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@other[ine].deploySoftware">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(other[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@other[ine].backupType">
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" :attr="{disabled:(other[ine].isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@other[ine].remark">
+                                </td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="businessOtherSaveModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 其他设备结束 -->
+    <!-- 不同类型的信息设备管理 start -->
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/laydate/laydate.js" th:src="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+    <script src="../../static/static/js/plugins/avalon/avalon.js" th:src="@{/static/js/plugins/avalon/avalon.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest/equipmentMaintain})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx/equipmentMaintain";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var dictionary = [[${data}]];
+    var equipmentMaintainObj = {
+        urlContext: contextUrl,
+        urlEquipmentMaintainIndex: contextUrl + '/equipmentMaintainIndex',
+        urlBaseinfoInit: contextUrl + '/equipmentMaintainBaseinfoIndex',
+        urlInternetInit: contextUrl + '/equipmentMaintainInternetIndex',
+        urlAcceptInit: contextUrl + '/equipmentMaintainAcceptIndex',
+        urlServerInit: contextUrl + '/equipmentMaintainServerIndex',
+        urlSoftwareInit: contextUrl + '/equipmentMaintainSoftwareIndex',
+        urlPhoneInit: contextUrl + '/equipmentMaintainPhoneIndex',
+        urlOtherInit: contextUrl + '/equipmentMaintainOtherIndex',
+
+        urlBaseinfoUpdate: contextUrl + '/equipmentMaintainBaseinfoUpdate',
+        urlInternetUpdate: contextUrl + '/equipmentMaintainInternetUpdate',
+        urlAcceptUpdate: contextUrl + '/equipmentMaintainAcceptUpdate',
+        urlServerUpdate: contextUrl + '/equipmentMaintainServerUpdate',
+        urlSoftwareUpdate: contextUrl + '/equipmentMaintainSoftwareUpdate',
+        urlPhoneUpdate: contextUrl + '/equipmentMaintainPhoneUpdate',
+        urlOtherUpdate: contextUrl + '/equipmentMaintainOtherUpdate'
+    };
+    </script>
+    <script src="../../static/static/js/daily/equipmentMaintain.js" th:src="@{/static/js/daily/equipmentMaintain.js}"></script>
+</body>
+
+</html>

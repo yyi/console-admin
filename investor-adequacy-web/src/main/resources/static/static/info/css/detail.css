@@ -1,0 +1,71 @@
+/*详情*/
+.content {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.c-title {
+    margin-left: 14px;
+}
+
+.c-title hr {
+    margin: 0 0 10px;
+    border-color: #aaa;
+}
+
+.c-table {
+    width: 900px;
+    margin: 0 auto;
+    padding-top: 15px;
+    font-size: 14px;
+}
+
+.c-table table {
+    margin-bottom: 0;
+}
+
+.c-table tr {
+    height: 30px;
+}
+
+.c-table th {
+    color: white;
+    padding-left: 15px!important;
+    text-align: left;
+    background-color: #e01b21;
+}
+
+.c-table .t-key {
+    width: 25%;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.c-table .t-val {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.c-table .t-img {
+    text-align: left;
+    padding: 5px 0 5px 20px;
+}
+
+.c-table .t-img img {
+    max-height: 150px;
+    margin-right: 5px;
+    border: 1px solid;
+}
+
+.c-table .t-audit {
+    width: 12%;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.btn-box {
+    text-align: center;
+    padding-top: 50px;
+}

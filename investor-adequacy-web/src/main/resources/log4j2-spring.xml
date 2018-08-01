@@ -1,0 +1,38 @@
+<Configuration monitorInterval="60">
+    <Properties>
+        <Property name="log-path">../logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    %d %p %C{1.} [%t] %m%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="App-File-Appender" fileName="${log-path}/app_log.log" filePattern="${log-path}/app_log.%d{yyyy-MM-dd}.log" append="true">
+            <PatternLayout pattern=" %d %p %C{1.} [%t] %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!--<Logger name="org.apache.shiro" level="debug" additivity="false">-->
+            <!--<AppenderRef ref="Console-Appender"/>-->
+            <!--<AppenderRef ref="App-File-Appender"/>-->
+        <!--</Logger>-->
+        <!--<Logger name="org.hibernate.SQL" level="debug" additivity="false">-->
+            <!--<AppenderRef ref="Console-Appender"/>-->
+            <!--<AppenderRef ref="App-File-Appender"/>-->
+        <!--</Logger>-->
+        <!--<Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">-->
+            <!--<AppenderRef ref="Console-Appender"/>-->
+            <!--<AppenderRef ref="App-File-Appender"/>-->
+        <!--</Logger>-->
+        <Root level="info">
+            <AppenderRef ref="Console-Appender" />
+            <AppenderRef ref="App-File-Appender"/>
+        </Root>
+    </Loggers>
+</Configuration>

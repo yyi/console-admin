@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网下投资者信息填报系统-申请</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" href="../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../static/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link href="../static/static/css/font-awesome.min.css" rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link href="../static/static/css/style.min.css" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../static/static/info/css/common.css" rel="stylesheet" th:href="@{/static/info/css/common.css}">
+    <link href="../static/static/info/css/apply.css" rel="stylesheet" th:href="@{/static/info/css/apply.css}">
+</head>
+
+<body :controller="apply">
+    <nav class="navbar navbar-default navbar-fixed-top border-bottom white-bg">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <a href="http://www.e5618.com/">
+                        <img src="../static/static/info/images/logo_new.gif" th:src="@{/static/info/images/logo_new.gif}">
+                    </a>
+                </div>
+                <div class="title">
+                    <h1>网下投资者信息填报系统</h1>
+                </div>
+                <div class="menu">
+                    <a id="indexhref">首页</a>
+                    <a href="logout">退出</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-wrapper">
+        <div class="row">
+            <div class="content">
+                <div class="c-navbox">
+                    <div class="fz-nav">
+                        <div class="nav-item item-first">
+                            <div class="item-txtbox"><span class="item-num">1</span><span class="item-txt">选择业务类型</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="item-txtbox"><span class="item-num">2</span><span class="item-txt">选择投资者类型</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="item-txtbox"><span class="item-num">3</span><span class="item-txt">填报基础信息</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item item-last">
+                            <div class="item-txtbox"><span class="item-num">4</span><span class="item-txt">资料上传</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="fclear"></div>
+                    </div>
+                </div>
+                <div class="btn-box">
+                    <table :visible="@stepNum==1" width="100%" class="step-table text-center">
+                        <tr>
+                            <td>
+                                <button id="stockBtn" class="m-btn btn-lg m-r-xxl" type="button">股票业务</button>
+                                <button id="bondBtn" class="m-btn btn-lg" type="button">债券业务</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div :visible="@stepNum==2&&@three.a=='stock'" class="stock-box">
+                        <div :visible="@comfirmFlg==false&&@three.b=='orga'" class="stock-options">
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockorga" id="orgaopt1" value="orgaopt1" :change="@stockorgaChange">
+                                <label for="orgaopt1">经有关金融监管部门批准设立的金融机构，包括证券公司、期货公司、基金管理公司及其子公司、商业银行、保险公司、信托公司、财务公司等</label>
+                            </div>
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockorga" id="orgaopt2" value="orgaopt2" :change="@stockorgaChange">
+                                <label for="orgaopt2">上述机构面向投资者发行的理财产品，包括但不限于证券公司资产管理产品、基金管理公司及其子公司产品、期货公司资产管理产品、银行理财产品、保险产品、信托产品、经行业协会备案的私募基金</label>
+                            </div>
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockorga" id="orgaopt3" value="orgaopt3" :change="@stockorgaChange">
+                                <label for="orgaopt3">社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，合格境外机构投资者(QFII)、人民币合格境外机构投资者(RQFII)</label>
+                            </div>
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockorga" id="orgaopt4" value="orgaopt4" :change="@stockorgaChange">
+                                <label for="orgaopt4">一般企业法人或其他组织，且满足：1、最近1年末净资产不低于2000万元；2、最近1年末金融资产不低于1000万元；3、具有2年以上证券、基金、期货、黄金、外汇等投资经历</label>
+                            </div>
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockorga" id="orgaopt5" value="orgaopt5" :change="@stockorgaChange">
+                                <label for="orgaopt5">一般企业法人或其他组织，不满足上述条件</label>
+                            </div>
+                        </div>
+                        <div :visible="@comfirmFlg==false&&@three.b=='person'" class="stock-options">
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockperson" id="personopt1" value="personopt1" :change="@stockpersonChange">
+                                <label for="personopt1">经行业协会备案或者登记的证券公司子公司、期货公司子公司、私募基金管理人</label>
+                            </div>
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockperson" id="personopt2" value="personopt2" :change="@stockpersonChange">
+                                <label for="personopt2">获得职业资格认证的从事金融相关业务的注册会计师和律师</label>
+                            </div>
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockperson" id="personopt3" value="personopt3" :change="@stockpersonChange">
+                                <label for="personopt3">金融资产不低于500万元，或者最近3年个人年均收入不低于50万元； 具有2年以上证券、基金、期货、黄金、外汇等投资经历，或者具有2年以上金融产品设计、投资、风险管理及相关工作经历
+                                </label>
+                            </div>
+                            <div class="radio radio-danger">
+                                <input :duplex="@three.c" type="radio" name="stockperson" id="personopt4" value="personopt4" :change="@stockpersonChange">
+                                <label for="personopt4">其他投资者</label>
+                            </div>
+                        </div>
+                        <div :visible="@comfirmFlg==true" class="comfirm-box">
+                            <ul>
+                                <li>尊敬的投资者：</li>
+                                <li>根据您的选择，您被划分为专业投资者；现将有关事项告知如下，请您仔细阅读：</li>
+                                <li>一、证券经营机构在向专业投资者销售产品或提供服务时，对专业投资者履行的适当性义务区别于其他投资者。普通投资者在信息告知、风险警示、适当性匹配等方面享有特别保护</li>
+                                <li>二、当您的营业执照、经营金融业业务许可证、私募基金管理人备案证明、产品成立备案证明等材料发生变化时，请及时通知我公司，经复核如不再符合专业投资者的申请条件，将不再被划分为专业投资者</li>
+                            </ul>
+                            <div class="text-center m-t-md">
+                                <div class="checkbox checkbox-danger checkbox-inline">
+                                    <input type="checkbox" id="comfirmchk" ms-duplex-checked="@comfirmValue" :change="@comfirmChange">
+                                    <label for="comfirmchk">我认可告知的内容</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div :visible="@stepNum==2&&@three.a=='bond'" class="row-wrapper bond-box">
+                        <div :visible="@comfirmFlg==false" class="row">
+                            <div class="col-sm-6" style="border-right: 1px solid">
+                                <div class="p-r-md">
+                                    <h4>专业投资者需满足以下条件：</h4>
+                                    <ul>
+                                        <li>A.经有关金融监管部门批准设立的金融机构，包括证券公司、期货公司、基金管理公司及其子公司、商业银行、保险公司、信托公司、财务公司等；经行业协会备案或者登记的证券公司子公司、期货公司子公司、私募基金管理人</li>
+                                        <li>B.上述机构面向投资者发行的理财产品，包括但不限于证券公司资产管理产品、基金管理公司及其子公司产品、期货公司资产管理产品、银行理财产品、保险产品、信托产品、经行业协会备案的私募基金</li>
+                                        <li>C. 社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，合格境外机构投资者(QFII)、人民币合格境外机构投资者(RQFII)</li>
+                                    </ul>
+                                </div>
+                                <div class="text-center m-t-md">
+                                    <button id="profeBtn" class="m-btn btn-lg" type="button">专业投资者</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-l-md">
+                                    <h4>普通投资者需满足以下条件</h4>
+                                    <ul>
+                                        <li>一般企业法人或其他组织</li>
+                                    </ul>
+                                </div>
+                                <div class="text-center m-t-md">
+                                    <button id="commonBtn" class="m-btn btn-lg" type="button">普通投资者</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div :visible="@comfirmFlg==true" class="comfirm-box">
+                            <ul>
+                                <li>尊敬的投资者：</li>
+                                <li>根据您的选择，您被划分为专业投资者；现将有关事项告知如下，请您仔细阅读：</li>
+                                <li>一、证券经营机构在向专业投资者销售产品或提供服务时，对专业投资者履行的适当性义务区别于其他投资者。普通投资者在信息告知、风险警示、适当性匹配等方面享有特别保护</li>
+                                <li>二、当您的营业执照、经营金融业业务许可证、私募基金管理人备案证明、产品成立备案证明等材料发生变化时，请及时通知我公司，经复核如不再符合专业投资者的申请条件，将不再被划分为专业投资者</li>
+                            </ul>
+                            <div class="text-center m-t-md">
+                                <div class="checkbox checkbox-danger checkbox-inline">
+                                    <input type="checkbox" id="comfirmchk" ms-duplex-checked="@comfirmValue" :change="@comfirmChange">
+                                    <label for="comfirmchk">我认可告知的内容</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div :visible="@stepNum>1" class="func-box text-center">
+                        <button :visible="@frontBtnFlg" id="frontBtn" class="m-btn btn-sm" type="button">返回上一步</button>
+                        <button :visible="@nextBtnFlg" id="nextBtn" class="m-btn btn-sm m-l" type="button">继续</button>
+                        <button :visible="@comfirmFlg" id="backBtn" class="m-btn btn-sm" type="button">返回</button>
+                        <button :visible="@comfirmFlg" id="comfirmBtn" class="m-btn btn-sm m-l" type="button">继续</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../static/static/js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../static/static/js/bootstrap.min.js" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../static/static/js/layer/layer.js" th:src="@{/static/js/layer/layer.js}"></script>
+    <script src="../static/static/js/avalon/avalon.js" th:src="@{/static/js/avalon/avalon.js}"></script>
+    <script src="../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var userType = [[${isPersonal}]];
+    var businessUrl = contextUrl + 'rest/business';
+    var applyObj = {
+        urlContext: contextUrl,
+        urlCreate: businessUrl + '/createBusiness',
+        userType: userType
+    };
+    $('#indexhref').attr('href', contextUrl);
+    </script>
+    <script src="../static/static/info/js/apply.js" th:src="@{/static/info/js/apply.js}"></script>
+</body>

@@ -1,0 +1,67 @@
+/*申请*/
+.content {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 64px;
+}
+
+.btn-box {
+    width: 928px;
+    border: 1px solid;
+    margin: 30px auto;
+}
+
+.step-table {
+    margin: 150px 0;
+}
+
+.stock-box {
+    width: 800px;
+    margin: 30px auto;
+}
+
+.stock-options {
+    min-height: 330px;
+    padding: 15px;
+}
+
+.stock-options .radio {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.comfirm-box {
+    padding: 15px;
+}
+
+.comfirm-box ul {
+    min-height: 250px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 170%;
+    font-weight: bold;
+}
+
+.comfirm-box li {
+    list-style-type: none;
+}
+
+.bond-box {
+    margin: 30px 25px 0;
+}
+
+.bond-box ul {
+    min-height: 260px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 170%;
+}
+
+.bond-box li {
+    list-style-type: none;
+}
+
+.func-box {
+    width: 900px;
+    margin: 30px auto;
+}

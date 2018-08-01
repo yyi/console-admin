@@ -1,0 +1,24 @@
+/*左右移动控件*/
+.left-p {
+    padding: 0 0 0 5px;
+}
+
+.right-p {
+    padding: 0 5px 0 0;
+}
+
+.left-right-p {
+    width: 50px;
+}
+
+select.left-right-slt {
+    height: 220px;
+}
+
+.form-horizontal .form-group {
+    margin: 0;
+}
+
+.m-content{
+    width: 720px;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html [<!ENTITY radic "&#8730;">]>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf!!!!!</title>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8"/>
+    <style type="text/css">
+        body { font-size: 10pt; color: #333333; font-family:SimSun}
+        table{
+            border-collapse: collapse;
+        }
+        thead { font-weight: bold;boder:1px solid #0000;  }
+        th,td { font-size: 10pt; text-align: center; border: 1px solid #000000;
+            padding-top: 0.2cm;padding-bottom: 0.2cm;}
+        span {
+            border: 1px solid #000000;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>pdf导出测试</h1>
+<h1>pdf</h1>
+<h1>充值合同测试</h1>
+<table>
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>成绩</th>
+        <th>测试</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td style="width:5cm" th:text="${name}">111</td>
+        <td style="width:2cm" th:text="${score}">222</td>
+        <td style="width:10cm"><span>&radic;</span>ttttt测试□党政机关工作人员   □企事业单位职工  □农民   □个体工商户 □注册会计师 □ 律师□学生    □金融机构从业人员    □金融机构高级管理人员    □无业   □其他，__________</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

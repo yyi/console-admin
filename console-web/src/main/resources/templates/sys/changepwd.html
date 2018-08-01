@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户修改密码</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+</head>
+
+<body class="white-bg">
+    <div class="middle-box text-center loginscreen">
+        <div>
+            <h3>修改密码</h3>
+            <form class="m-t" id="changeForm">
+                <div class="form-group">
+                    <input type="password" id="passwd_change" name="passwd" class="form-control" placeholder="请输入新密码">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="passwdconfirm_change" class="form-control" placeholder="请输入确认密码">
+                </div>
+                <button id="saveBtn" class="btn btn-primary block full-width m-b">保存</button>
+                <span id="changeFormErrMsg" class="pull-left errmsg m-t-xs" style="max-width:300px;text-align:left;"></span>
+            </form>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/plugins/validate/jquery.validate.js" th:src="@{/static/js/plugins/validate/jquery.validate.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var pwdUrl = contextUrl + '/user';
+    var userId = [[${userId}]];
+    var pwdObj = {
+        urlContext: contextUrl,
+        urlUserChangePW: pwdUrl + '/changepassword',
+        userId: userId
+    };
+    </script>
+    <script src="../../static/static/js/sys/changepwd.js" th:src="@{/static/js/sys/changepwd.js}"></script>
+</body>
+
+</html>

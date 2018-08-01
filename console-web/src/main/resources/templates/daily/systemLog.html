@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运行日志填报</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+    <link href="../../static/static/css/pages/systemLog.css" rel="stylesheet" th:href="@{/static/css/pages/systemLog.css}">
+</head>
+
+<body :controller="systemLog" class="white-bg">
+    <div class="row wrapper border-bottom white-bg wrapper-content sl_toolbar">
+        <div class="col-sm-2">
+            <div class="toolbar-box text-left">
+                <button id="one_btn" class="btn btn-primary" type="button"><i class="fa fa-check"></i>&nbsp;一键正常</button>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="toolbar-box text-right title-querybtn">
+                <button :attr="{disabled:@saveTempFlg}" :visible="@sl.operation=='add'" id="save_temp_btn" class="btn btn-success" type="button"><i class="fa fa-exchange"></i>&nbsp;保存</button>
+                <button :attr="{disabled:@saveflg}" id="save_btn" class="btn btn-success" type="button"><i class="fa fa-exchange"></i>&nbsp;提交并填写运行日志</button>
+                <a class="btn btn-white btn-bitbucket" href="javascript:void(0);" onclick="location.reload();">
+                    <i class="fa fa-refresh"></i>刷新
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row white-bg border-bottom">
+        <div class="col-sm-12">
+            <table id="maindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                <tbody>
+                    <tr>
+                        <td class="ltd" width="20%">值班人</td>
+                        <td colspan="4">
+                            <input :duplex="@sl.name" type="text" placeholder="请输入值班人" class="form-control sl-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ltd">未填日期</td>
+                        <td colspan="4">
+                            <select :duplex="@sl.inputDate" :change="@inputDateChange" class="form-control sl-control">
+                                <option :for="el in @sl.inputDates" :attr="{value: el}" :text="el | date('yyyy-MM-dd')"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ltd">部门</td>
+                        <td colspan="4">
+                            <span :visible="!@orgaTextFlg" :text="@orgaText" style="margin-left: 10px;"></span>
+                            <select :visible="@orgaTextFlg" :duplex="@sl.organizationN" :change="@organizationChange" class="form-control sl-control">
+                                <option :for="el in @sl.organizationValues" :attr="{value: el.organizationNo}" :text="el.name"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ltd">巡检记录</td>
+                        <td class="text-center">09:00</td>
+                        <td class="text-center">12:00</td>
+                        <td class="text-center">13:00</td>
+                        <td class="text-center">16:00</td>
+                    </tr>
+                    <!--ms-for: (ine,ele) in @sl.systemRuntimeLogDetails-->
+                    <tr>
+                        <td class="ltd" :text="ele.element.name"></td>
+                        <td class="text-center">
+                            <select class="form-control sl-control" :duplex="@sl.systemRuntimeLogDetails[ine].checkStatus1">
+                                <option value="NORM">正常</option>
+                                <option value="UNOR">异常</option>
+                                <option value="NONE">无此项</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control sl-control" :duplex="@sl.systemRuntimeLogDetails[ine].checkStatus2">
+                                <option value="NORM">正常</option>
+                                <option value="UNOR">异常</option>
+                                <option value="NONE">无此项</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control sl-control" :duplex="@sl.systemRuntimeLogDetails[ine].checkStatus3">
+                                <option value="NORM">正常</option>
+                                <option value="UNOR">异常</option>
+                                <option value="NONE">无此项</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control sl-control" :duplex="@sl.systemRuntimeLogDetails[ine].checkStatus4">
+                                <option value="NORM">正常</option>
+                                <option value="UNOR">异常</option>
+                                <option value="NONE">无此项</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <!--ms-for-end:-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 运行日志弹框 start-->
+    <div class="modal fade" id="logModal" role="dialog" aria-labelledby="logModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="logModalLabel">当日运行日志填写</h4>
+                </div>
+                <div class="modal-body modal-max-height">
+                    <div id="logLoadTip" style="display: none;"></div>
+                    <table id="logTable" style="display: none;" class="log-table" border="1" bordercolor="#e7eaec" width="100%">
+                        <tbody>
+                            <tr>
+                                <td width="16%" class="ltd">填写情况</td>
+                                <td width="34%" colspan="2">
+                                    <select class="form-control sl-control" :duplex="@sld.inputStatus">
+                                        <option value="YES">已完成</option>
+                                        <option value="NO">未完成</option>
+                                    </select>
+                                </td>
+                                <td width="17%" class="ltd">是否正常</td>
+                                <td width="33%" class="ltdt" colspan="2" :text="@sld.isNomal | isNomalF"></td>
+                            </tr>
+                            <tr>
+                                <td width="33%" colspan="2" class="ltd">营业部信息系统故障</td>
+                                <td width="33%" colspan="2" class="ltd">故障处理情况</td>
+                                <td width="34%" colspan="2" class="ltd">系统故障-中心意见</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.salesDeptFault" rows="2" placeholder="请填写营业部信息系统故障" class="form-control sl-control noresize" maxlength="1000"></textarea>
+                                </td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.salesDeptFaultHandlerInfo" rows="2" placeholder="请填写故障处理情况" class="form-control sl-control noresize" maxlength="1000"></textarea>
+                                </td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.centerOpinionForFault" rows="2" placeholder="请填写系统故障-中心意见" class="form-control sl-control noresize" maxlength="1000"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ltd">是否影响交易</td>
+                                <td colspan="5">
+                                    <input :duplex="@sld.isImpactBusiness" type="text" maxlength="500" placeholder="请填写是否影响交易" class="form-control sl-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ltd">信息相关业务需求</td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.salesDeptRequest" rows="2" maxlength="1000" placeholder="请填写信息相关业务需求" class="form-control sl-control noresize"></textarea>
+                                </td>
+                                <td class="ltd">业务需求-中心意见</td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.requestCenterOpinion" rows="2" maxlength="1000" placeholder="请填写业务需求-中心意见" class="form-control sl-control noresize"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ltd">二级营业部系统故障</td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.secondDeptFault" rows="2" maxlength="1000" placeholder="请填写二级营业部系统故障" class="form-control sl-control noresize"></textarea>
+                                </td>
+                                <td class="ltd">二级营业部-中心意见</td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.centerOpinionSecdFault" maxlength="1000" rows="2" placeholder="请填写二级营业部-中心意见" class="form-control sl-control noresize"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ltd">信息系统其他问题</td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.secondDeptOther" rows="2" maxlength="1000" placeholder="请填写信息系统其他问题" class="form-control sl-control noresize"></textarea>
+                                </td>
+                                <td class="ltd">其他问题-中心意见</td>
+                                <td colspan="2">
+                                    <textarea :duplex="@sld.centerOpinionSecdOther" maxlength="1000" rows="2" placeholder="请填写其他问题-中心意见" class="form-control sl-control noresize"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ltd">模版下载</td>
+                                <td class="ltdt" colspan="5"><a :attr="{href: @templateUrl}"><span :text="@orgaText"></span>-系统运行日志-自定义</a></td>
+                            </tr>
+                            <tr>
+                                <td class="ltd">附件上传</td>
+                                <td colspan="5" class="sl_file_td">
+                                    <div id="fileup"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ltd">命名规则</td>
+                                <td class="ltdt" colspan="5"><span :text="@orgaText"></span>-系统运行日志-自定义&nbsp;&nbsp;&nbsp;&nbsp;(说明：上传附件限定为word文档，后缀为.doc.docx.wps)</td>
+                            </tr>
+                            <tr :visible="@sld.uploadFilePath!=''">
+                                <td class="ltd">附件下载</td>
+                                <td class="ltdt" colspan="5"><a :attr="{href: @downloadUrl}">附件</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="logModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 运行日志弹框 end-->
+    <!-- 取消弹框 start-->
+    <div class="modal fade" id="cancelModal" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="cancelModalLabel">关闭</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确定关闭当前页面吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="cancelBtn" type="button" class="btn btn-danger">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 取消弹框 end-->
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+    <script src="../../static/static/js/plugins/treeview/bootstrap-treeview.js" th:src="@{/static/js/plugins/treeview/bootstrap-treeview.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/plugins/jsmd5/md5.min.js" th:src="@{/static/js/plugins/jsmd5/md5.min.js}"></script>
+    <script src="../../static/static/js/ajaxfileupload.js" th:src="@{/static/js/ajaxfileupload.js}"></script>
+    <script src="../../static/static/js/plugins/avalon/avalon.js" th:src="@{/static/js/plugins/avalon/avalon.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var dictionary = [[${data}]];
+    var taskExecutionId = [[${taskExecutionId}]];
+    var operation = [[${operation}]];
+    var systemLogUrl = contextUrl + '/systemLog';
+    var syslogObj = {
+        urlContext: contextUrl,
+        urlSyslogInit: systemLogUrl + '/init',
+        urlSyslogSave: systemLogUrl + '/create',
+        urlSyslogTempSave: systemLogUrl + '/createTemp',
+        urlSyslogEdit: systemLogUrl + '/update',
+        urlSyslogFind: systemLogUrl + '/findSystemLog',
+        fileUpUrl: contextUrl + '/commons/upload',
+        dictionary: dictionary,
+        taskExecutionId: taskExecutionId,
+        operation: operation
+    };
+    </script>
+    <script src="../../static/static/js/daily/systemLog.js" th:src="@{/static/js/daily/systemLog.js}"></script>
+</body>
+
+</html>

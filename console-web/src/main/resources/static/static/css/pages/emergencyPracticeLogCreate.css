@@ -1,0 +1,33 @@
+.ms-controller {
+    visibility: hidden;
+}
+
+.main-table tr {
+    height: 33px;
+}
+
+.main-table .ltd {
+    padding-left: 12px;
+}
+
+.log-table tr {
+    height: 33px;
+}
+
+.log-table td {
+    padding-left: 12px;
+}
+
+.epl-control {
+    height: 32px;
+    border: none;
+    font-size: 13px;
+}
+
+.epl_toolbar .btn {
+    margin: 5px 2px;
+}
+
+.log-table .epl_file_td {
+    padding-left: 0;
+}

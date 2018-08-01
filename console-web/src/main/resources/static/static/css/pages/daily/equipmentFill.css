@@ -1,0 +1,45 @@
+.ms-controller {
+    visibility: hidden;
+}
+
+.main-table tr {
+    height: 33px;
+}
+
+.main-table .ltdt {
+    padding-left: 4px;
+}
+
+.log-table tr {
+    height: 33px;
+}
+
+.log-table td {
+    padding-left: 12px;
+}
+
+.ef_tool_label{
+    padding: 14px 15px 0;
+    font-weight: bold;
+}
+
+.ef_toolbar .btn {
+    margin: 5px 2px;
+}
+
+.tabs-container .tab-pane .ef-panel-body {
+    padding: 0;
+}
+
+.ef-layer-date {
+    vertical-align: text-top;
+    max-width: 240px;
+}
+
+.td-date-width {
+    width: 130px;
+}
+
+.nav-tabs>li>a {
+    border-radius: 0;
+}

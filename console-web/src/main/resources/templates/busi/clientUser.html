@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户信息管理</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+</head>
+
+<body class="white-bg">
+    <div id="u_header" class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <div class="title-queryform">
+                <form role="form" class="form-inline">
+                    <div class="form-group">
+                        <label for="" class="control-label">证件号：</label>
+                        <input type="text" placeholder="请输入登录名" id="loginName_qry" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">姓名：</label>
+                        <input type="text" placeholder="请输入姓名" id="name_qry" class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="title-querybtn">
+                <!-- <a class="btn btn-primary" href="javascript:void(0);" onclick="userObj.doQuery();">查询</a> -->
+                <a id="queryBtn" class="btn btn-primary">查询</a>
+            </div>
+        </div>
+    </div>
+    <div id="u_toolbar" class="row wrapper border-bottom white-bg wrapper-content">
+        <div class="col-sm-10">
+            <div class="toolbar-box text-left">
+                <button id="add_btn" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i>&nbsp;新增</button>
+                <button id="edit_btn" class="btn btn-success" type="button" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit"></i>&nbsp;修改</button>
+                <button id="delete_btn" class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-remove"></i>&nbsp;删除</button>
+                <button id="change_btn" class="btn btn-success" type="button" data-toggle="modal" data-target="#changePasswdModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit"></i>&nbsp;修改密码</button>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="toolbar-box text-right title-querybtn">
+                <a class="btn btn-white btn-bitbucket" href="javascript:void(0);" onclick="location.reload();">
+                    <i class="fa fa-refresh"></i>刷新
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row datagrid-box white-bg border-bottom">
+        <div class="col-sm-12">
+            <table id="maindatagrid"></table>
+        </div>
+    </div>
+    <!-- 增删改弹框 start -->
+    <!-- 新增 -->
+    <div class="modal fade" id="addModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addModalLabel">新增</h4>
+                </div>
+                <div class="modal-body modal-max-height">
+                    <form id="addForm" role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label">登录名：</label>
+                            <input type="text" placeholder="请输入登录名" class="form-control" id="loginName_add" name="loginName">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">密码：</label>
+                            <input type="password" placeholder="请输入密码" class="form-control" id="passwd_add" name="passwd">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">确认密码：</label>
+                            <input type="password" placeholder="请输入确认密码" class="form-control" id="passwdconfirm_add" name="passwdconfirm_add">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">姓名：</label>
+                            <input type="text" placeholder="请输入姓名" class="form-control" id="name_add" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">用户类型：</label>
+                            <div class="control-label">
+                                <select  class="form-control m-r-xs" id="personal_add" name="personal">
+                                    <option value="">-请选择用户类型-</option>
+                                    <option value=true>个人</option>
+                                    <option value=false>机构</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">手机号码：</label>
+                            <input type="text" placeholder="请输入手机号码" class="form-control" id="mobileNo_add" name="mobileNo">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">邮箱：</label>
+                            <input type="text" placeholder="请输入邮箱" class="form-control" id="emailAddr_add" name="emailAddr">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span id="addFormErrMsg" class="pull-left errmsg m-t-xs"></span>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="addModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 修改 -->
+    <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="editModalLabel">修改</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label">姓名：</label>
+                            <input type="text" placeholder="请输入姓名" class="form-control" id="name_edit" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">用户类型：</label>
+                            <div class="control-label">
+                                <select  class="form-control" id="personal_edit" name="personal">
+                                    <option value="">-请选择用户类型-</option>
+                                    <option value="true">个人</option>
+                                    <option value="false">机构</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">是否初始化：</label>
+                            <div class="control-label">
+                                <select  class="form-control" id="initialized_edit" name="initialized">
+                                    <option value="">-请选择是否初始化-</option>
+                                    <option value="true">是</option>
+                                    <option value="false">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">手机号码：</label>
+                            <input type="text" placeholder="请输入手机号码" class="form-control" id="mobileNo_edit" name="mobileNo">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">邮箱：</label>
+                            <input type="text" placeholder="请输入邮箱" class="form-control" id="emailAddr_edit" name="emailAddr">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span id="editFormErrMsg" class="pull-left errmsg m-t-xs"></span>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="editModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除 -->
+    <div class="modal fade" id="deleteModal" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="deleteModalLabel">删除</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确定删除吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="deleteModalBtn" type="button" class="btn btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 增删改弹框 end-->
+    <!-- 修改密码弹框 start-->
+    <div class="modal fade" id="changePasswdModal" role="dialog" aria-labelledby="departmentTreeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="departmentTreeModalLabel">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="changeForm" role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label">新密码：</label>
+                            <input type="password" placeholder="请输入新密码" class="form-control" id="passwd_change" name="passwd">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">确认密码：</label>
+                            <input type="password" placeholder="请输入确认密码" class="form-control" id="passwdconfirm_change" name="passwdconfirm_change">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span id="changeFormErrMsg" class="pull-left errmsg m-t-xs" style="max-width:130px;text-align:left;"></span>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="changePasswdModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 修改密码弹框 end-->
+
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/plugins/validate/jquery.validate.js" th:src="@{/static/js/plugins/validate/jquery.validate.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+    <script src="../../static/static/js/plugins/treeview/bootstrap-treeview.js" th:src="@{/static/js/plugins/treeview/bootstrap-treeview.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript">
+    var clientUserUrl = contextUrl + '/clientUser';
+    var roleUrl = contextUrl + '/role';
+    var orgaUrl = contextUrl + '/organization';
+    var clientUserObj = {
+        urlContext: contextUrl,
+        urlClientUserQuery: clientUserUrl + '/list',
+        urlClientUserAdd: clientUserUrl + '/create',
+        urlClientUserEdit: clientUserUrl + '/update',
+        urlClientUserDelete: clientUserUrl + '/delete',
+        urlClientUserChangePW: clientUserUrl + '/changepassword'
+    };
+    </script>
+    <script src="../../static/static/js/busi/clientUser.js" th:src="@{/static/js/busi/clientUser.js}"></script>
+</body>
+
+</html>

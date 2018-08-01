@@ -1,0 +1,121 @@
+/*css fix样式*/
+
+.p0 {
+    padding: 0;
+}
+
+.pb0 {
+    padding-bottom: 0;
+}
+
+.mb0 {
+    margin-bottom: 0;
+}
+
+.m0 {
+    margin: 0;
+}
+
+.fz-clear {
+    clear: both;
+}
+
+.noresize {
+    resize: none;
+}
+/*页面公共样式*/
+
+.title-queryform {
+    padding-top: 10px;
+}
+
+.title-querybtn {
+    text-align: right;
+    padding-top: 10px;
+}
+
+.toolbar-box {
+    padding: 0 10px;
+}
+
+.toolbar-box .btn {
+    margin: 5px 0;
+}
+
+.modal-max-height {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/*登录页面样式*/
+.login-title {
+    position: relative;
+    width: 1100px;
+    right: 390px;
+    font-size: 110px!important;
+    letter-spacing: 0px!important;
+}
+
+/*表格内组件样式*/
+.table-fz-control {
+    height: 32px;
+    border: none;
+    font-size: 13px;
+    padding: 6px 4px;
+}
+
+.main-table .ltdt {
+    padding-left: 12px;
+}
+
+.main-table .ltd {
+    padding-left: 12px;
+    font-weight: bold;
+}
+
+/*文件上传组件*/
+
+.fzfilebox {
+    position: relative;
+    height: 34px;
+    line-height: 34px;
+}
+
+.fzfile {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    width: 74px;
+    height: 34px;
+    line-height: 34px;
+}
+
+.fzfilefun {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.fzfileup {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: -78px;
+}
+
+.fzfilebtn {
+    display: inline-block;
+}
+
+.fzfilebtn i {
+    margin-right: 5px;
+}
+
+/*公共错误提示*/
+.errmsg {
+    font-size: 14px;
+    color: red;
+}
+

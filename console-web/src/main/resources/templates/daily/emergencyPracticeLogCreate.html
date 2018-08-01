@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应急演练</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+    <link href="../../static/static/css/pages/emergencyPracticeLogCreate.css" rel="stylesheet" th:href="@{/static/css/pages/emergencyPracticeLogCreate.css}">
+</head>
+
+<body :controller="emergencyPracticeLogCreate" class="white-bg">
+    <div class="row wrapper border-bottom white-bg wrapper-content epl_toolbar">
+        <div class="col-sm-12">
+            <div class="toolbar-box text-right title-querybtn">
+                <button id="save_btn" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>&nbsp;保存</button>&nbsp;
+                <a class="btn btn-white btn-bitbucket" href="javascript:void(0);" onclick="location.reload();">
+                    <i class="fa fa-refresh"></i>刷新
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row datagrid-box white-bg border-bottom">
+        <div class="col-sm-12">
+            <table id="maindatagrid" class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                <tbody>
+                    <tr>
+                        <td class="ltd" width="20%">标题</td>
+                        <td class="ltdt" colspan="2" :text="@sl.taskName+'_'+@sl.organizationName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ltd" width="20%">演练人记录</td>
+                        <td class="ltdt" colspan="2" :text="@sl.currentUserName">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ltd" width="20%">演练日期</td>
+                        <td class="ltdt" colspan="2" :text="@sl.currentDate">
+                        </td>
+                    </tr>
+                    <input type="hidden" :duplex="@sl.taskExecutionId" value="{{sl.taskExecutionId}}">
+                    <!--ms-for: (ine,ele) in @sl.emergencyPracticeLogElement-->
+                    <tr>
+                        <td class="ltd" width="20%">演练项目</td>
+                        <td class="ltd" :text="@ele.elementName"></td>
+                        <td width="25%">
+                            <select class="form-control epl-control" :duplex="@ele.isExists">
+                                <option value="-1">未填写</option>
+                                <option value="0">无此项</option>
+                                <option value="1">有此项</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true">
+                        <td class="ltd" width="20%">演练内容</td>
+                        <td colspan="2">
+                            <input :duplex="@sl.emergencyPracticeLogElement[ine].practiceContent" placeholder="请填写演练内容" class="form-control epl-control" type="text">
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true">
+                        <td class="ltd" width="20%">演练要求</td>
+                        <td colspan="2">
+                            <textarea :duplex="@sl.emergencyPracticeLogElement[ine].practiceClaim" rows="2" placeholder="请填写演练要求" class="form-control epl-control noresize"></textarea>
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true">
+                        <td class="ltd" width="20%">演练步骤</td>
+                        <td colspan="2">
+                            <textarea :duplex="@sl.emergencyPracticeLogElement[ine].practiceStep" rows="2" placeholder="请填写演练步骤" class="form-control epl-control noresize"></textarea>
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true">
+                        <td class="ltd" width="20%">演练时间</td>
+                        <td colspan="2">
+                            <input :attr="{id:'practiceTime'+ine}" :duplex="@sl.emergencyPracticeLogElement[ine].practiceTime" placeholder="请填写演练时间" class="form-control epl-control" type="text">
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true">
+                        <td class="ltd" width="20%">演练结果</td>
+                        <td class="ltdt" colspan="2">
+                            <input type="radio" value="正常" :attr="{name:'rpacticeResult'+ele.elementId}" :duplex="@sl.emergencyPracticeLogElement[ine].rpacticeResult" />正常
+                            <input type="radio" value="不正常" :attr="{name:'rpacticeResult'+ele.elementId}" :duplex="@sl.emergencyPracticeLogElement[ine].rpacticeResult" />不正常
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true">
+                        <td class="ltd" width="20%">检查流程</td>
+                        <td colspan="2">
+                            <textarea :duplex="@sl.emergencyPracticeLogElement[ine].checkProcess" rows="2" placeholder="请填写检查流程" class="form-control epl-control noresize"></textarea>
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true">
+                        <td class="ltd" width="20%">恢复情况</td>
+                        <td class="ltd">
+                            <input type="radio" value="正常" :attr="{name:'recoveryState'+ele.elementId}" :duplex="@sl.emergencyPracticeLogElement[ine].recoveryState" />正常
+                            <input type="radio" value="不正常" :attr="{name:'recoveryState'+ele.elementId}" :duplex="@sl.emergencyPracticeLogElement[ine].recoveryState" />不正常
+                        </td>
+                        <td :visible="ele.recoveryState=='不正常'">
+                            <input class="form-control epl-control" type="text" placeholder="请填写说明" :duplex="@sl.emergencyPracticeLogElement[ine].recoveryStateRemark">
+                        </td>
+                    </tr>
+                    <tr :visible="(ele.isExists==0)?false:true" style="height:15px;background-color:#f3f3f4;">
+                        <td colspan="3"></td>
+                    </tr>
+                    <!--ms-for-end:-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/laydate/laydate.js" th:src="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+    <script src="../../static/static/js/plugins/avalon/avalon.js" th:src="@{/static/js/plugins/avalon/avalon.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest/emergencyPracticeLog})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx/emergencyPracticeLog";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var taskExecutionId = [[${taskExecutionId}]];
+    var operation = [[${operation}]];
+    var syslogObj = {
+        urlContext: contextUrl,
+        urlSyncElement: contextUrl + '/getEmergencyPracticeLogElement',
+        urlCreate: contextUrl + '/create',
+        taskExecutionId: taskExecutionId,
+        operation: operation
+    };
+    </script>
+    <script src="../../static/static/js/daily/emergencyPracticeLogCreate.js" th:src="@{/static/js/daily/emergencyPracticeLogCreate.js}"></script>
+</body>
+
+</html>

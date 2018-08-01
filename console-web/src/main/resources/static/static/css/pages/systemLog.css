@@ -1,0 +1,38 @@
+.ms-controller {
+    visibility: hidden;
+}
+
+.main-table tr {
+    height: 33px;
+}
+
+.main-table .ltd {
+    padding-left: 12px;
+}
+
+.log-table .ltdt {
+    padding-left: 12px;
+}
+
+.log-table tr {
+    height: 33px;
+}
+
+.log-table .ltd {
+    padding-left: 12px;
+    font-weight: bold;
+}
+
+.sl-control {
+    height: 32px;
+    border: none;
+    font-size: 13px;
+}
+
+.sl_toolbar .btn {
+    margin: 5px 2px;
+}
+
+.log-table .sl_file_td {
+    padding-left: 0;
+}

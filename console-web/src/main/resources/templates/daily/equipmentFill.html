@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备维护</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+    <link href="../../static/static/css/pages/daily/equipmentFill.css" rel="stylesheet" th:href="@{/static/css/pages/daily/equipmentFill.css}">
+</head>
+
+<body :controller="equipmentFill" class="white-bg">
+    <form id="efForm">
+        <div class="row wrapper border-bottom white-bg wrapper-content ef_toolbar">
+            <div class="col-sm-8">
+                <div class="ef_tool_label">
+                    填报人:<span :text="@ef.loginName"><span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="toolbar-box text-right title-querybtn">
+                <button :attr="{disabled:@saveflg}" :click="@saveFunc" id="save_btn" class="btn btn-primary" type="button"><i class="fa fa-plus"></i>&nbsp;保存</button>
+                <a class="btn btn-white btn-bitbucket" href="javascript:void(0);" onclick="location.reload();">
+                    <i class="fa fa-refresh"></i>刷新
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row white-bg">
+        <div class="col-sm-12">
+            <div class="tabs-container">
+                <ul id="tab" class="nav nav-tabs">
+                    <!-- 现场交易 -->
+                    <li :if="@ef.businessBaseInfoItemDto"><a data-toggle="tab" href="#tab-1" aria-expanded="true">{{@showTitle(@ef,'businessBaseInfoItemDto','title')}}</a>
+                    </li>
+                    <!-- 网络情况 -->
+                    <li :if="@ef.internetLinesInfoItemDto"><a data-toggle="tab" href="#tab-2" aria-expanded="true">{{@showTitle(@ef,'internetLinesInfoItemDto','title')}}</a>
+                    </li>
+                    <!-- 行情接收 -->
+                    <li :if="@ef.businessAcceptItemDto"><a data-toggle="tab" href="#tab-3" aria-expanded="true">{{@showTitle(@ef,'businessAcceptItemDto','title')}}</a>
+                    </li>
+                    <!-- 行情软件 -->
+                    <li :if="@ef.businessSoftwareItemDto"><a data-toggle="tab" href="#tab-4" aria-expanded="true">{{@showTitle(@ef,'businessSoftwareItemDto','title')}}</a>
+                    </li>
+                    <!-- 主服务器 -->
+                    <li :if="@ef.businessQuotesServerItemDto"><a data-toggle="tab" href="#tab-5" aria-expanded="true">{{@showTitle(@ef,'businessQuotesServerItemDto','title')}}</a>
+                    </li>
+                    <!-- 电话委托 -->
+                    <li :if="@ef.businessPhoneItemDto"><a data-toggle="tab" href="#tab-6" aria-expanded="true">{{@showTitle(@ef,'businessPhoneItemDto','title')}}</a>
+                    </li>
+                    <!-- 其他设备 -->
+                    <li :if="@ef.businessOtherEquipmentItemDto"><a data-toggle="tab" href="#tab-7" aria-expanded="true">{{@showTitle(@ef,'businessOtherEquipmentItemDto','title')}}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <table :visible="@hideinternetLine!='tab-2'" class="main-table" border="1" bordercolor="#e7eaec" width="80%">
+                        <tbody>
+                            <tr :visible="@hideinternetLine!='tab-2'">
+                                <td class="ltd" width="20%">填报营业部</td>
+                                <td class="ltdt" width="30%" :text="@ef.businessDto.organizationName"></td>
+                                <td class="ltd" width="20%">营业部编号</td>
+                                <td class="ltdt" width="30%" :text="@ef.businessDto.organizationNo"></td>
+                            </tr>
+                            <tr :visible="@hideinternetLine!='tab-2'">
+                                <td class="ltd" width="20%">标题</td>
+                                <td class="ltdt" width="80%" colspan="3" :text="@ef.businessDto.title"></td>
+                            </tr>
+                            <tr :visible="@showbusinessPhone=='tab-6'">
+                                <td class="ltd" width="20%">电话坐席</td>
+                                <td width="30%">
+                                    <select class="form-control table-fz-control" :duplex="@seatCountFlg" :change="@seatCountChange">
+                                        <option value="1">有</option>
+                                        <option value="0">无</option>
+                                    </select>
+                                </td>
+                                <td class="ltd" width="20%">数量</td>
+                                <td width="30%">
+                                    <input :attr="{disabled:(@seatCountFlg==0)?true:false}" :duplex="@ef.businessPhoneItemDto.seatCount" type="text" placeholder="请输入数量" class="form-control table-fz-control">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- 现场交易 -->
+                    <div :if="@ef.businessBaseInfoItemDto" id="tab-1" class="tab-pane">
+                        <div class="panel-body ef-panel-body">
+                            <table class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th class="text-center">存在情况</th>
+                                        <th class="text-center">客户机数量(台)</th>
+                                        <th class="text-center">日常客户数量(人)</th>
+                                        <th class="text-center">备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ms-for: (i,e) in @ef.businessBaseInfoItemDto.businessBaseInfoDtos-->
+                                    <tr>
+                                        <td class="ltd" :text="e.elementName"></td>
+                                        <td class="text-center" style="width:60px">
+                                            <select class="form-control table-fz-control" :duplex="e.isExists">
+                                                <option value="1">有</option>
+                                                <option value="0">无</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessBaseInfoItemDto.businessBaseInfoDtos[i].clientCount" type="text" class="form-control table-fz-control" :keyup="@inputInt">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessBaseInfoItemDto.businessBaseInfoDtos[i].customerCount" type="text" class="form-control table-fz-control" :keyup="@inputInt">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessBaseInfoItemDto.businessBaseInfoDtos[i].remark" type="text" class="form-control table-fz-control">
+                                        </td>
+                                    </tr>
+                                    <!--ms-for-end:-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 网络情况 -->
+                    <div :if="@ef.internetLinesInfoItemDto" id="tab-2" class="tab-pane">
+                        <div class="panel-body ef-panel-body">
+                            <table class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th class="text-center">存在情况</th>
+                                        <th class="text-center">运营商</th>
+                                        <th class="text-center">带宽(MB)</th>
+                                        <th class="text-center">线路类型</th>
+                                        <th class="text-center">专线对端/互联网外网IP</th>
+                                        <th class="text-center">备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ms-for: (i,e) in @ef.internetLinesInfoItemDto.internetLinesInfoDtos-->
+                                    <tr>
+                                        <td class="ltd" :text="e.elementName"></td>
+                                        <td class="text-center" style="width:60px">
+                                            <select class="form-control table-fz-control" :duplex="e.isExists">
+                                                <option value="1">有</option>
+                                                <option value="0">无</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.internetLinesInfoItemDto.internetLinesInfoDtos[i].condition1" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.internetLinesInfoItemDto.internetLinesInfoDtos[i].condition2" type="text" class="form-control table-fz-control" :keyup="@inputInt">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.internetLinesInfoItemDto.internetLinesInfoDtos[i].condition3" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.internetLinesInfoItemDto.internetLinesInfoDtos[i].condition4" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.internetLinesInfoItemDto.internetLinesInfoDtos[i].condition5" type="text" class="form-control table-fz-control">
+                                        </td>
+                                    </tr>
+                                    <!--ms-for-end:-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 行情接收 -->
+                    <div :if="@ef.businessAcceptItemDto" id="tab-3" class="tab-pane">
+                        <div class="panel-body ef-panel-body">
+                            <table class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th class="text-center">存在情况</th>
+                                        <th class="text-center">卫星小站编号</th>
+                                        <th class="text-center">接收机序列号</th>
+                                        <th class="text-center">接收机型号</th>
+                                        <th class="text-center">接收机日期</th>
+                                        <th class="text-center">网关机型号</th>
+                                        <th class="text-center">网关机日期</th>
+                                        <th class="text-center">外网机型号</th>
+                                        <th class="text-center">外网机日期</th>
+                                        <th class="text-center">内网机型号</th>
+                                        <th class="text-center">内网机日期</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ms-for: (i,e) in @ef.businessAcceptItemDto.businessAcceptDtos-->
+                                    <tr>
+                                        <td class="ltd" :text="e.elementName"></td>
+                                        <td class="text-center" style="width:60px">
+                                            <select class="form-control table-fz-control" :duplex="e.isExists">
+                                                <option value="1">有</option>
+                                                <option value="0">无</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].satelliteStationNo" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].receiverNo" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].receiverType" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center td-date-width">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessAcceptItemDtoreceiverDate'+i}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].receiverDate" type="text" class="form-control table-fz-control ef-layer-date">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].gatewayType" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center td-date-width">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessAcceptItemDtogatewayDate'+i}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].gatewayDate" type="text" class="form-control table-fz-control ef-layer-date">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].extranetType" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center td-date-width">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessAcceptItemDtoextranetDate'+i}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].extranetDate" type="text" class="form-control table-fz-control ef-layer-date">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].intranetType" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center td-date-width">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessAcceptItemDtointranetDate'+i}" :duplex="@ef.businessAcceptItemDto.businessAcceptDtos[i].intranetDate" type="text" class="form-control table-fz-control ef-layer-date">
+                                        </td>
+                                    </tr>
+                                    <!--ms-for-end:-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 行情软件 -->
+                    <div :if="@ef.businessSoftwareItemDto" id="tab-4" class="tab-pane">
+                        <div class="panel-body ef-panel-body">
+                            <table class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th class="text-center">存在情况</th>
+                                        <th class="text-center">软件名</th>
+                                        <th class="text-center">软件版本</th>
+                                        <th class="text-center">启用时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ms-for: (i,e) in @ef.businessSoftwareItemDto.businessSoftwareDtos-->
+                                    <tr>
+                                        <td class="ltd" :text="e.elementName"></td>
+                                        <td class="text-center" style="width:60px">
+                                            <select class="form-control table-fz-control" :duplex="e.isExists">
+                                                <option value="1">有</option>
+                                                <option value="0">无</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessSoftwareItemDto.businessSoftwareDtos[i].name" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessSoftwareItemDto.businessSoftwareDtos[i].version" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessSoftwareItemDtousingTime'+i}" :duplex="@ef.businessSoftwareItemDto.businessSoftwareDtos[i].usingTime" type="text" class="form-control table-fz-control">
+                                        </td>
+                                    </tr>
+                                    <!--ms-for-end:-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 主服务器 -->
+                    <div :if="@ef.businessQuotesServerItemDto" id="tab-5" class="tab-pane">
+                        <div class="panel-body ef-panel-body">
+                            <table class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th class="text-center">存在情况</th>
+                                        <th class="text-center">品牌型号</th>
+                                        <th class="text-center">购置时间</th>
+                                        <th class="text-center">操作系统</th>
+                                        <th class="text-center">是否虚拟机</th>
+                                        <th class="text-center">部署交易系统</th>
+                                        <th class="text-center">备份方式</th>
+                                        <th class="text-center">部署其他重点软件</th>
+                                        <th class="text-center">备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ms-for: (i,e) in @ef.businessQuotesServerItemDto.businessQuotesServerDtos-->
+                                    <tr>
+                                        <td class="ltd" :text="e.elementName"></td>
+                                        <td class="text-center" style="width:60px">
+                                            <select class="form-control table-fz-control" :duplex="e.isExists">
+                                                <option value="1">有</option>
+                                                <option value="0">无</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].brand" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center td-date-width">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessQuotesServerItemDtopurchaseTime'+i}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].purchaseTime" type="text" class="form-control table-fz-control ef-layer-date">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].operationSystem" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="radio" value="是" :attr="{name:'isVirtual'+i,disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].isVirtual" />是
+                                            <input type="radio" value="否" :attr="{name:'isVirtual'+i,disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].isVirtual" />否
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].tradeSystem" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center" style="width:120px">
+                                            <select :attr="{disabled:(e.isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].backupType">
+                                                <option value="主用">主用</option>
+                                                <option value="热备">热备</option>
+                                                <option value="冷备">冷备</option>
+                                                <option value="无">无</option>
+                                                <option value="其他">其他</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].otherSoftware" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessQuotesServerItemDto.businessQuotesServerDtos[i].rsrvStr1" type="text" class="form-control table-fz-control">
+                                        </td>
+                                    </tr>
+                                    <!--ms-for-end:-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 电话委托 -->
+                    <div :if="@ef.businessPhoneItemDto" id="tab-6" class="tab-pane">
+                        <div class="panel-body ef-panel-body">
+                            <table class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th class="text-center">存在情况</th>
+                                        <th class="text-center">设备型号</th>
+                                        <th class="text-center">购置时间</th>
+                                        <th class="text-center">备份方式</th>
+                                        <th class="text-center">路由器-使用线路</th>
+                                        <th class="text-center">备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ms-for: (i,e) in @ef.businessPhoneItemDto.businessPhoneDtos-->
+                                    <tr>
+                                        <td class="ltd" :text="e.elementName"></td>
+                                        <td class="text-center" style="width:60px">
+                                            <select class="form-control table-fz-control" :duplex="e.isExists">
+                                                <option value="1">有</option>
+                                                <option value="0">无</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessPhoneItemDto.businessPhoneDtos[i].serverType" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessPhoneItemDtopurchaseTime'+i}" :duplex="@ef.businessPhoneItemDto.businessPhoneDtos[i].purchaseTime" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center" style="width:120px">
+                                            <select :attr="{disabled:(e.isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@ef.businessPhoneItemDto.businessPhoneDtos[i].backupType">
+                                                <option value="主用">主用</option>
+                                                <option value="热备">热备</option>
+                                                <option value="冷备">冷备</option>
+                                                <option value="无">无</option>
+                                                <option value="其他">其他</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessPhoneItemDto.businessPhoneDtos[i].usingLine" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessPhoneItemDto.businessPhoneDtos[i].rsrvStr1" type="text" class="form-control table-fz-control">
+                                        </td>
+                                    </tr>
+                                    <!--ms-for-end:-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 其他设备 -->
+                    <div :if="@ef.businessOtherEquipmentItemDto" id="tab-7" class="tab-pane">
+                        <div class="panel-body ef-panel-body">
+                            <table class="main-table" border="1" bordercolor="#e7eaec" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th class="text-center">存在情况</th>
+                                        <th class="text-center">品牌型号</th>
+                                        <th class="text-center">购置时间</th>
+                                        <th class="text-center">操作系统</th>
+                                        <th class="text-center">部署软件</th>
+                                        <th class="text-center">备份方式</th>
+                                        <th class="text-center">备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--ms-for: (i,e) in @ef.businessOtherEquipmentItemDto.businessOtherEquipmentDtos-->
+                                    <tr>
+                                        <td class="ltd" :text="e.elementName"></td>
+                                        <td class="text-center" style="width:60px">
+                                            <select class="form-control table-fz-control" :duplex="e.isExists">
+                                                <option value="1">有</option>
+                                                <option value="0">无</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessOtherEquipmentItemDto.businessOtherEquipmentDtos[i].brandType" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false,id:'ldbusinessOtherEquipmentItemDtopurchaseTime'+i}" :duplex="@ef.businessOtherEquipmentItemDto.businessOtherEquipmentDtos[i].purchaseTime" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessOtherEquipmentItemDto.businessOtherEquipmentDtos[i].operationSystem" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessOtherEquipmentItemDto.businessOtherEquipmentDtos[i].deploySoftware" type="text" class="form-control table-fz-control">
+                                        </td>
+                                        <td class="text-center" style="width:120px">
+                                            <select :attr="{disabled:(e.isExists==0)?true:false}" class="form-control table-fz-control" :duplex="@ef.businessOtherEquipmentItemDto.businessOtherEquipmentDtos[i].backupType">
+                                                <option value="主用">主用</option>
+                                                <option value="热备">热备</option>
+                                                <option value="冷备">冷备</option>
+                                                <option value="无">无</option>
+                                                <option value="其他">其他</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input :attr="{disabled:(e.isExists==0)?true:false}" :duplex="@ef.businessOtherEquipmentItemDto.businessOtherEquipmentDtos[i].remark" type="text" class="form-control table-fz-control">
+                                        </td>
+                                    </tr>
+                                    <!--ms-for-end:-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/plugins/validate/jquery.validate.js" th:src="@{/static/js/plugins/validate/jquery.validate.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.min.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/laydate/laydate.js" th:src="@{/static/js/plugins/layer/laydate/laydate.js}"></script>
+    <script src="../../static/static/js/plugins/avalon/avalon.js" th:src="@{/static/js/plugins/avalon/avalon.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest/equipmentFill})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx/equipmentFill";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var taskExecutionId = [[${taskExecutionId}]];
+    var operation = [[${operation}]];
+    var equipmentFillObj = {
+        urlContext: contextUrl,
+        urlEuipmentFillInit: contextUrl + '/initFill',
+        urlEuipmentFillSave: contextUrl + '/create',
+        taskExecutionId: taskExecutionId,
+        operation: operation
+    };
+    </script>
+    <script src="../../static/static/js/daily/equipmentFill.js" th:src="@{/static/js/daily/equipmentFill.js}"></script>
+</body>
+
+</html>

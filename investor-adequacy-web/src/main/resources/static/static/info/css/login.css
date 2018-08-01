@@ -1,0 +1,64 @@
+/*登录*/
+
+.content {
+    width: 100%;
+    margin: -175px auto 0;
+    background: #e01b21;
+    position: relative;
+    top: 50%;
+}
+
+.contentbox {
+    width: 928px;
+    margin: 0 auto;
+}
+.contentbox .title{
+    color: white;
+    font-size: 42px;
+    margin-top: 50px;
+}
+
+.formbox {
+    float: right;
+    margin: -25px 0 -20px;
+    border: 1px solid #e01b21;
+    border-top: 5px solid #e01b21;
+    background: #fff;
+}
+
+.loginform {
+    width: 360px;
+    margin: 20px 0 20px 25px;
+    border-radius: 10px;
+}
+
+.form-input {
+    height: 45px;
+}
+
+.form-control:focus,
+.single-line:focus {
+    border-color: #e01b21!important;
+}
+
+.form-submit {
+    margin-top: 0px;
+}
+
+div.form-input label {
+    white-space: nowrap;
+    margin-right: -15px;
+    padding-top: 7px;
+    padding-right: 10px;
+}
+
+.errorbox {
+    margin-top: -10px;
+    margin-bottom: 8px;
+    padding-left: 82px;
+}
+
+.error {
+    font-size: 14px;
+    color: red;
+}

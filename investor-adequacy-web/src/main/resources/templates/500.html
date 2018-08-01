@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网下投资者信息填报系统-404</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" href="../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../static/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link href="../static/static/css/font-awesome.min.css" rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link href="../static/static/css/style.min.css" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../static/static/info/css/common.css" rel="stylesheet" th:href="@{/static/info/css/common.css}">
+    <link href="../static/static/info/css/errpage.css" rel="stylesheet" th:href="@{/static/info/css/errpage.css}">
+</head>
+
+<body :controller="indexObj">
+    <nav class="navbar navbar-default navbar-fixed-top border-bottom white-bg" style="display: none;">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <a href="http://www.e5618.com/">
+                        <img src="../static/static/info/images/logo_new.gif" th:src="@{/static/info/images/logo_new.gif}">
+                    </a>
+                </div>
+                <div class="title">
+                    <h1>网下投资者信息填报系统</h1>
+                </div>
+                <div class="menu">
+                    <a target="_top" class="indexhref">首页</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-wrapper">
+        <div class="row">
+            <div class="content text-center">
+                <p class="tipa">500！服务器开小差了！</p>
+                <hr class="myhr">
+                <p class="tipb">很抱歉内部服务器发生错误</p>
+                <p class="tipc">您还可以返回 <a target="_top" class="indexhref">首页</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="../static/static/js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    if(window.top === window.self){$('.navbar').show();}
+    $('.indexhref').attr('href', contextUrl);
+    </script>
+</body>

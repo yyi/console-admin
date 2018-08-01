@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻详情页</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+    <link href="../../static/static/css/pages/messagePage.css" rel="stylesheet" th:href="@{/static/css/pages/messagePage.css}">
+</head>
+
+<body :controller="messagePage" class="gray-bg">
+    <div class="wrapper wrapper-content article">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="ibox m-t">
+                    <div class="ibox-content">
+                        <div class="text-center news-title">
+                            <h1 :text="@message.subject"></h1>
+                        </div>
+                        <p :text="@message.content"></p>
+                        <hr>
+                        <div class="text-right" :visible="@showfile">
+                            <h5>附件下载</h5>
+                            <a :attr="{href:@filehref}" :text="@message.filePath | mypath"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/plugins/avalon/avalon.js " th:src="@{/static/js/plugins/avalon/avalon.js} "></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest}) ">
+    /*/-->
+    <script type="text/javascript ">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var dictionary = [[${data}]];
+    var messageDocumentId = [[${messageDocumentId}]];
+    var messageUrl = contextUrl + '/messageDocument';
+    var messagePageObj = {
+        urlContext: contextUrl,
+        urlMessageQuery: messageUrl + '/query',
+        dictionary: dictionary,
+        messageDocumentId: messageDocumentId
+    };
+    </script>
+    <script src="../../static/static/js/common/messagePage.js" th:src="@{/static/js/common/messagePage.js}"></script>
+</body>
+
+</html>

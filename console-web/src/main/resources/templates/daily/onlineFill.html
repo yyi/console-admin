@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线填报</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+</head>
+
+<body class="white-bg">
+    <div id="u_header" class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <div class="title-queryform">
+                <form role="form" class="form-inline">
+                    <div class="form-group">
+                        <label for="" class="control-label">任务名称：</label>
+                        <input type="text" placeholder="请输入任务名称" id="taskName_qry" class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="title-querybtn">
+                <a id="queryBtn" class="btn btn-primary">查询</a>
+            </div>
+        </div>
+    </div>
+    <div id="u_toolbar" class="row wrapper border-bottom white-bg wrapper-content">
+        <div class="col-sm-10">
+            <div class="toolbar-box text-left">
+                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#detailModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit"></i>&nbsp;查看详情</button>
+                <a id="export_btn" class="btn btn-primary" type="button" href=''
+                   data-backdrop="static" data-keyboard="false"><i class="fa fa-book"></i>&nbsp;导出数据
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="toolbar-box text-right title-querybtn">
+                <a class="btn btn-white btn-bitbucket" href="javascript:void(0);" onclick="location.reload();">
+                    <i class="fa fa-refresh"></i>刷新
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row datagrid-box white-bg border-bottom">
+        <div class="col-sm-12">
+            <table id="maintable"></table>
+        </div>
+    </div>
+    <!-- 详情表格弹框 start-->
+    <div class="modal fade" id="detailModal" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="detailModalLabel">详情</h4>
+                </div>
+                <div class="modal-body modal-max-height">
+                    <div class="col-sm-12">
+                        <table id="detailTable"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    <button id="detailModalBtn" type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 详情表格弹框 end-->
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx/";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var busiType = [[${busiType}]];
+    var dynamicUrl = contextUrl + 'rest/dynamic';
+    var testResponseUrl = contextUrl + 'rest/testResponseLogMaintain';
+    var emergencyPracticeUrl = contextUrl + 'rest/emergencyPracticeLog';
+    var equipmentMaintainUrl = contextUrl + 'rest/equipmentMaintain';
+    var systemLogMaintainUrl = contextUrl + 'rest/systemLogMaintain';
+    var taskUrl = contextUrl + 'rest/taskExecution';
+    var onlineFillObj = {
+        urlContext: contextUrl,
+        urlDSList: dynamicUrl + '/list',
+        urlTRList: testResponseUrl + '/testResponseLogMaintainIndex',
+        urlEPList: emergencyPracticeUrl + '/list',
+        urlEMList: equipmentMaintainUrl + '/equipmentMaintainIndex',
+        urlSLList: systemLogMaintainUrl + '/systemLogMaintainIndex',
+        urlDetailList: taskUrl + '/findAllByTaskId',
+        urlDSGoto: contextUrl + 'dynamicStat',
+        urlTRGoto: contextUrl + 'testResponseLog',
+        urlEPGoto: contextUrl + 'emergencyPracticeLogInitCreate',
+        urlEMGoto: contextUrl + 'equipmentFill',
+        urlSLGoto: contextUrl + 'systemLog',
+        busiType: busiType
+    };
+    </script>
+    <script src="../../static/static/js/daily/onlineFill.js" th:src="@{/static/js/daily/onlineFill.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+/*基本信息*/
+.content {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 64px;
+}
+
+.btn-box {
+    width: 928px;
+    border: 1px solid;
+    margin: 30px auto;
+    padding: 30px 10px 30px 25px;
+}
+
+.form-box {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.func-box {
+    width: 900px;
+    margin: 30px auto 0;
+}
+
+.form-box .control-label {
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.need {
+    font-size: 8px;
+    color: red;
+}
+
+.credit-record-tip {
+    font-size: 14px;
+    margin: 8px 0 2px;
+}
+
+.footer-box {
+    padding: 0 90px;
+    font-weight: bold;
+}
+
+.footer-box .checkbox label {
+    font-weight: bold;
+}
+
+.form-group .p-t-none {
+    padding-top: 0;
+    margin-right: 0;
+}

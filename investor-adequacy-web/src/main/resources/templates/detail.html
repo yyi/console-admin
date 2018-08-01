@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网下投资者信息填报系统-申请详情</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" href="../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../static/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link href="../static/static/css/font-awesome.min.css" rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link href="../static/static/css/style.min.css" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../static/static/info/css/common.css" rel="stylesheet" th:href="@{/static/info/css/common.css}">
+    <link href="../static/static/info/css/detail.css" rel="stylesheet" th:href="@{/static/info/css/detail.css}">
+</head>
+
+<body :controller="detailObj">
+    <nav class="navbar navbar-default navbar-fixed-top border-bottom white-bg">
+        <div class="container">
+            <div class="header">
+                <div class="logo"><a href="https://www.foundersc.com"></a></div>
+                <div class="title">
+                    <h1>网下投资者信息填报系统</h1>
+                </div>
+                <div class="menu">
+                    <a id="indexhref">首页</a>
+                    <a href="logout">退出</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-wrapper">
+        <div class="row">
+            <div class="content">
+                <div class="c-title">
+                    <h2><span :text="@detail.businessDto.name"></span><small class="m-l" :text="@detail.businessDto.createDate|date('yyyy-MM-dd')"></small></h2>
+                    <hr>
+                </div>
+                <div class="c-table">
+                    <table class="table table-hover text-center" width="100%">
+                        <thead>
+                            <tr>
+                                <th colspan="2">反馈与评级信息</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="t-key">反馈</td>
+                                <td class="t-val" :text="@detail.businessAuditDto.content"></td>
+                            </tr>
+                            <tr>
+                                <td class="t-key">评级</td>
+                                <td class="t-val" :text="@detail.businessDto.riskLevel"></td>
+                            </tr>
+                            <tr :if="@detail.businessAuditDto!=null">
+                                <td class="t-key">反馈附件</td>
+                                <td class="t-img" :html="{u:@url,v:detail.businessAuditDto.filePath}|imgFilter">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="c-table">
+                    <table class="table table-hover text-center" width="100%">
+                        <thead>
+                            <tr>
+                                <th colspan="2">基本信息</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--ms-for: (i,e) in @detail.keyOrders|filterBy(@baseInfoKey)-->
+                            <tr>
+                                <td class="t-key" :text="@detail.valueDtoMap[@e][0].displayName"></td>
+                                <td class="t-val" :text="{k:@e,v:@detail.valueDtoMap[@e][0].val}|valFilter"></td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="c-table">
+                    <table class="table table-hover text-center" width="100%">
+                        <thead>
+                            <tr>
+                                <th colspan="3">上传文件信息</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--ms-for: (i,e) in @detail.keyOrders|filterBy(@fileKey)-->
+                            <tr>
+                                <td class="t-key" :text="@detail.valueDtoMap[@e][0].displayName"></td>
+                                <td class="t-img" :html="{t:@detail.businessDto.serviceType,u:@url,v:@detail.valueDtoMap[@e][0].val}|imgFilter">
+                                </td>
+                                <td class="t-audit" :text="@detail.valueDtoMap[@e][0].auditResult|auditFilter"></td>
+                            </tr>
+                            <!--ms-for-end:-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-box">
+                    <button id="backBtn" class="m-btn btn-sm" type="button">返回首页</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../static/static/js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../static/static/js/bootstrap.min.js" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../static/static/js/layer/layer.js" th:src="@{/static/js/layer/layer.js}"></script>
+    <script src="../static/static/js/avalon/avalon.js" th:src="@{/static/js/avalon/avalon.js}"></script>
+    <script src="../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var businessId = [[${businessId}]];
+    // var businessId = 1;
+    var businessUrl = contextUrl + 'rest/business';
+    var detailObj = {
+        urlContext: contextUrl,
+        urlInit: businessUrl + '/findBusinessValueDtoById',
+        businessId: businessId
+    };
+    $('#indexhref').attr('href', contextUrl);
+    </script>
+    <script src="../static/static/info/js/detail.js" th:src="@{/static/info/js/detail.js}"></script>
+</body>

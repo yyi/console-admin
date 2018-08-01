@@ -1,0 +1,23 @@
+package com.founder.domain;
+
+public enum BusinessType {
+    FILL_DEPT_ORGANIZATION_SPECIALTY,//债务机构专业填报
+    FILL_DEPT_ORGANIZATION_ORDINARY,// 债务机构普通填报;
+    FILL_DEPT_EVERYMAN,// 债务自然人投资者填报;
+    FILL_SHARES_ORGANIZATION,// 股票机构投资者填报;
+    FILL_SHARES_EVERYMAN,// 股票自然人投资者填报;
+
+    QUESTIONS_DEPT_ORGANIZATION,// 债务机构问卷
+    QUESTIONS_SHARES_ORGANIZATION,// 股票机构问卷
+    QUESTIONS_SHARES_EVERYMAN,// 股票自然人问卷
+
+    FILE_DEPT_SPECIALTY,// 债务专业上传
+    FILE_DEPT_ORDINARY,// 债务普通上传
+    FILE_SHARES_ORGANIZATION_A_SPECIALTY,// 股票A类专业上传
+    FILE_SHARES_ORGANIZATION_B_SPECIALTY,// 股票B类专业上传
+    FILE_SHARES_ORGANIZATION_ORDINARY,// 股票普通上传
+    FILE_SHARES_EVERYMAN_SPECIALTY,// 股票自然人专业上传
+    FILE_SHARES_EVERYMAN_ORDINARY,// 股票自然人普通上传
+
+    DISABLE//禁用
+}

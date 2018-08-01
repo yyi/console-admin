@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>网下投资者信息填报系统- 注册</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+
+    <link href="../static/static/css/bootstrap.min.css?v=3.3.7" rel="stylesheet"
+          th:href="@{/static/css/bootstrap.min.css}">
+    <link href="../static/static/info/css/register.css" th:href="@{/static/info/css/register.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<div class="login">
+    <div class="title">
+        <span class="glyphicon glyphicon-pencil logo"></span>
+        <span style="color: red">网下投资者信息填报系统 - 新用户注册</span>
+    </div>
+    <div class="content">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="userName" class="col-xs-2 text-right">用户名</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="userName" placeholder="请输入用户姓名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-xs-2 text-right">密码</label>
+                <div class="col-xs-10">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码"
+                           required="required">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirmedPassword" class="col-xs-2 text-right">确认密码</label>
+                <div class="col-xs-10">
+                    <input type="password" class="form-control" id="confirmedPassword" placeholder="请再次输入密码"
+                           required="required">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mobileNo" class="col-xs-2 text-right">手机号</label>
+                <div class="col-xs-10">
+                    <input type="email" class="form-control" id="mobileNo" name="mobileNo" placeholder="请输入手机号">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="jcaptchaCode" class="col-xs-2 text-right">校验码</label>
+                <div class="col-xs-7">
+                    <input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control" placeholder="验证码"
+                           required="">
+                </div>
+                <div class="col-xs-3" style="margin-left: -15px;">
+                    <a href="#" th:onclick="'refreshCaptcha(this,\''+@{/jcaptcha.jpg}+ '\');'">
+                        <img class="jcaptcha-btn jcaptcha-img" src="../static/static/info/images/jcaptcha.jpg"
+                             th:src="@{/jcaptcha.jpg}"
+                             title="点击更换验证码">
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="smsCode" class="col-xs-2 text-right">短信验证码</label>
+                <div class="col-xs-7">
+                    <input type="text" id="smsCode" name="smsCode" class="form-control" placeholder="请输入短信校验码"
+                           required="">
+                </div>
+                <div class="col-xs-3" style="margin-left: -15px;margin-top:-5px">
+                    <a href="#" class="btn btn-info">
+                        发送校验码
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="col-xs-2 text-right">邮箱</label>
+                <div class="col-xs-10">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱地址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="emailCode" class="col-xs-2 text-right">邮箱验证码</label>
+                <div class="col-xs-7">
+                    <input type="text" id="emailCode" name="emailCode" class="form-control" placeholder="请输入邮件校验码"
+                           required="">
+                </div>
+                <div class="col-xs-3" style="margin-left: -15px;margin-top:-5px">
+                    <a href="#" class="btn btn-info">
+                        发送校验码
+                    </a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox col-xs-10 col-xs-offset-2">
+                    <label>
+                        <input type="checkbox">我已阅读并接受<a href="#">注册条款</a>
+                    </label>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-danger btn-lg">注册</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+<script src="../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script src="../static/static/info/js/captcha.js" th:src="@{/static/info/js/captcha.js}"></script>
+</body>
+</html>

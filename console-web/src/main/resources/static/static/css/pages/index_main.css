@@ -1,0 +1,31 @@
+.ms-controller {
+    visibility: hidden;
+}
+
+.index-box {
+    padding: 20px;
+}
+
+.index-box .ibox-content {
+    padding-top: 0px;
+}
+
+.list-group-item.list-btn-group {
+    padding: 0;
+    border: none;
+}
+
+.list-btn-group .btn-group {
+    width: 100%;
+    text-align: center;
+}
+
+.list-btn-group .btn {
+    width: 50.1%;
+    font-size: 12px;
+    border-radius: 0;
+}
+
+.feed-activity-list .feed-element.pb0 {
+    border-bottom: none;
+}

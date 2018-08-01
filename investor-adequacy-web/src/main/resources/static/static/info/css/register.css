@@ -1,0 +1,67 @@
+.login {
+    width: 40%;
+    height: auto;
+    margin: 60px auto;
+    padding: 10px 30px;
+    border: solid 2px gray;
+    /*aqua*/
+    /* background-color: gray; */
+    background-color: #f7f7f9;
+    min-width: 585px;
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    /* background-color: coral; */
+    border-bottom: 1px gray dashed;
+    font-size: 25px;
+    padding: 15px 30px;
+}
+
+.error {
+    font-size: 14px;
+    color: red;
+}
+
+
+.logo {
+    padding-right: 20px;
+    color: gray;
+    float: left;
+}
+
+.content {
+    padding: 15px 0px;
+}
+
+.btn {
+    text-align: center;
+    margin: 5px auto;
+}
+.btn-lg{
+    width:180px;
+}
+
+label {
+    margin-top: 5px;
+    white-space:nowrap;
+}
+
+.form-control {
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    -webkit-transition: border-color .15s ease-in-out 0s, box-shadow .15s ease-in-out 0s;
+    transition: border-color .15s ease-in-out 0s, box-shadow .15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+}
+
+.form-control, .form-control:focus, .has-error .form-control:focus, .has-success .form-control:focus, .has-warning .form-control:focus, .navbar-collapse, .navbar-form, .navbar-form-custom .form-control:focus, .navbar-form-custom .form-control:hover, .open .btn.dropdown-toggle, .panel, .popover, .progress, .progress-bar {
+    box-shadow: none;
+}

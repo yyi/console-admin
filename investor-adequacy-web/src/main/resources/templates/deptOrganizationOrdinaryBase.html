@@ -1,0 +1,261 @@
+<!DOCTYPE html [<!ENTITY radic "&#8730;">
+<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>投资者基本信息表（机构）</title>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8"/>
+    <style type="text/css">
+        body {
+            font-size: 12pt;
+            color: #333333;
+            font-family: SimSun;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        thead {
+            font-weight: bold;
+            boder: 0.5px thin #0000;
+        }
+
+        th, td {
+            font-size: 10.5pt;
+            text-align: center;
+            border: 1px solid #000000;
+            padding-top: 0.2cm;
+            padding-bottom: 0.2cm;
+            line-height: 18px;
+        }
+
+        .frame-border {
+            border: 1px solid #000000;
+
+        }
+
+        .align-left {
+            text-align: left;
+            line-height: 18px;
+            padding-left: 2px;
+        }
+
+        .check-item-text {
+            margin-right: 8px;
+        }
+
+        .other-checked-item {
+            text-decoration: underline;
+            margin-left: -15px;
+        }
+
+        h3 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h3>投资者基本信息表（机构）</h3>
+<div style="margin-bottom: 2px">
+    填表日期:&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资金帐号：
+</div>
+<table>
+    <tbody>
+    <tr>
+        <td colspan="12">资者基本信息（申请人填写）</td>
+    </tr>
+    <tr>
+        <td colspan="3" width="25%">机构名称</td>
+        <td colspan="3" width="25%" th:text="${ORGANIZATION_NAME}" ></td>
+        <td colspan="3" width="25%">控股股东或实际控制人</td>
+        <td colspan="3" width="25%" th:text="${BOSS}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">机构类型</td>
+        <td colspan="9">
+
+
+
+            <!--/*/
+                <th:block th:each="occupyCheckItem,occupyCheckItemStat: ${occupyCheckItems}">
+            /*/-->
+
+            <!--/*@thymesVar id="occupyCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+
+            <span class="frame-border" th:text="${occupyCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${occupyCheckItem.text}"></span>
+            <br th:if="${occupyCheckItemStat.count}%5==0"/>
+
+            <!--/*/
+              </th:block>
+             /*/-->
+
+            <span class="other-checked-item" th:text="${occupyOther}?${occupyOther}:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"></span>
+
+            <!--/*/
+                 <th:block th:remove="all">
+             /*/-->
+
+            □一般企业法人  □其他组织____________
+
+            <!--/*/
+              </th:block>
+             /*/-->
+
+
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">是否符合条件</td>
+        <td colspan="9">
+            <!--/*/
+              <th:block th:each="educationCheckItem,educationCheckItemStatus: ${isOrganizationTypeCheckedItems}">
+                          /*/-->
+            <!--/*@thymesVar id="educationCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+
+            <span class="frame-border" th:text="${educationCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${educationCheckItem.text}"></span>
+            <br th:if="${educationCheckItemStatus.count}%4==0"/>
+
+            <!--/*/
+              </th:block>
+               /*/-->
+
+            <!--/*/
+             <th:block th:remove="all">
+             /*/-->
+            □最近一年末净资产不低于2000万元　 □最近一年末金融资产不低于1000万元　 □具有2年以上证券、基金、期货、黄金、外汇等投资经历　
+            <!--/*/
+                </th:block>
+              /*/-->
+
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">住所地</td>
+        <td colspan="9" th:text="${ABODE}">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">经营范围</td>
+        <td colspan="9" th:text="${SCOPE_OF_OPERATION}">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">组织机构代码</td>
+        <td colspan="3" th:text="${ORGANIZATION_CODE}"></td>
+        <td colspan="3">税务登记证号码</td>
+        <td colspan="3" th:text="${TAX_REGISTRATION_CARD_NUMBER}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">证明该机构依法设立或者可依法开展经营、社会活动的证照类型</td>
+        <td colspan="3" th:text="${ORGANIZATION_CARD_TYPE}"></td>
+        <td colspan="3">证明该机构依法设立或者可依法开展经营、社会活动的证照号码</td>
+        <td colspan="3" th:text="${ORGANIZATION_CARD_NUMBER}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">证明该机构依法设立或者可依法开展经营、社会活动的证照有效期限</td>
+        <td colspan="9" th:text="${ORGANIZATION_CARD_DATE}">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">机构联系电话</td>
+        <td colspan="2" th:text="${ORGANIZATION_TELEPHONE}"></td>
+        <td width="6%">联系地址</td>
+        <td colspan="3" th:text="${ORGANIZATION_ADDRESS}"></td>
+        <td width="6%">邮政编码</td>
+        <td colspan="2" th:text="${POSTAL_CODE}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">法定代表人姓名</td>
+        <td colspan="3" th:text="${REPRESENTATIVE}"></td>
+        <td colspan="3">法定代表人身份证件类型</td>
+        <td colspan="3" th:text="${REPRESENTATIVE_CARD_TYPE}"></td>
+    </tr>
+    <tr>
+        <td colspan="3" >法定代表人身份证件号码</td>
+        <td colspan="3" th:text="${REPRESENTATIVE_CARD_NUMBER}"></td>
+        <td colspan="3">法定代表人身份证件有效期限</td>
+        <td colspan="3" th:text="${REPRESENTATIVE_CARD_DATE}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">授权代表人姓名</td>
+        <td colspan="3" th:text="${AUTHORIZATION}"></td>
+        <td colspan="3">授权代表人身份证件类型</td>
+        <td colspan="3" th:text="${AUTHORIZATION_CARD_TYPE}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">授权代表人身份证件号码</td>
+        <td colspan="3" th:text="${AUTHORIZATION_CARD_NUMBER}"></td>
+        <td colspan="3">授权代表人身份证件有效期限</td>
+        <td colspan="3" th:text="${AUTHORIZATION_CARD_DATE}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">授权代表人电话</td>
+        <td colspan="3" th:text="${AUTHORIZATION_TELEPHONE}"></td>
+        <td colspan="3">授权代表人手机号码</td>
+        <td colspan="3" th:text="${AUTHORIZATION_IPHONE}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">授权代表人联系地址</td>
+        <td colspan="9" th:text="${AUTHORIZATION_ADDRESS}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">邮政编码</td>
+        <td colspan="3" th:text="${AUTHORIZATION_POSTAL_CODE}"></td>
+        <td colspan="3">Email地址</td>
+        <td colspan="3" th:text="${AUTHORIZATION_EMAIL}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">实际控制投资者的自然人</td>
+        <td width="8%" >姓名：电话：</td>
+        <td colspan="2" th:text="${INVESTOR_PERSON}"></td>
+        <td colspan="3">交易的实际受益人</td>
+        <td width="8%">姓名：电话：</td>
+        <td colspan="2" th:text="${BENEFICIARY}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">诚信记录</td>
+        <td colspan="9">
+
+            <!--/*/
+                <th:block th:each="occupyCheckItem,occupyCheckItemStat: ${creditCheckedItems}">
+            /*/-->
+
+            <!--/*@thymesVar id="occupyCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+
+            <span class="frame-border" th:text="${occupyCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${occupyCheckItem.text}"></span>
+            <br th:if="${occupyCheckItemStat.count}%5==0"/>
+
+            <!--/*/
+              </th:block>
+             /*/-->
+
+
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="12" class="align-left">
+
+            本机构保证资金来源的合法性和所提供资料的真实性、准确性、完整性，并对其承担责任。若本机构提供的信息发生任何重大变化，本机构将及时书面通知贵公司。<br/><br/>
+            机构盖章：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/>
+            经办人签章：<br/><br/><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            年 &nbsp;&nbsp;&nbsp; 月 &nbsp;&nbsp;&nbsp; 日
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="12" style="text-align: left;line-height: 22px">
+            经办人签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 复核人签名：<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            年 &nbsp;&nbsp;&nbsp; 月 &nbsp;&nbsp;&nbsp; 日
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

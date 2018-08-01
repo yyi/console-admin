@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网下投资者信息填报系统-登录</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" href="../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../static/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link href="../static/static/css/font-awesome.min.css" rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link href="../static/static/css/style.min.css" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../static/static/info/css/common.css" rel="stylesheet" th:href="@{/static/info/css/common.css}">
+    <link href="../static/static/info/css/login.css" rel="stylesheet" th:href="@{/static/info/css/login.css}">
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top white-bg">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <a href="http://www.e5618.com/">
+                        <img src="../static/static/info/images/logo_new.gif" th:src="@{/static/info/images/logo_new.gif}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="contentbox">
+            <div class="title">
+                <p>网下投资者信息填报系统</p>
+            </div>
+            <div class="formbox">
+                <div class="loginform">
+                    <form id="loginForm" class="form-horizontal" role="form" th:action="@{/login}" method="post">
+                        <!--/*@thymesVar id="error" type="java.lang.String"*/-->
+                        <div class="form-group text-center">
+                            <div class="radio radio-danger radio-inline">
+                                <input type="radio" checked="checked" name="personal" value="true" id="personLogin" th:checked="${personalFlag}">
+                                <label for="personLogin">自然人登录</label>
+                            </div>
+                            <div class="radio radio-danger radio-inline">
+                                <input type="radio" name="personal" value="false" id="orgLogin" th:checked="not ${personalFlag}">
+                                <label for="orgLogin">机构登录</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <label for="username" class="col-xs-3 text-right">证件号：</label>
+                            <div class="col-xs-8">
+                                <input type="text" id="username" name="username" required="required" placeholder="请输入证件号码" class="form-control" th:value="${param.username}" />
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <label for="password" class="col-xs-3 text-right">密　码：</label>
+                            <div class="col-xs-8">
+                                <input type="password" name="password" id="password" required="required" placeholder="请输入密码" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <label for="jcaptchaCode" class="col-xs-3 text-right">校验码：</label>
+                            <div class="col-xs-4">
+                                <input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control" placeholder="验证码" required="required">
+                            </div>
+                            <div class="col-xs-5" style="margin-left: -15px;">
+                                <a href="#" th:onclick="'refreshCaptcha(this,\''+@{/jcaptcha.jpg}+ '\');'"><img class="jcaptcha-btn jcaptcha-img" src="../static/static/info/images/jcaptcha.jpg" th:src="@{/jcaptcha.jpg}" title="点击更换验证码"></a>
+                            </div>
+                        </div>
+                        <div class="errorbox error" th:text="${error}">请输入您的身份证件号码</div>
+                        <div class="form-group form-input" style="position: relative; color: #337ab7;">
+                            <label class="col-xs-3 text-right">说　明：</label>
+                            <p class="col-xs-9 text-primary" style="font-weight: bold;">
+                                请输入您的身份证件号码
+                                <br/>默认密码为您输入的证件号前六位
+                            </p>
+                        </div>
+                        <div class="form-group form-submit">
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <button id="loginSubmit" class="btn btn-danger ">登 录</button>
+                                <a href="../templates/resetPassword.html" th:href="@{/resetPassword}" style="margin-left: 10px;">重置密码</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="fclear"></div>
+        </div>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom white-bg">
+        <div class="container">
+            <div class="header text-center">
+                备案号/经营许可证号 京ICP备06019954号-1 京公网安备11010502026883
+            </div>
+        </div>
+    </nav>
+    <script src="../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../static/static/js/validate/jquery.validate.js" th:src="@{/static/js/validate/jquery.validate.js}"></script>
+    <script src="../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../static/static/info/js/captcha.js" th:src="@{/static/info/js/captcha.js}"></script>
+    <script src="../static/static/js/layer/layer.js" th:src="@{/static/js/layer/layer.js}"></script>
+    <script src="../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <script src="../static/static/info/js/login.js" th:src="@{/static/info/js/login.js}"></script>
+</body>
+
+</html>

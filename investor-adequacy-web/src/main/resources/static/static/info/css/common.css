@@ -1,0 +1,395 @@
+﻿.navbar.navbar-default {
+    position: fixed;
+}
+
+.main-wrapper {
+    padding: 68px 15px 0;
+}
+
+.header {
+    height: 67px;
+    margin: 0 auto;
+}
+
+.logo {
+    float: left;
+    margin: 14px 14px 0 23px;
+}
+
+.logo a {
+    display: inline-block;
+    height: 38px;
+}
+
+.title {
+    float: left;
+    margin-left: 14px;
+}
+
+.menu {
+    float: right;
+}
+
+.menu a {
+    display: inline-block;
+    margin: 27px 15px;
+    font-size: 13px;
+}
+
+.title-queryform {
+    padding-top: 10px;
+}
+
+.title-querybtn {
+    text-align: right;
+    padding-top: 10px;
+}
+
+.toolbar-box {
+    padding: 0 10px;
+}
+
+.toolbar-box .btn {
+    margin: 5px 0;
+}
+
+.modal-max-height {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.table-control {
+    height: 32px;
+    border: none;
+    font-size: 13px;
+    padding: 6px 4px;
+}
+
+.fzfilebox {
+    position: relative;
+    height: 34px;
+    line-height: 34px;
+}
+
+.fzfile {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    width: 74px;
+    height: 34px;
+    line-height: 34px;
+}
+
+.fzfilefun {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.fzfileup {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: -78px;
+}
+
+.fzfilebtn {
+    display: inline-block;
+}
+
+.fzfilebtn i {
+    margin-right: 5px;
+}
+
+.picfilebox {
+    position: relative;
+    height: 34px;
+    line-height: 34px;
+}
+
+.picfile {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    width: 74px;
+    height: 34px;
+    line-height: 34px;
+}
+
+.picfilefun {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.picfileup {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: -78px;
+}
+
+.picfilebtn {
+    display: inline-block;
+}
+
+.picfilebtn i {
+    margin-right: 5px;
+}
+
+.picupbox {
+    float: left;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 1px solid;
+}
+
+.picupimg {
+    width: 148px;
+    height: 148px;
+}
+
+.picuptipbg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0.6;
+    filter: alpha(opacity=0.6);
+    width: 148px;
+    height: 34px;
+    background-color: white;
+}
+
+.picuptip {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 148px;
+    height: 34px;
+    color: #e01b21;
+    text-align: center;
+    line-height: 34px;
+}
+
+.picupfile {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 148px;
+    height: 148px;
+}
+
+.picupdel {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+.picupadd {
+    margin: 2px;
+}
+
+.errmsg {
+    font-size: 14px;
+    color: red;
+}
+
+.fz-red {
+    color: #e01b21;
+}
+
+.fz-red-bg {
+    background-color: #e01b21;
+}
+
+.fz-nav {
+    width: 930px;
+    background-color: #f9f9f9;
+    box-shadow: 3px 3px 10px #777;
+}
+
+.c-navbox {
+    width: 930px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+.nav-item {
+    float: left;
+    width: 232px;
+    height: 50px;
+}
+
+.nav-item.item-min {
+    width: 186px;
+}
+
+.item-txtbox {
+    float: left;
+    width: 212px;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+    padding: 12px 0 0 30px;
+    background-color: #f9f9f9;
+}
+
+.item-min .item-txtbox {
+    width: 166px;
+    padding: 12px 0 0 12px;
+}
+
+.item-red .item-txtbox {
+    color: white;
+    background-color: #e01b21
+}
+
+.item-num {
+    float: left;
+    width: 24px;
+    height: 24px;
+    padding: 6px 0;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 80%;
+    border: 1px solid;
+}
+
+.item-red .item-num {
+    border: 1px solid white;
+}
+
+.item-txt {
+    font-size: 14px;
+    float: left;
+    padding: 3px 0 0 20px;
+}
+
+.item-min .item-txt {
+    padding: 3px 0 0 12px;
+}
+
+.item-arrows {
+    float: right;
+    width: 20px;
+    height: 50px;
+}
+
+.item-right-max {
+    float: left;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border-top: 25px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-left: 20px solid #676a6c;
+}
+
+.item-right-min {
+    float: left;
+    position: relative;
+    top: -48px;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border-top: 23px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 23px solid transparent;
+    border-left: 18px solid #f9f9f9;
+}
+
+.item-front .item-right-max {
+    background-color: #e01b21;
+}
+
+.item-red .item-right-max {
+    border-left: 18px solid #e01b21;
+}
+
+.item-red .item-right-min {
+    border-left: 18px solid #e01b21;
+}
+
+.item-first .item-txtbox {
+    border-radius: 3px 0 0 3px;
+}
+
+.item-last .item-txtbox {
+    width: 234px;
+    border-radius: 0 3px 0 0;
+}
+
+.item-min.item-last .item-txtbox {
+    width: 186px;
+}
+
+.item-last .item-arrows {
+    display: none;
+}
+
+.m-btn {
+    background-color: #e01b21;
+    border-color: #e01b21;
+    color: white;
+    text-align: center;
+    border: none;
+    box-shadow: 3px 3px 10px #999;
+}
+
+.m-btn:hover {
+    cursor: pointer;
+    box-shadow: 3px 3px 10px #666;
+}
+
+.m-btn.btn-sm {
+    width: 90px;
+    height: 36px;
+    font-size: 13px;
+    border-radius: 3px
+}
+
+.m-btn.btn-lg {
+    width: 210px;
+    height: 80px;
+    font-size: 28px;
+    border-radius: 6px;
+}
+
+.m-btn.btngray {
+    cursor: not-allowed;
+    background-color: #676a6c;
+}
+
+.pic-crop-modal {
+    width: 690px;
+}
+
+.pic-crop-modal .btn-outline {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.fclear {
+    clear: both;
+}
+
+.noresize {
+    resize: none;
+}

@@ -1,0 +1,234 @@
+<!DOCTYPE html [<!ENTITY radic "&#8730;">
+<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>投资者基本信息表（自然人）</title>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8"/>
+    <style type="text/css">
+        body {
+            font-size: 12pt;
+            color: #333333;
+            font-family: SimSun;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        thead {
+            font-weight: bold;
+            boder: 0.5px thin #0000;
+        }
+
+        th, td {
+            font-size: 10.5pt;
+            text-align: center;
+            border: 1px solid #000000;
+            padding-top: 0.3cm;
+            padding-bottom: 0.3cm;
+        }
+
+        .frame-border {
+            border: 1px solid #000000;
+
+        }
+
+        .align-left {
+            text-align: left;
+            line-height: 22px;
+            padding-left: 2px;
+        }
+
+        .check-item-text {
+            margin-right: 8px;
+        }
+
+        .other-checked-item {
+            text-decoration: underline;
+            margin-left: -15px;
+        }
+
+        h3 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h3>投资者基本信息表（自然人）</h3>
+<div style="margin-bottom: 2px">
+    填表日期:&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资金帐号：
+</div>
+<table>
+    <tbody>
+    <tr>
+        <td colspan="12">资者基本信息（申请人填写）</td>
+    </tr>
+    <tr>
+        <td colspan="2" width="16%">姓名</td>
+        <td colspan="2" width="16%" th:text="${NAME}"></td>
+        <td width="8%">性别</td>
+        <td width="8%" th:text="${SEX}"></td>
+        <td width="6%">出生日期</td>
+        <td colspan="2" width="16%" th:text="${BIRTH_DATE}"></td>
+        <td width="8%">国籍</td>
+        <td colspan="2" th:text="${NATIONALITY}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">实际控制投资者的自然人</td>
+        <td colspan="3" th:text="${INVESTOR_PERSON}"></td>
+        <td colspan="3">交易的实际受益人</td>
+        <td colspan="3" th:text="${BENEFICIARY}"></td>
+    </tr>
+    <tr>
+        <td colspan="2">职业</td>
+        <td colspan="10" class="align-left">
+
+            <!--/*/
+                <th:block th:each="occupyCheckItem,occupyCheckItemStat: ${occupyCheckItems}">
+            /*/-->
+
+                <!--/*@thymesVar id="occupyCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+
+            <span class="frame-border" th:text="${occupyCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${occupyCheckItem.text}"></span>
+            <br th:if="${occupyCheckItemStat.count}%5==0"/>
+
+            <!--/*/
+              </th:block>
+             /*/-->
+
+            <span class="other-checked-item" th:text="${occupyOther}?${occupyOther}:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"></span>
+
+            <!--/*/
+                 <th:block th:remove="all">
+             /*/-->
+
+            党政机关工作人员 □企事业单位职工 □农民 □个体工商户 □注册会计师 □ 律师□学生 □金融机构从业人员 □金融机构高级管理人员
+            □无业 □其他，__________
+
+            <!--/*/
+              </th:block>
+             /*/-->
+
+        </td>
+
+
+    </tr>
+    <tr>
+        <td colspan="2">工作单位</td>
+        <td colspan="6" th:text="${WORK_UNIT}"></td>
+        <td colspan="1">职务</td>
+        <td colspan="3" th:text="${post}">软件开发工程师</td>
+    </tr>
+    <tr>
+        <td colspan="2">学历</td>
+        <td colspan="10" class="align-left">
+
+            <!--/*/
+              <th:block th:each="educationCheckItem,educationCheckItemStatus: ${educationCheckItems}">
+              /*/-->
+            <!--/*@thymesVar id="educationCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+
+            <span class="frame-border" th:text="${educationCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${educationCheckItem.text}"></span>
+            <br th:if="${educationCheckItemStatus.count}%4==0"/>
+
+            <!--/*/
+              </th:block>
+               /*/-->
+
+            <!--/*/
+             <th:block th:remove="all">
+             /*/-->
+            □博士　 □硕士　 □本科　 □大专　 □中专　 □高中　 □初中及以下
+            <!--/*/
+                </th:block>
+              /*/-->
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">诚信记录</td>
+        <td colspan="10" class="align-left"> 是否有以下来源的不良诚信记录？<br/>
+
+            <!--/*/
+             <th:block th:each="badCredibilityCheckItem,badCredibilityCheckItemStat: ${creditCheckedItems}">
+             /*/-->
+            <!--/*@thymesVar id="badCredibilityCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+            <span class="frame-border" th:text="${badCredibilityCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${badCredibilityCheckItem.text}"></span>
+            <br th:if="${badCredibilityCheckItemStat.count}%3==0"/>
+            <!--/*/
+              </th:block>
+             /*/-->
+
+            <br/>
+
+            <!--/*/
+            <th:block th:remove="all">
+            /*/-->
+
+            <span>□中国人民银行征信中心  □最高人民法院失信被执行人名单  □工商行政管理机构  □税务管理机构  □监管机构、自律组织  □投资者在证券经营机构的失信记录 □其他</span>
+
+            <!--/*/
+            </th:block>
+            /*/-->
+
+           <!--/*/
+          <th:block th:each="badCredibilityCheckOtherItem: ${badCredibilityCheckOtherItems}">
+          /*/-->
+            <!--/*@thymesVar id="badCredibilityCheckOtherItem" type="com.founder.dto.business.CheckedItem"*/-->
+            <span class="frame-border"
+                  th:text="${badCredibilityCheckOtherItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${badCredibilityCheckOtherItem.text}"></span>
+            <!--/*/
+              </th:block>
+             /*/-->
+
+            <span>（请注明）：</span> <span   class="other-checked-item" th:text="${badCredibilityCheckOtherText}?${badCredibilityCheckOtherText}:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"></span>
+
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">身份证件类型</td>
+        <td colspan="4" th:text="${CARD_TYPE}"></td>
+        <td colspan="3">身份证件号码</td>
+        <td colspan="3" th:text="${CARD_NUMBER}"></td>
+    </tr>
+    <tr>
+        <td colspan="2">身份证件<br/>有效期限</td>
+        <td colspan="10" th:text="${CARD_DATE}"></td>
+    </tr>
+    <tr>
+        <td colspan="2">固定电话</td>
+        <td colspan="4" th:text="${TELEPHONE}"></td>
+        <td colspan="3">手机号码</td>
+        <td colspan="3" th:text="${IPHONE}"></td>
+    </tr>
+    <tr>
+        <td colspan="2">联系地址</td>
+        <td colspan="10" th:text="${ADDRESS}"></td>
+    </tr>
+    <tr>
+        <td colspan="2">邮政编码</td>
+        <td colspan="4" th:text="${POSTAL_CODE}"></td>
+        <td colspan="3">Email</td>
+        <td colspan="3" th:text="${EMAIL}"></td>
+    </tr>
+    <tr>
+        <td colspan="12" class="align-left">
+            本人保证资金来源的合法性和所提供资料的真实性、准确性、完整性，并对其承担责任。若本人提供的信息发生任何重大变化，本人将及时书面通知贵公司。<br/><br/>
+            申请人签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            日期：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 年 &nbsp;&nbsp;&nbsp; 月 &nbsp;&nbsp;&nbsp; 日
+        </td>
+    </tr>
+    <tr>
+        <td colspan="12" style="text-align: left;line-height: 22px">
+            经办人签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 复核人签名：<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            年 &nbsp;&nbsp;&nbsp; 月 &nbsp;&nbsp;&nbsp; 日
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

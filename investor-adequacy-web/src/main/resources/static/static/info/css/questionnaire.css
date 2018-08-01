@@ -1,0 +1,31 @@
+/*问卷*/
+.content {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 64px;
+}
+
+.btn-box {
+    width: 928px;
+    border: 1px solid;
+    margin: 30px auto;
+    padding: 30px 10px 30px 25px;
+}
+
+.qus-box {
+    margin: 15px 50px;
+    font-size: 14px;
+}
+
+.qus-box h5{
+    font-size: 15px;
+}
+
+.qus-item {
+    margin: 5px auto;
+}
+
+.func-box {
+    width: 900px;
+    margin: 40px auto 0;
+}

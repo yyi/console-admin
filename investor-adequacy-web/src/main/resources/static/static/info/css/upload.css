@@ -1,0 +1,39 @@
+/*文件上传*/
+.content {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 64px;
+}
+
+.btn-box {
+    width: 928px;
+    border: 1px solid;
+    margin: 30px auto;
+    padding: 30px 10px;
+}
+
+.func-box {
+    width: 900px;
+    margin: 40px auto 0;
+}
+
+.upload-box {
+    width: 810px;
+    margin: 0 auto 15px;
+}
+
+.filetxt {
+    font-size: 15px;
+}
+
+.crop-img {
+    max-width: 100%;
+}
+
+.need {
+    position: relative;
+    bottom: 3px;
+    left: 5px;
+    font-size: 8px;
+    color: red;
+}

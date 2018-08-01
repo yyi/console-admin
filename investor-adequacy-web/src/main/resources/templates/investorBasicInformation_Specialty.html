@@ -1,0 +1,262 @@
+<!DOCTYPE html [<!ENTITY radic "&#8730;">
+<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>投资者基本信息表（机构）</title>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8"/>
+    <style type="text/css">
+        body {
+            font-size: 12pt;
+            color: #333333;
+            font-family: SimSun
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        thead {
+            font-weight: bold;
+            boder: 0.5px thin #0000;
+        }
+
+        th, td {
+            font-size: 10.5pt;
+            text-align: center;
+            border: 1px solid #000000;
+            padding-top: 0.3cm;
+            padding-bottom: 0.3cm;
+        }
+
+        .frame-border {
+            border: 1px solid #000000;
+
+        }
+
+        .align-left {
+            text-align: left;
+            line-height: 22px;
+            padding-left: 2px;
+        }
+
+        .check-item-text {
+            margin-right: 8px;
+        }
+
+        .other-checked-item {
+            text-decoration: underline;
+            margin-left: -15px;
+        }
+
+        h2, h3 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h3>投资者基本信息表（机构）</h3>
+<div style="margin-bottom: 2px">
+    填表日期:&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资金帐号/客户号：
+</div>
+<table>
+    <tbody>
+    <tr>
+        <td colspan="12">投资者基本信息（申请人填写）（产品认购填写管理人信息）</td>
+    </tr>
+    <tr>
+        <td colspan="3" width="25%">机构名称/产品名称</td>
+        <td colspan="9" width="75%" th:text="${ORGANIZATION_NAME}">测试机构名称</td>
+    </tr>
+    <tr>
+        <td colspan="3">机构类型</td>
+        <td colspan="9" class="align-left">
+
+
+            <!--/*/
+                <th:block th:each="occupyCheckItem,occupyCheckItemStat: ${occupyCheckItems}">
+            /*/-->
+
+            <!--/*@thymesVar id="occupyCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+
+            <span class="frame-border" th:text="${occupyCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${occupyCheckItem.text}"></span>
+            <br th:if="${occupyCheckItemStat.count}%1==0"/>
+
+            <!--/*/
+              </th:block>
+             /*/-->
+
+
+
+            <!--/*/
+                 <th:block th:remove="all">
+             /*/-->
+            □经有关金融监管部门批准设立的金融机构，包括证券公司、期货公司、基金管理公司及其子公司、商业银行、保险公司、信托公司、财务公司等；经行业协会备案或者登记的证券公司子公司、期货公司子公司、私募基金管理人。
+            <br/> □上述机构面向投资者发行的理财产品，包括但不限于证券公司资产管理产品、基金管理公司及其子公司产品、期货公司资产管理产品、银行理财产品、保险产品、信托产品、经行业协会备案的私募基金。
+            <br/>
+            □社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，合格境外机构投资者（QFII）、人民币合格境外机构投资者（RQFII）
+
+            <!--/*/
+              </th:block>
+             /*/-->
+
+        </td>
+
+
+    </tr>
+    <tr>
+        <td colspan="3">法定代表人姓名</td>
+        <td colspan="9" th:text="${REPRESENTATIVE}">测试法人姓名</td>
+    </tr>
+    <tr>
+        <td colspan="3">开户时间</td>
+        <td colspan="3" th:text="${CREATE_TIME}">2000-01-01</td>
+        <td colspan="3">控股股东或实际控制人</td>
+        <td colspan="3" th:text="${BOSS}">测试控股股东</td>
+    </tr>
+    <tr>
+        <td colspan="3">资产规模（产品选择产品存续规模）</td>
+        <td colspan="9" style="text-align: left">
+
+            <!--/*/
+              <th:block th:each="assetCheckItem,assetCheckItemStat: ${assetCheckItems}">
+              /*/-->
+            <!--/*@thymesVar id="assetCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+
+            <span class="frame-border" th:text="${assetCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${assetCheckItem.text}"></span>
+            <br th:if="${assetCheckItemStat.count}%3==0"/>
+
+            <!--/*/
+              </th:block>
+               /*/-->
+
+            <!--/*/
+             <th:block th:remove="all">
+             /*/-->
+            □1亿以下 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; □1-5亿元 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; □5-10亿元
+            <br/>
+            □10-20亿元 &nbsp;&nbsp;&nbsp; □20-50亿元 &nbsp;&nbsp;&nbsp; □50-100亿元
+            <br/>
+            □100亿元以上
+            <!--/*/
+                </th:block>
+              /*/-->
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">受益人</td>
+        <td colspan="9" th:text="${BENEFICIARY}">测试受益人</td>
+    </tr>
+    <tr>
+        <td colspan="3">住所</td>
+        <td colspan="9" th:text="${ABODE}">测试住所</td>
+    </tr>
+    <tr>
+        <td colspan="3">联系地址</td>
+        <td colspan="9" th:text="${ADDRESS}">测试地址</td>
+    </tr>
+    <tr>
+        <td colspan="3">社会统一信用代码</td>
+        <td colspan="9" th:text="${CREDIT_CODE}">11111XXXXXXXX11111XXX</td>
+    </tr>
+    <tr>
+        <td colspan="3">经办人姓名</td>
+        <td colspan="3" th:text="${AGENT_NAME}">经办人张三</td>
+        <td colspan="3">身份证件类型</td>
+        <td colspan="3" th:text="${AGENT_CARD_TYPE}">身份证</td>
+    </tr>
+    <tr>
+        <td colspan="3">经办人身份证件号码</td>
+        <td colspan="9" th:text="${AGENT_CARD_NUMBER}">11111XXXXXXXX11111XXX</td>
+    </tr>
+    <tr>
+        <td colspan="3">经办人电话</td>
+        <td colspan="3" th:text="${AGENT_TELEPHONE}">010111111111</td>
+        <td colspan="3">经办人手机号码</td>
+        <td colspan="3" th:text="${AGENT_IPHONE}">13875996899</td>
+    </tr>
+    <tr>
+        <td colspan="3">经办人联系地址</td>
+        <td colspan="9" th:text="${AGENT_ADDRESS}">湖南省长沙市天心区劳动西路恒力卡瑞尔大厦</td>
+    </tr>
+    <tr>
+        <td colspan="3">邮政编码</td>
+        <td colspan="3" th:text="${POSTAL_CODE}">410000</td>
+        <td colspan="3">Email</td>
+        <td colspan="3" th:text="${EMAIL}">yyi_mailer@163.com</td>
+    </tr>
+    <tr>
+        <td colspan="3">诚信记录</td>
+        <td colspan="9" class="align-left"> 是否有以下来源的不良诚信记录？<br/>
+
+
+            <!--/*/
+            <th:block th:each="badCredibilityCheckOtherItem: ${badCredibilityCheckOtherItems}">
+            /*/-->
+            <!--/*@thymesVar id="badCredibilityCheckOtherItem" type="com.founder.dto.business.CheckedItem"*/-->
+            <span class="frame-border"
+                  th:text="${badCredibilityCheckOtherItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${badCredibilityCheckOtherItem.text}"></span>
+            <!--/*/
+              </th:block>
+             /*/-->
+
+
+
+            <!--/*/
+            <th:block th:remove="all">
+            /*/-->
+            <span>□有 &nbsp;&nbsp;&nbsp;&nbsp; □无</span>
+
+            <!--/*/
+            </th:block>
+            /*/-->
+
+            <p><span>（如选有请勾选下列选项）</span></p>
+
+            <!--/*/
+             <th:block th:each="badCredibilityCheckItem,badCredibilityCheckItemStat: ${badCredibilityCheckItems}">
+             /*/-->
+            <!--/*@thymesVar id="badCredibilityCheckItem" type="com.founder.dto.business.CheckedItem"*/-->
+            <span class="frame-border" th:text="${badCredibilityCheckItem.checked}?'&radic;':'&nbsp;'">&radic;</span>
+            <span class="check-item-text" th:text="${badCredibilityCheckItem.text}"></span>
+            <br th:if="${badCredibilityCheckItemStat.count}%3==0"/>
+            <!--/*/
+              </th:block>
+             /*/-->
+
+            <br/>
+
+            <!--/*/
+            <th:block th:remove="all">
+            /*/-->
+            <span>□中国人民银行征信中心  □最高人民法院失信被执行人名单  □工商行政管理机构  □税务管理机构  □监管机构、自律组织  □投资者在证券经营机构的失信记录 □其他组织</span>
+
+            <!--/*/
+            </th:block>
+            /*/-->
+
+
+
+            <span>（请注明）：</span> <span class="other-checked-item"
+                                      th:text="${badCredibilityCheckOtherText}?${badCredibilityCheckOtherText}:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"></span>
+
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="12" class="align-left">
+            &nbsp;&nbsp;&nbsp;&nbsp; 本机构保证资金来源的合法性和所提供资料的真实性、准确性、完整性，并对其承担责任。若本人提供的信息发生任何重大变化，本人将及时书面通知贵公司。<br/><br/>
+            机构盖章：
+            <br/><br/><br/><br/><br/>
+            经办人签字：
+            <br/><br/><br/><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            日期：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 年 &nbsp;&nbsp;&nbsp; 月 &nbsp;&nbsp;&nbsp; 日
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

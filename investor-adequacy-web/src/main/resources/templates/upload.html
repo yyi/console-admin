@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网下投资者信息填报系统-申请-文件上传</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" href="../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../static/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link href="../static/static/css/font-awesome.min.css" rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link href="../static/static/css/style.min.css" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../static/static/js/cropper/cropper.css" rel="stylesheet" th:href="@{/static/js/cropper/cropper.css}">
+    <link href="../static/static/info/css/common.css" rel="stylesheet" th:href="@{/static/info/css/common.css}">
+    <link href="../static/static/info/css/upload.css" rel="stylesheet" th:href="@{/static/info/css/upload.css}">
+</head>
+
+<body :controller="uploadObj">
+    <nav class="navbar navbar-default navbar-fixed-top border-bottom white-bg">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <a href="http://www.e5618.com/">
+                        <img src="../static/static/info/images/logo_new.gif" th:src="@{/static/info/images/logo_new.gif}">
+                    </a>
+                </div>
+                <div class="title">
+                    <h1>网下投资者信息填报系统</h1>
+                </div>
+                <div class="menu">
+                    <a id="indexhref">首页</a>
+                    <a href="logout">退出</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-wrapper">
+        <div class="row">
+            <div class="content">
+                <div class="c-navbox">
+                    <div class="fz-nav" style="display: none;">
+                        <div class="nav-item item-min item-first">
+                            <div class="item-txtbox"><span class="item-num">1</span><span class="item-txt">选择业务类型</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item item-min">
+                            <div class="item-txtbox"><span class="item-num">2</span><span class="item-txt">选择投资者类型</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item item-min">
+                            <div class="item-txtbox"><span class="item-num">3</span><span class="item-txt">填报基础信息</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item item-min">
+                            <div class="item-txtbox"><span class="item-num">4</span><span class="item-txt">填写适当性问卷</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item item-min item-last">
+                            <div class="item-txtbox"><span class="item-num">5</span><span class="item-txt">资料上传</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="fclear"></div>
+                    </div>
+                </div>
+                <div class="btn-box">
+                    <!-- 债务专业上传 -->
+                    <div :if="@fileType=='FILE_DEPT_SPECIALTY'" class="upload-box">
+                        <form id="FILE_DEPT_SPECIALTY_form">
+                            <!-- 投资者基本信息表 -->
+                            <p class="filetxt"><span>1、</span><span :text="@info.valueDtoMap.FILE_BASE_INFO[0].displayName"></span><a id="FILE_DEPT_SPECIALTY_download">信息表下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BASE_INFO_picupload"></div>
+                            <!-- 营业执照 -->
+                            <p class="filetxt"><span>2、</span><span :text="@info.valueDtoMap.FILE_BUSINESS_LICENSE[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BUSINESS_LICENSE_picupload"></div>
+                            <!-- 经营证券、基金、期货业务的许可证 -->
+                            <p class="filetxt"><span>3、</span><span :text="@info.valueDtoMap.FILE_SECURITY_FUND_FUTURES_LICENSE[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_SECURITY_FUND_FUTURES_LICENSE_picupload"></div>
+                            <!-- 基金会法人登记证明 -->
+                            <p class="filetxt"><span>4、</span><span :text="@info.valueDtoMap.FILE_FOUNDATION_PERSON_LICENSE[0].displayName"></span></p>
+                            <div id="FILE_FOUNDATION_PERSON_LICENSE_picupload"></div>
+                            <!-- QFII、RQFII、私募基金管理人登记材料等身份证明材料 -->
+                            <p class="filetxt"><span>5、</span><span :text="@info.valueDtoMap.FILE_QFII_RQFII_FUND_ADMIN_LOGIN[0].displayName"></span></p>
+                            <div id="FILE_QFII_RQFII_FUND_ADMIN_LOGIN_picupload"></div>
+                            <!-- 理财产品成立或备案文件 -->
+                            <p class="filetxt"><span>6、</span><span :text="@info.valueDtoMap.FILE_FINANCIAL_PRODUCTS[0].displayName"></span></p>
+                            <div id="FILE_FINANCIAL_PRODUCTS_picupload"></div>
+                            <!-- 其他材料 -->
+                            <p class="filetxt"><span>7、</span><span :text="@info.valueDtoMap.FILE_OTHER[0].displayName"></span></p>
+                            <div id="FILE_OTHER_picupload"></div>
+                        </form>
+                    </div>
+                    <!-- 债务普通上传 -->
+                    <div :if="@fileType=='FILE_DEPT_ORDINARY'" class="upload-box">
+                        <form id="FILE_DEPT_ORDINARY_form">
+                            <!-- 投资者基本信息表 -->
+                            <p class="filetxt"><span>1、</span><span :text="@info.valueDtoMap.FILE_BASE_INFO[0].displayName"></span><a id="FILE_DEPT_ORDINARY_download">信息表下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BASE_INFO_picupload"></div>
+                            <!-- 营业执照 -->
+                            <p class="filetxt"><span>2、</span><span :text="@info.valueDtoMap.FILE_BUSINESS_LICENSE[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BUSINESS_LICENSE_picupload"></div>
+                            <!-- 最近一年财务报表 -->
+                            <p class="filetxt"><span>3、</span><span :text="@info.valueDtoMap.FILE_FINANCIAL_STATEMENTS[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_FINANCIAL_STATEMENTS_picupload"></div>
+                            <!-- 金融资产证明包括 -->
+                            <p class="filetxt"><span>4、</span><span :text="@info.valueDtoMap.FILE_FINANCIAL_ASSET_PROOF[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_FINANCIAL_ASSET_PROOF_picupload"></div>
+                            <!-- 2年以上证券、基金、期货、黄金、外汇等投资经历证明 -->
+                            <p class="filetxt"><span>5、</span><span :text="@info.valueDtoMap.FILE_INVESTMENT_EXPERIENCE_PROOF[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_INVESTMENT_EXPERIENCE_PROOF_picupload"></div>
+                            <!-- 经办人身份证 -->
+                            <p class="filetxt"><span>6、</span><span :text="@info.valueDtoMap.FILE_AGENT_CARD[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_AGENT_CARD_picupload"></div>
+                            <!-- 经办人授权书 -->
+                            <p class="filetxt"><span>7、</span><span :text="@info.valueDtoMap.FILE_AGENT_PROXY[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_AGENT_PROXY_picupload"></div>
+                            <!-- 其他材料 -->
+                            <p class="filetxt"><span>8、</span><span :text="@info.valueDtoMap.FILE_OTHER[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_OTHER_picupload"></div>
+                        </form>
+                    </div>
+                    <!-- 股票A类专业上传 -->
+                    <div :if="@fileType=='FILE_SHARES_ORGANIZATION_A_SPECIALTY'" class="upload-box">
+                        <form id="FILE_SHARES_ORGANIZATION_A_SPECIALTY_form">
+                            <!-- 投资者基本信息表 -->
+                            <p class="filetxt"><span>1、</span><span :text="@info.valueDtoMap.FILE_BASE_INFO[0].displayName"></span><a id="FILE_SHARES_ORGANIZATION_A_SPECIALTY_download">信息表下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BASE_INFO_picupload"></div>
+                            <!-- 营业执照 -->
+                            <p class="filetxt"><span>2、</span><span :text="@info.valueDtoMap.FILE_BUSINESS_LICENSE[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BUSINESS_LICENSE_picupload"></div>
+                            <!-- 经营证券、基金、期货业务的许可证 -->
+                            <p class="filetxt"><span>3、</span><span :text="@info.valueDtoMap.FILE_SECURITY_FUND_FUTURES_LICENSE[0].displayName"></span></p>
+                            <div id="FILE_SECURITY_FUND_FUTURES_LICENSE_picupload"></div>
+                            <!-- 经营其他金融业务的许可证 -->
+                            <p class="filetxt"><span>4、</span><span :text="@info.valueDtoMap.FILE_OTHER_FINANCE_LICENSE[0].displayName"></span></p>
+                            <div id="FILE_OTHER_FINANCE_LICENSE_picupload"></div>
+                            <!-- 基金会法人登记证明 -->
+                            <p class="filetxt"><span>5、</span><span :text="@info.valueDtoMap.FILE_FOUNDATION_PERSON_LICENSE[0].displayName"></span></p>
+                            <div id="FILE_FOUNDATION_PERSON_LICENSE_picupload"></div>
+                            <!-- QFII、RQFII、私募基金管理人登记材料等身份证明材料 -->
+                            <p class="filetxt"><span>6、</span><span :text="@info.valueDtoMap.FILE_QFII_RQFII_FUND_ADMIN_LOGIN[0].displayName"></span></p>
+                            <div id="FILE_QFII_RQFII_FUND_ADMIN_LOGIN_picupload"></div>
+                            <!-- 理财产品成立或备案文件 -->
+                            <p class="filetxt"><span>7、</span><span :text="@info.valueDtoMap.FILE_FINANCIAL_PRODUCTS[0].displayName"></span></p>
+                            <div id="FILE_FINANCIAL_PRODUCTS_picupload"></div>
+                            <!-- 其他证明材料 -->
+                            <p class="filetxt"><span>8、</span><span :text="@info.valueDtoMap.FILE_PROVE_OTHER[0].displayName"></span></p>
+                            <div id="FILE_PROVE_OTHER_picupload"></div>
+                            <!-- 经办人身份证 -->
+                            <p class="filetxt"><span>9、</span><span :text="@info.valueDtoMap.FILE_AGENT_CARD[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_AGENT_CARD_picupload"></div>
+                            <!-- 经办人授权书 -->
+                            <p class="filetxt"><span>10、</span><span :text="@info.valueDtoMap.FILE_AGENT_PROXY[0].displayName"></span></p>
+                            <div id="FILE_AGENT_PROXY_picupload"></div>
+                            <!-- 其他材料 -->
+                            <p class="filetxt"><span>11、</span><span :text="@info.valueDtoMap.FILE_OTHER[0].displayName"></span></p>
+                            <div id="FILE_OTHER_picupload"></div>
+                        </form>
+                    </div>
+                    <!-- 股票B类专业上传 -->
+                    <div :if="@fileType=='FILE_SHARES_ORGANIZATION_B_SPECIALTY'" class="upload-box">
+                        <form id="FILE_SHARES_ORGANIZATION_B_SPECIALTY_form">
+                            <!-- 专业投资者申请书 -->
+                            <p class="filetxt"><span>1、</span><span :text="@info.valueDtoMap.FILE_INVESTOR_APPLICATION[0].displayName"></span><a id="FILE_SHARES_ORGANIZATION_B_SPECIALTY_a_download">申请书下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_INVESTOR_APPLICATION_picupload"></div>
+                            <!-- 投资者基本信息表 -->
+                            <p class="filetxt"><span>2、</span><span :text="@info.valueDtoMap.FILE_BASE_INFO[0].displayName"></span><a id="FILE_SHARES_ORGANIZATION_B_SPECIALTY_b_download">信息表下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BASE_INFO_picupload"></div>
+                            <!-- 营业执照 -->
+                            <p class="filetxt"><span>3、</span><span :text="@info.valueDtoMap.FILE_BUSINESS_LICENSE[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BUSINESS_LICENSE_picupload"></div>
+                            <!-- 最近一年财务报表 -->
+                            <p class="filetxt"><span>4、</span><span :text="@info.valueDtoMap.FILE_FINANCIAL_STATEMENTS[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_FINANCIAL_STATEMENTS_picupload"></div>
+                            <!-- 金融资产证明包括 -->
+                            <p class="filetxt"><span>5、</span><span :text="@info.valueDtoMap.FILE_FINANCIAL_ASSET_PROOF[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_FINANCIAL_ASSET_PROOF_picupload"></div>
+                            <!-- 2年以上证券、基金、期货、黄金、外汇等投资经历证明 -->
+                            <p class="filetxt"><span>6、</span><span :text="@info.valueDtoMap.FILE_INVESTMENT_EXPERIENCE_PROOF[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_INVESTMENT_EXPERIENCE_PROOF_picupload"></div>
+                            <!-- 经办人身份证 -->
+                            <p class="filetxt"><span>7、</span><span :text="@info.valueDtoMap.FILE_AGENT_CARD[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_AGENT_CARD_picupload"></div>
+                            <!-- 经办人授权书 -->
+                            <p class="filetxt"><span>8、</span><span :text="@info.valueDtoMap.FILE_AGENT_PROXY[0].displayName"></span></p>
+                            <div id="FILE_AGENT_PROXY_picupload"></div>
+                            <!-- 其他材料 -->
+                            <p class="filetxt"><span>9、</span><span :text="@info.valueDtoMap.FILE_OTHER[0].displayName"></span></p>
+                            <div id="FILE_OTHER_picupload"></div>
+                        </form>
+                    </div>
+                    <!-- 股票普通上传 -->
+                    <div :if="@fileType=='FILE_SHARES_ORGANIZATION_ORDINARY'" class="upload-box">
+                        <form id="FILE_SHARES_ORGANIZATION_ORDINARY_form">
+                            <!-- 投资者基本信息表 -->
+                            <p class="filetxt"><span>1、</span><span :text="@info.valueDtoMap.FILE_BASE_INFO[0].displayName"></span><a id="FILE_SHARES_ORGANIZATION_ORDINARY_download">信息表下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BASE_INFO_picupload"></div>
+                            <!-- 营业执照 -->
+                            <p class="filetxt"><span>2、</span><span :text="@info.valueDtoMap.FILE_BUSINESS_LICENSE[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BUSINESS_LICENSE_picupload"></div>
+                            <!-- 经办人身份证 -->
+                            <p class="filetxt"><span>3、</span><span :text="@info.valueDtoMap.FILE_AGENT_CARD[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_AGENT_CARD_picupload"></div>
+                            <!-- 经办人授权书 -->
+                            <p class="filetxt"><span>4、</span><span :text="@info.valueDtoMap.FILE_AGENT_PROXY[0].displayName"></span></p>
+                            <div id="FILE_AGENT_PROXY_picupload"></div>
+                            <!-- 其他材料 -->
+                            <p class="filetxt"><span>5、</span><span :text="@info.valueDtoMap.FILE_OTHER[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_OTHER_picupload"></div>
+                        </form>
+                    </div>
+                    <!-- 股票自然人专业上传 -->
+                    <div :if="@fileType=='FILE_SHARES_EVERYMAN_SPECIALTY'" class="upload-box">
+                        <form id="FILE_SHARES_EVERYMAN_SPECIALTY_form">
+                            <!-- 专业投资者申请书 -->
+                            <p class="filetxt"><span>1、</span><span :text="@info.valueDtoMap.FILE_INVESTOR_APPLICATION[0].displayName"></span><a id="FILE_SHARES_EVERYMAN_SPECIALTY_a_download">申请书下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_INVESTOR_APPLICATION_picupload"></div>
+                            <!-- 投资者基本信息表 -->
+                            <p class="filetxt"><span>2、</span><span :text="@info.valueDtoMap.FILE_BASE_INFO[0].displayName"></span><a id="FILE_SHARES_EVERYMAN_SPECIALTY_b_download">信息表下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BASE_INFO_picupload"></div>
+                            <!-- 金融资产证明包括 -->
+                            <p class="filetxt"><span>3、</span><span :text="@info.valueDtoMap.FILE_FINANCIAL_ASSET_PROOF[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_FINANCIAL_ASSET_PROOF_picupload"></div>
+                            <!-- 2年以上证券、基金、期货、黄金、外汇等投资经历证明 -->
+                            <p class="filetxt"><span>4、</span><span :text="@info.valueDtoMap.FILE_INVESTMENT_EXPERIENCE_PROOF[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_INVESTMENT_EXPERIENCE_PROOF_picupload"></div>
+                            <!-- 投资者身份证 -->
+                            <p class="filetxt"><span>5、</span><span :text="@info.valueDtoMap.FILE_INVESTMENT_CARD[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_INVESTMENT_CARD_picupload"></div>
+                            <!-- 其他材料 -->
+                            <p class="filetxt"><span>6、</span><span :text="@info.valueDtoMap.FILE_OTHER[0].displayName"></span></p>
+                            <div id="FILE_OTHER_picupload"></div>
+                        </form>
+                    </div>
+                    <!-- 股票自然人普通上传 -->
+                    <div :if="@fileType=='FILE_SHARES_EVERYMAN_ORDINARY'" class="upload-box">
+                        <form id="FILE_SHARES_EVERYMAN_ORDINARY_form">
+                            <!-- 投资者基本信息表 -->
+                            <p class="filetxt"><span>1、</span><span :text="@info.valueDtoMap.FILE_BASE_INFO[0].displayName"></span><a id="FILE_SHARES_EVERYMAN_ORDINARY_download">信息表下载</a><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_BASE_INFO_picupload"></div>
+                            <!-- 投资者身份证 -->
+                            <p class="filetxt"><span>2、</span><span :text="@info.valueDtoMap.FILE_INVESTMENT_CARD[0].displayName"></span><span class="need"><i class="fa fa-asterisk"></i></span></p>
+                            <div id="FILE_INVESTMENT_CARD_picupload"></div>
+                            <!-- 其他材料 -->
+                            <p class="filetxt"><span>3、</span><span :text="@info.valueDtoMap.FILE_OTHER[0].displayName"></span></p>
+                            <div id="FILE_OTHER_picupload"></div>
+                        </form>
+                    </div>
+                    <div class="func-box text-center">
+                        <button id="frontBtn" class="m-btn btn-sm" type="button">返回上一步</button>
+                        <button id="nextBtn" class="m-btn btn-sm m-l" type="button">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 图片裁剪弹框 start-->
+    <div class="modal fade" id="picCropModal" role="dialog" aria-labelledby="picCropModalLabel" aria-hidden="true">
+        <div class="modal-dialog pic-crop-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="picCropModalLabel">裁剪</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <img id="cropImg" src="" class="crop-img">
+                    </div>
+                    <div class="row m-t-sm">
+                        <div class="col-xs-7 p-r-none">
+                            <div class="btn-group">
+                                <a class="btn btn-danger btn-outline" title="重置" id="crop-tool-reset"><i class="fa fa-retweet"></i></a>
+                                <a class="btn btn-danger btn-outline" title="放大" id="crop-tool-zoomup"><i class="fa fa-search-plus"></i></a>
+                                <a class="btn btn-danger btn-outline" title="缩小" id="crop-tool-zoomdown"><i class="fa fa-search-minus"></i></a>
+                                <a class="btn btn-danger btn-outline" title="左移" id="crop-tool-moveleft"><i class="fa fa-arrow-left"></i></a>
+                                <a class="btn btn-danger btn-outline" title="右移" id="crop-tool-moveright"><i class="fa fa-arrow-right"></i></a>
+                                <a class="btn btn-danger btn-outline" title="上移" id="crop-tool-moveup"><i class="fa fa-arrow-up"></i></a>
+                                <a class="btn btn-danger btn-outline" title="下移" id="crop-tool-movedown"><i class="fa fa-arrow-down"></i></a>
+                                <a class="btn btn-danger btn-outline" title="旋转" id="crop-tool-rotate"><i class="fa fa-refresh"></i></a>
+                                <a class="btn btn-danger btn-outline" title="左旋" id="crop-tool-rotateleft"><i class="fa fa-rotate-left"></i></a>
+                                <a class="btn btn-danger btn-outline" title="右旋" id="crop-tool-rotateright"><i class="fa fa-rotate-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 p-l-none">
+                            <div class="row">
+                                <div class="col-xs-3 p-l-none p-r-none">
+                                    <small class="stats-label">宽</small>
+                                    <h4 class="m-t-none m-b-none"><span id="cropWidth"></span>px</h4>
+                                </div>
+                                <div class="col-xs-3 p-l-none p-r-none">
+                                    <small class="stats-label">高</small>
+                                    <h4 class="m-t-none m-b-none"><span id="cropHeight"></span>px</h4>
+                                </div>
+                                <div class="col-xs-3 p-l-none p-r-none">
+                                    <small class="stats-label">旋转</small>
+                                    <h4 class="m-t-none m-b-none"><span id="cropRotate"></span>&deg;</h4>
+                                </div>
+                                <div class="col-xs-3 p-l-none p-r-none">
+                                    <small class="stats-label">尺寸</small>
+                                    <h4 class="m-t-none m-b-none"><span id="cropSize"></span>KB</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="picCropModalBtn" type="button" class="btn btn-danger">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 图片裁剪弹框 end-->
+    <script src="../static/static/js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../static/static/js/bootstrap.min.js" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../static/static/js/cropper/cropper.js" th:src="@{/static/js/cropper/cropper.js}"></script>
+    <script src="../static/static/js/layer/layer.js" th:src="@{/static/js/layer/layer.js}"></script>
+    <script src="../static/static/js/avalon/avalon.js" th:src="@{/static/js/avalon/avalon.js}"></script>
+    <script src="../static/static/js/jsmd5/md5.min.js" th:src="@{/static/js/jsmd5/md5.min.js}"></script>
+    <script src="../static/static/js/ajaxfileupload.js" th:src="@{/static/js/ajaxfileupload.js}"></script>
+    <script src="../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <script src="../static/static/js/picupload.js" th:src="@{/static/js/picupload.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var isQuestions = [[${isQuestions}]];
+    var operation = [[${operation}]];
+    var businessId = [[${businessId}]];
+    // var isQuestions = false;
+    // var operation = 'FILE_DEPT_SPECIALTY';
+    // var businessId = 1;
+    var businessUrl = contextUrl + 'rest/business';
+    var uploadObj = {
+        urlContext: contextUrl,
+        urlBaseValue: businessUrl + '/findBusinessValueDtoById',
+        urlUpdate: businessUrl + '/updateBusiness',
+        urlComplete: businessUrl + '/complete',
+        picUploadUrl: contextUrl + 'rest/commons/uploadImgBase64',
+        uploadUrl: contextUrl + 'rest/commons/upload',
+        isQuestions: isQuestions,
+        fileType: operation,
+        businessId: businessId
+    };
+    $('#indexhref').attr('href', contextUrl);
+    </script>
+    <script src="../static/static/info/js/upload.js" th:src="@{/static/info/js/upload.js}"></script>
+</body>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+    <link href="../../static/static/css/pages/index_main.css" rel="stylesheet" th:href="@{/static/css/pages/index_main.css}">
+</head>
+
+<body :controller="indexMain" class="gray-bg">
+    <div class="wrapper wrapper-content index-box">
+        <div class="row">
+            <div :visible="@messageDocumentsLength > 0" class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>最新通知</h5>
+                    </div>
+                    <div class="ibox-content no-padding">
+                        <ul class="list-group">
+                            <li class="list-group-item" :for="e in @messageDocuments">
+                                <a :text="e.subject" :click="@newsClick(e)"></a>
+                            </li>
+                        </ul>
+                        <li id="messageDocumentsMore"></li>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>部门列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="orgaTree"></div>
+                    </div>
+                </div>
+            </div> -->
+            <div :visible="@dailyRuntimeLogLength > 0" class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>待办事项-运行日志</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="feed-activity-list">
+                            <div class="feed-element pb0">
+                                <small class="pull-right m-t-sm">您还有&nbsp;<span :text="@dailyRuntimeLogLength" class="label label-danger"></span>&nbsp;条需要填写</small>
+                                <h5 class="fz-clear">&nbsp;</h5>
+                                <ul class="list-group m-b-xxs">
+                                    <!--ms-for: e in @dailyRuntimeLog-->
+                                    <li class="list-group-item">
+                                        <a :text="e.taskName+' - '+e.organizationName" :click="@dailyRuntimeLogClick(e)"></a>
+                                    </li>
+                                    <!--ms-for-end:-->
+                                    <li id="dailyRuntimeLogMore"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div :visible="@emergencyPracticeLength > 0" class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>待办事项-应急演练</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="feed-activity-list">
+                            <div class="feed-element pb0">
+                                <small class="pull-right m-t-sm">您还有&nbsp;<span :text="@emergencyPracticeLength" class="label label-danger"></span>&nbsp;条需要填写</small>
+                                <h5 class="fz-clear">&nbsp;</h5>
+                                <ul class="list-group m-b-xxs">
+                                    <!--ms-for: e in @emergencyPractice-->
+                                    <li class="list-group-item">
+                                        <a :text="e.taskName+' - '+e.organizationName" :click="emergencyPracticeClick(e)"></a>
+                                    </li>
+                                    <!--ms-for-end:-->
+                                    <li id="emergencyPracticeMore"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div :visible="@testPesponseLength > 0" class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>待办事项-测试反馈</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="feed-activity-list">
+                            <div class="feed-element pb0">
+                                <small class="pull-right m-t-sm">您还有&nbsp;<span :text="@testPesponseLength" class="label label-danger"></span>&nbsp;条需要填写</small>
+                                <h5 class="fz-clear">&nbsp;</h5>
+                                <ul class="list-group m-b-xxs">
+                                    <!--ms-for: e in @testPesponse-->
+                                    <li class="list-group-item">
+                                        <a :text="e.taskName+' - '+e.organizationName" :click="@testPesponseClick(e)"></a>
+                                    </li>
+                                    <!--ms-for-end:-->
+                                    <li id="testPesponseMore"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div :visible="@equipmentManagementLength > 0" class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>待办事项-设备维护</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="feed-activity-list">
+                            <div class="feed-element pb0">
+                                <small class="pull-right m-t-sm">您还有&nbsp;<span :text="@equipmentManagementLength" class="label label-danger"></span>&nbsp;条需要填写</small>
+                                <h5 class="fz-clear">&nbsp;</h5>
+                                <ul class="list-group m-b-xxs">
+                                    <!--ms-for: e in @equipmentManagement-->
+                                    <li class="list-group-item">
+                                        <a :text="e.taskName+' - '+e.organizationName" :click="@equipmentManagementClick(e)"></a>
+                                    </li>
+                                    <!--ms-for-end:-->
+                                    <li id="equipmentManagementMore"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div :visible="@dynamicStatisticsLength > 0" class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>待办事项-在线填报</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="feed-activity-list">
+                            <div class="feed-element pb0">
+                                <small class="pull-right m-t-sm">您还有&nbsp;<span :text="@dynamicStatisticsLength" class="label label-danger"></span>&nbsp;条需要填写</small>
+                                <h5 class="fz-clear">&nbsp;</h5>
+                                <ul class="list-group m-b-xxs">
+                                    <!--ms-for: e in @dynamicStatistics-->
+                                    <li class="list-group-item">
+                                        <a :text="e.taskName+' - '+e.organizationName" :click="@dynamicStatisticsClick(e)"></a>
+                                    </li>
+                                    <!--ms-for-end:-->
+                                    <li id="dynamicStatisticsMore"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img src="../../static/static/img/loading.gif" th:src="@{/static/img/loading.gif}" width="17" height="17" id="loading" style="display: none;">
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/treeview/bootstrap-treeview.js" th:src="@{/static/js/plugins/treeview/bootstrap-treeview.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/plugins/avalon/avalon.js" th:src="@{/static/js/plugins/avalon/avalon.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/}) ">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx/";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript">
+    var indexUrl = contextUrl + 'rest/index';
+    var orgaUrl = contextUrl + 'rest/organization';
+    var indexObj = {
+        urlContext: contextUrl,
+        urlIndexTaskAll: indexUrl + '/findUnexecutedTaskExecutionAll',
+        urlIndexInitDailyRuntimeLog: indexUrl + '/initDailyRuntimeLog',
+        urlIndexInitEmergencyPractice: indexUrl + '/initEmergencyPractice',
+        urlIndexInitTestResponse: indexUrl + '/initTestResponse',
+        urlIndexInitEquipmentManagement: indexUrl + '/initEquipmentManagement',
+        urlIndexInitDynamicStatistics: indexUrl + '/initDynamicStatistics',
+        urlIndexMessageAll: indexUrl + '/findMessageDocumentAll',
+        urlIndexInitMessageDocument: indexUrl + '/initMessageDocument',
+        urlOrgaQuery: orgaUrl + '/list'
+    };
+    </script>
+    <!--<script src="../../static/static/js/index_main.js" th:src="@{/static/js/index_main.js}"></script>-->
+</body>
+
+</html>

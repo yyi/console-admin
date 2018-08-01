@@ -1,0 +1,30 @@
+/*首页*/
+.content {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.tipa {
+    margin-top: 80px;
+    font-size: 38px;
+    letter-spacing: 3px;
+}
+
+.tipb {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #cccccc;
+}
+
+.tipc {
+    margin-top: 80px;
+    font-size: 14px;
+}
+
+.myhr {
+    margin-bottom: 0;
+    border-color: #e01b21;
+    width: 600px;
+}

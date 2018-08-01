@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网下投资者信息填报系统-申请-填写基本信息</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" href="../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../static/static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link href="../static/static/css/font-awesome.min.css" rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link href="../static/static/css/style.min.css" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../static/static/info/css/common.css" rel="stylesheet" th:href="@{/static/info/css/common.css}">
+    <link href="../static/static/info/css/baseInfo.css" rel="stylesheet" th:href="@{/static/info/css/baseInfo.css}">
+</head>
+
+<body :controller="baseInfo">
+    <nav class="navbar navbar-default navbar-fixed-top border-bottom white-bg">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <a href="http://www.e5618.com/">
+                        <img src="../static/static/info/images/logo_new.gif" th:src="@{/static/info/images/logo_new.gif}">
+                    </a>
+                </div>
+                <div class="title">
+                    <h1>网下投资者信息填报系统</h1>
+                </div>
+                <div class="menu">
+                    <a id="indexhref">首页</a>
+                    <a href="logout">退出</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-wrapper">
+        <div class="row">
+            <div class="content">
+                <div class="c-navbox">
+                    <div class="fz-nav">
+                        <div class="nav-item item-first">
+                            <div class="item-txtbox"><span class="item-num">1</span><span class="item-txt">选择业务类型</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="item-txtbox"><span class="item-num">2</span><span class="item-txt">选择投资者类型</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item">
+                            <div class="item-txtbox"><span class="item-num">3</span><span class="item-txt">填报基础信息</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="nav-item item-last">
+                            <div class="item-txtbox"><span class="item-num">4</span><span class="item-txt">资料上传</span></div>
+                            <div class="item-arrows">
+                                <div class="item-right-max"></div>
+                                <div class="item-right-min"></div>
+                            </div>
+                        </div>
+                        <div class="fclear"></div>
+                    </div>
+                </div>
+                <div class="btn-box">
+                    <form class="form-horizontal" id="biForm">
+                        <!-- 债券-专业机构投资者 -->
+                        <div :if="@formType=='FILL_DEPT_ORGANIZATION_SPECIALTY'" class="form-box">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构名称/产品名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入机构名称/产品名称" :duplex="@info.valueDtoMap.ORGANIZATION_NAME[0].val" name="ORGANIZATION_NAME">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构类型</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" :duplex="@info.valueDtoMap.ORGANIZATION_TYPE[0].val">
+                                        <option value="">-请选择机构类型-</option>
+                                        <option value="经有关金融监管部门批准设立的金融机构，包括证券公司、期货公司、基金管理公司及其子公司、商业银行、保险公司、信托公司、财务公司等；经行业协会备案或者登记的证券公司子公司、期货公司子公司、私募基金管理人。">经有关金融监管部门批准设立的金融机构，包括证券公司、期货公司、基金管理公司及其子公司、商业银行、保险公司、信托公司、财务公司等；经行业协会备案或者登记的证券公司子公司、期货公司子公司、私募基金管理人。</option>
+                                        <option value="上述机构面向投资者发行的理财产品，包括但不限于证券公司资产管理产品、基金管理公司及其子公司产品、期货公司资产管理产品、银行理财产品、保险产品、信托产品、经行业协会备案的私募基金。">上述机构面向投资者发行的理财产品，包括但不限于证券公司资产管理产品、基金管理公司及其子公司产品、期货公司资产管理产品、银行理财产品、保险产品、信托产品、经行业协会备案的私募基金。</option>
+                                        <option value="社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，合格境外机构投资者（QFII）、人民币合格境外机构投资者（RQFII）。">社会保障基金、企业年金等养老基金，慈善基金等社会公益基金，合格境外机构投资者（QFII）、人民币合格境外机构投资者（RQFII）。</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人姓名，产品请输入管理人姓名" :duplex="@info.valueDtoMap.REPRESENTATIVE[0].val" name="REPRESENTATIVE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>开户时间</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入开户时间" :duplex="@info.valueDtoMap.CREATE_TIME[0].val" name="CREATE_TIME">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>控股股东或实际控制人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入控股股东或实际控制人" :duplex="@info.valueDtoMap.BOSS[0].val" name="BOSS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>资产规模（产品选择产品存续规模）</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" :duplex="@info.valueDtoMap.SCALE[0].val">
+                                        <option value="">-请选择资产规模(产品选择产品存续规模)-</option>
+                                        <option value="1亿以下">1亿以下</option>
+                                        <option value="1-5亿">1-5亿</option>
+                                        <option value="5-10亿">5-10亿</option>
+                                        <option value="10-20亿">10-20亿</option>
+                                        <option value="20-50亿">20-50亿</option>
+                                        <option value="50-100亿">50-100亿</option>
+                                        <option value="100亿元以上">100亿元以上</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>交易的实际受益人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入交易的实际受益人" :duplex="@info.valueDtoMap.BENEFICIARY[0].val" name="BENEFICIARY">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>住所</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入住所" :duplex="@info.valueDtoMap.ABODE[0].val" name="ABODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>联系地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入联系地址" :duplex="@info.valueDtoMap.ADDRESS[0].val" name="ADDRESS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>社会统一信用代码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入社会统一信用代码" :duplex="@info.valueDtoMap.CREDIT_CODE[0].val" name="CREDIT_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经办人姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经办人姓名" :duplex="@info.valueDtoMap.AGENT_NAME[0].val" name="AGENT_NAME">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经办人身份证件类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经办人身份证件类型" :duplex="@info.valueDtoMap.AGENT_CARD_TYPE[0].val" name="AGENT_CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经办人身份证件号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经办人身份证件号码" :duplex="@info.valueDtoMap.AGENT_CARD_NUMBER[0].val" name="AGENT_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经办人电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经办人电话" :duplex="@info.valueDtoMap.AGENT_TELEPHONE[0].val" name="AGENT_TELEPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经办人手机号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经办人手机号码" :duplex="@info.valueDtoMap.AGENT_IPHONE[0].val" name="AGENT_IPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经办人联系地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经办人联系地址" :duplex="@info.valueDtoMap.AGENT_ADDRESS[0].val" name="AGENT_ADDRESS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>邮政编码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入邮政编码" :duplex="@info.valueDtoMap.POSTAL_CODE[0].val" name="POSTAL_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Email地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入Email地址" :duplex="@info.valueDtoMap.EMAIL[0].val" name="EMAIL">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>诚信记录</label>
+                                <div class="col-sm-10">
+                                    <p class="credit-record-tip">是否有来源于以下机构的不良诚信记录</p>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioa1" value="无" name="radioa1" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radioa1">无</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioa2" value="有" name="radioa2" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radioa2">有</label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxa1" value="中国人民银行征信中心" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxa1">中国人民银行征信中心</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxa2" value="最高人民法院失信被执行人名单" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxa2">最高人民法院失信被执行人名单</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxa3" value="工商行政管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxa3">工商行政管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxa4" value="税务管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxa4">税务管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxa5" value="监管机构、自律组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxa5">监管机构、自律组织</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxa6" value="投资者在证券经营机构的失信记录" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxa6">投资者在证券经营机构的失信记录</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxa7" value="其他组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxa7">其他组织</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 债券-普通机构投资者 -->
+                        <div :if="@formType=='FILL_DEPT_ORGANIZATION_ORDINARY'" class="form-box">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入机构名称" :duplex="@info.valueDtoMap.ORGANIZATION_NAME[0].val" name="ORGANIZATION_NAME">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>控股股东或实际控制人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入控股股东或实际控制人" :duplex="@info.valueDtoMap.BOSS[0].val" name="BOSS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构类型</label>
+                                <div class="col-sm-10">
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiob1" value=">_<一般企业法人" name="radiob1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radiob1">一般企业法人</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiob2" value="其他组织" name="radiob1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radiob2">其他组织</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline p-t-none">
+                                        <input type="text" class="form-control" :visible="@ORGANIZATION_TYPE=='其他组织'" :duplex="@info.valueDtoMap.ORGANIZATION_TYPE[0].val">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>是否符合类型</label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb1" value="最近一年末净资产不低于2000万元" name="checkboxb1" :duplex="@IS_ORGANIZATION_TYPE_VALUE">
+                                        <label for="checkboxb1">最近一年末净资产不低于2000万元</label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb2" value="最近一年末金融资产不低于1000万元" name="checkboxb2" :duplex="@IS_ORGANIZATION_TYPE_VALUE">
+                                        <label for="checkboxb2">最近一年末金融资产不低于1000万元</label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb3" value="具有2年以上证券、基金、期货、黄金、外汇等投资经历" name="checkboxb3" :duplex="@IS_ORGANIZATION_TYPE_VALUE">
+                                        <label for="checkboxb3">具有2年以上证券、基金、期货、黄金、外汇等投资经历</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>住所地</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入住所地" :duplex="@info.valueDtoMap.ABODE[0].val" name="ABODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经营范围</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经营范围" :duplex="@info.valueDtoMap.SCOPE_OF_OPERATION[0].val" name="SCOPE_OF_OPERATION">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>组织机构代码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入组织机构代码" :duplex="@info.valueDtoMap.ORGANIZATION_CODE[0].val" name="ORGANIZATION_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>税务登记证号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入税务登记证号码" :duplex="@info.valueDtoMap.TAX_REGISTRATION_CARD_NUMBER[0].val" name="TAX_REGISTRATION_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>证明该机构依法设立或者可依法开展经营、社会活动的证照类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入证明该机构依法设立或者可依法开展经营、社会活动的证照类型" :duplex="@info.valueDtoMap.ORGANIZATION_CARD_TYPE[0].val" name="ORGANIZATION_CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>证明该机构依法设立或者可依法开展经营、社会活动的证照号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入证明该机构依法设立或者可依法开展经营、社会活动的证照号码" :duplex="@info.valueDtoMap.ORGANIZATION_CARD_NUMBER[0].val" name="ORGANIZATION_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>证明该机构依法设立或者可依法开展经营、社会活动的证照有效期限</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入证明该机构依法设立或者可依法开展经营、社会活动的证照有效期限" :duplex="@info.valueDtoMap.ORGANIZATION_CARD_DATE[0].val" name="ORGANIZATION_CARD_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构联系电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入机构联系电话" :duplex="@info.valueDtoMap.ORGANIZATION_TELEPHONE[0].val" name="ORGANIZATION_TELEPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>联系地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入联系地址" :duplex="@info.valueDtoMap.ORGANIZATION_ADDRESS[0].val" name="ORGANIZATION_ADDRESS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>邮政编码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入邮政编码" :duplex="@info.valueDtoMap.POSTAL_CODE[0].val" name="POSTAL_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人姓名，产品请输入管理人姓名" :duplex="@info.valueDtoMap.REPRESENTATIVE[0].val" name="REPRESENTATIVE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人身份证件类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人身份证件类型" :duplex="@info.valueDtoMap.REPRESENTATIVE_CARD_TYPE[0].val" name="REPRESENTATIVE_CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人身份证件号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人身份证件号码" :duplex="@info.valueDtoMap.REPRESENTATIVE_CARD_NUMBER[0].val" name="REPRESENTATIVE_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人身份证件有效期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人身份证件有效期" :duplex="@info.valueDtoMap.REPRESENTATIVE_CARD_DATE[0].val" name="REPRESENTATIVE_CARD_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人姓名" :duplex="@info.valueDtoMap.AUTHORIZATION[0].val" name="AUTHORIZATION">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人身份证件类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人身份证件类型" :duplex="@info.valueDtoMap.AUTHORIZATION_CARD_TYPE[0].val" name="AUTHORIZATION_CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人身份证件号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人身份证件号码" :duplex="@info.valueDtoMap.AUTHORIZATION_CARD_NUMBER[0].val" name="AUTHORIZATION_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人身份证件有效期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人身份证件有效期" :duplex="@info.valueDtoMap.AUTHORIZATION_CARD_DATE[0].val" name="AUTHORIZATION_CARD_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人电话" :duplex="@info.valueDtoMap.AUTHORIZATION_TELEPHONE[0].val" name="AUTHORIZATION_TELEPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人手机号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人手机号码" :duplex="@info.valueDtoMap.AUTHORIZATION_IPHONE[0].val" name="AUTHORIZATION_IPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人联系地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人联系地址" :duplex="@info.valueDtoMap.AUTHORIZATION_ADDRESS[0].val" name="AUTHORIZATION_ADDRESS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人邮政编码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人邮政编码" :duplex="@info.valueDtoMap.AUTHORIZATION_POSTAL_CODE[0].val" name="AUTHORIZATION_POSTAL_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人Email地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人Email地址" :duplex="@info.valueDtoMap.AUTHORIZATION_EMAIL[0].val" name="AUTHORIZATION_EMAIL">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>实际控制投资者的自然人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入实际控制投资者的自然人" :duplex="@info.valueDtoMap.INVESTOR_PERSON[0].val" name="INVESTOR_PERSON">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>交易的实际受益人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入交易的实际受益人" :duplex="@info.valueDtoMap.BENEFICIARY[0].val" name="BENEFICIARY">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>诚信记录</label>
+                                <div class="col-sm-10">
+                                    <p class="credit-record-tip">是否有来源于以下机构的不良诚信记录</p>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiob3" value="无" name="radiob2" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radiob3">无</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiob4" value="有" name="radiob2" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radiob4">有</label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb4" value="中国人民银行征信中心" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxb4">中国人民银行征信中心</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb5" value="最高人民法院失信被执行人名单" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxb5">最高人民法院失信被执行人名单</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb6" value="工商行政管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxb6">工商行政管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb7" value="税务管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxb7">税务管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb8" value="监管机构、自律组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxb8">监管机构、自律组织</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb9" value="投资者在证券经营机构的失信记录" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxb9">投资者在证券经营机构的失信记录</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxb10" value="其他组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxb10">其他组织</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 股票-机构投资者 -->
+                        <div :if="@formType=='FILL_SHARES_ORGANIZATION'" class="form-box">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入机构名称" :duplex="@info.valueDtoMap.ORGANIZATION_NAME[0].val" name="ORGANIZATION_NAME">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>控股股东或实际控制人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入控股股东或实际控制人" :duplex="@info.valueDtoMap.BOSS[0].val" name="BOSS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构类型</label>
+                                <div class="col-sm-10">
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc1" value=">_<金融机构" name="radioc1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radioc1">金融机构</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc2" value=">_<社会公益基金" name="radioc1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radioc2">社会公益基金</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc3" value=">_<QFII" name="radioc1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radioc3">QFII</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc4" value=">_<RQFII" name="radioc1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radioc4">RQFII</label>
+                                    </div>
+                                    <br>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc5" value=">_<一般企业法人" name="radioc1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radioc5">一般企业法人</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc6" value="其他组织" name="radioc1" :duplex="@ORGANIZATION_TYPE">
+                                        <label for="radioc6">其他组织</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline p-t-none">
+                                        <input type="text" class="form-control" :visible="@ORGANIZATION_TYPE=='其他组织'" :duplex="@info.valueDtoMap.ORGANIZATION_TYPE[0].val">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>住所地</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入住所地" :duplex="@info.valueDtoMap.ABODE[0].val" name="ABODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>经营范围</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入经营范围" :duplex="@info.valueDtoMap.SCOPE_OF_OPERATION[0].val" name="SCOPE_OF_OPERATION">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>组织机构代码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入组织机构代码" :duplex="@info.valueDtoMap.ORGANIZATION_CODE[0].val" name="ORGANIZATION_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>税务登记证号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入税务登记证号码" :duplex="@info.valueDtoMap.TAX_REGISTRATION_CARD_NUMBER[0].val" name="TAX_REGISTRATION_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>证明该机构依法设立或者可依法开展经营、社会活动的证照类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入证明该机构依法设立或者可依法开展经营、社会活动的证照类型" :duplex="@info.valueDtoMap.ORGANIZATION_CARD_TYPE[0].val" name="ORGANIZATION_CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>证明该机构依法设立或者可依法开展经营、社会活动的证照号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入证明该机构依法设立或者可依法开展经营、社会活动的证照号码" :duplex="@info.valueDtoMap.ORGANIZATION_CARD_NUMBER[0].val" name="ORGANIZATION_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>证明该机构依法设立或者可依法开展经营、社会活动的证照有效期限</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入证明该机构依法设立或者可依法开展经营、社会活动的证照有效期限" :duplex="@info.valueDtoMap.ORGANIZATION_CARD_DATE[0].val" name="ORGANIZATION_CARD_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>机构联系电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入机构联系电话" :duplex="@info.valueDtoMap.ORGANIZATION_TELEPHONE[0].val" name="ORGANIZATION_TELEPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>联系地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入联系地址" :duplex="@info.valueDtoMap.ORGANIZATION_ADDRESS[0].val" name="ORGANIZATION_ADDRESS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>邮政编码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入邮政编码" :duplex="@info.valueDtoMap.POSTAL_CODE[0].val" name="POSTAL_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人姓名" :duplex="@info.valueDtoMap.REPRESENTATIVE[0].val" name="REPRESENTATIVE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人身份证件类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人身份证件类型" :duplex="@info.valueDtoMap.REPRESENTATIVE_CARD_TYPE[0].val" name="REPRESENTATIVE_CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人身份证件号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人身份证件号码" :duplex="@info.valueDtoMap.REPRESENTATIVE_CARD_NUMBER[0].val" name="REPRESENTATIVE_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>法定代表人身份证件有效期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入法定代表人身份证件有效期" :duplex="@info.valueDtoMap.REPRESENTATIVE_CARD_DATE[0].val" name="REPRESENTATIVE_CARD_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人姓名" :duplex="@info.valueDtoMap.AUTHORIZATION[0].val" name="AUTHORIZATION">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人身份证件类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人身份证件类型" :duplex="@info.valueDtoMap.AUTHORIZATION_CARD_TYPE[0].val" name="AUTHORIZATION_CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人身份证件号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人身份证件号码" :duplex="@info.valueDtoMap.AUTHORIZATION_CARD_NUMBER[0].val" name="AUTHORIZATION_CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人身份证件有效期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人身份证件有效期" :duplex="@info.valueDtoMap.AUTHORIZATION_CARD_DATE[0].val" name="AUTHORIZATION_CARD_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人电话" :duplex="@info.valueDtoMap.AUTHORIZATION_TELEPHONE[0].val" name="AUTHORIZATION_TELEPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人手机号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人手机号码" :duplex="@info.valueDtoMap.AUTHORIZATION_IPHONE[0].val" name="AUTHORIZATION_IPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人联系地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人联系地址" :duplex="@info.valueDtoMap.AUTHORIZATION_ADDRESS[0].val" name="AUTHORIZATION_ADDRESS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人邮政编码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人邮政编码" :duplex="@info.valueDtoMap.AUTHORIZATION_POSTAL_CODE[0].val" name="AUTHORIZATION_POSTAL_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>授权代表人Email地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入授权代表人Email地址" :duplex="@info.valueDtoMap.AUTHORIZATION_EMAIL[0].val" name="AUTHORIZATION_EMAIL">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>实际控制投资者的自然人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入实际控制投资者的自然人" :duplex="@info.valueDtoMap.INVESTOR_PERSON[0].val" name="INVESTOR_PERSON">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>交易的实际受益人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入交易的实际受益人" :duplex="@info.valueDtoMap.BENEFICIARY[0].val" name="BENEFICIARY">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>诚信记录</label>
+                                <div class="col-sm-10">
+                                    <p class="credit-record-tip">是否有来源于以下机构的不良诚信记录</p>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc7" value="无" name="radioc2" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radioc7">无</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radioc8" value="有" name="radioc2" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radioc8">有</label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxc1" value="中国人民银行征信中心" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxc1">中国人民银行征信中心</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxc2" value="最高人民法院失信被执行人名单" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxc2">最高人民法院失信被执行人名单</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxc3" value="工商行政管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxc3">工商行政管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxc4" value="税务管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxc4">税务管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxc5" value="监管机构、自律组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxc5">监管机构、自律组织</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxc6" value="投资者在证券经营机构的失信记录" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxc6">投资者在证券经营机构的失信记录</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxc7" value="其他组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxc7">其他组织</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 股票-自然人投资者 -->
+                        <div :if="@formType=='FILL_SHARES_EVERYMAN'" class="form-box">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入姓名" :duplex="@info.valueDtoMap.NAME[0].val" name="NAME">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>性别</label>
+                                <div class="col-sm-10">
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod21" value="男" name="SEX" :duplex="@info.valueDtoMap.SEX[0].val">
+                                        <label for="radiod21">男</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod22" value="女" name="SEX" :duplex="@info.valueDtoMap.SEX[0].val">
+                                        <label for="radiod22">女</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>出生年月</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入出生年月" :duplex="@info.valueDtoMap.BIRTH_DATE[0].val" name="BIRTH_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>国籍</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入国籍" :duplex="@info.valueDtoMap.NATIONALITY[0].val" name="NATIONALITY">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>实际控制投资者的自然人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入实际控制投资者的自然人" :duplex="@info.valueDtoMap.INVESTOR_PERSON[0].val" name="INVESTOR_PERSON">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>交易的实际受益人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入交易的实际受益人" :duplex="@info.valueDtoMap.BENEFICIARY[0].val" name="BENEFICIARY">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>职业</label>
+                                <div class="col-sm-10">
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod1" value=">_<党政机关工作人员" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod1">党政机关工作人员</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod2" value=">_<企事业单位职工" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod2">企事业单位职工</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod3" value=">_<农民" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod3">农民</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod4" value=">_<个体工商户" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod4">个体工商户</label>
+                                    </div>
+                                    <br>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod5" value=">_<注册会计师" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod5">注册会计师</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod6" value=">_<律师" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod6">律师</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod7" value=">_<学生" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod7">学生</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod8" value=">_<金融机构从业人员" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod8">金融机构从业人员</label>
+                                    </div>
+                                    <br>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod9" value=">_<金融机构高级管理人员" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod9">金融机构高级管理人员</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod10" value=">_<无业" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod10">无业</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod11" value="其他" name="radiod1" :duplex="@OCCUPATION">
+                                        <label for="radiod11">其他</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline p-t-none">
+                                        <input type="text" class="form-control" :visible="@OCCUPATION=='其他'" :duplex="@info.valueDtoMap.OCCUPATION[0].val">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>工作单位</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入工作单位" :duplex="@info.valueDtoMap.WORK_UNIT[0].val" name="WORK_UNIT">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>职务</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入职务" :duplex="@info.valueDtoMap.post[0].val" name="post">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>学历</label>
+                                <div class="col-sm-10">
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod12" value="博士" name="radiod2" :duplex="@info.valueDtoMap.EDUCATION[0].val">
+                                        <label for="radiod12">博士</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod13" value="硕士" name="radiod2" :duplex="@info.valueDtoMap.EDUCATION[0].val">
+                                        <label for="radiod13">硕士</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod14" value="本科" name="radiod2" :duplex="@info.valueDtoMap.EDUCATION[0].val">
+                                        <label for="radiod14">本科</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod15" value="大专" name="radiod2" :duplex="@info.valueDtoMap.EDUCATION[0].val">
+                                        <label for="radiod15">大专</label>
+                                    </div>
+                                    <br>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod16" value="中专" name="radiod2" :duplex="@info.valueDtoMap.EDUCATION[0].val">
+                                        <label for="radiod16">中专</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod17" value="高中" name="radiod2" :duplex="@info.valueDtoMap.EDUCATION[0].val">
+                                        <label for="radiod17">高中</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod18" value="初中及以下" name="radiod2" :duplex="@info.valueDtoMap.EDUCATION[0].val">
+                                        <label for="radiod18">初中及以下</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>诚信记录</label>
+                                <div class="col-sm-10">
+                                    <p class="credit-record-tip">是否有来源于以下机构的不良诚信记录</p>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod19" value="无" name="radiod3" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radiod19">无</label>
+                                    </div>
+                                    <div class="radio radio-danger radio-inline">
+                                        <input type="radio" id="radiod20" value="有" name="radiod3" :duplex="@CREDIT_RECORD_RADIO">
+                                        <label for="radiod20">有</label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxd1" value="中国人民银行征信中心" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxd1">中国人民银行征信中心</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxd2" value="最高人民法院失信被执行人名单" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxd2">最高人民法院失信被执行人名单</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxd3" value="工商行政管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxd3">工商行政管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxd4" value="税务管理机构" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxd4">税务管理机构</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxd5" value="监管机构、自律组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxd5">监管机构、自律组织</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxd6" value="投资者在证券经营机构的失信记录" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxd6">投资者在证券经营机构的失信记录</label>
+                                    </div>
+                                    <div class="checkbox checkbox-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxd7" value="其他组织" :attr="{disabled:(@CREDIT_RECORD_RADIO!='有')?true:false}" :duplex="@CREDIT_RECORD_VALUE">
+                                        <label for="checkboxd7">其他组织</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>身份证件类型</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入身份证件类型" :duplex="@info.valueDtoMap.CARD_TYPE[0].val" name="CARD_TYPE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>身份证件号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入身份证件号码" :duplex="@info.valueDtoMap.CARD_NUMBER[0].val" name="CARD_NUMBER">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>身份证件有效期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入身份证件有效期" :duplex="@info.valueDtoMap.CARD_DATE[0].val" name="CARD_DATE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>固定电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入固定电话" :duplex="@info.valueDtoMap.TELEPHONE[0].val" name="TELEPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>手机号码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入手机号码" :duplex="@info.valueDtoMap.IPHONE[0].val" name="IPHONE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>联系地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入联系地址" :duplex="@info.valueDtoMap.ADDRESS[0].val" name="ADDRESS">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>邮政编码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入邮政编码" :duplex="@info.valueDtoMap.POSTAL_CODE[0].val" name="POSTAL_CODE">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="need"><i class="fa fa-asterisk"></i></span>Email</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="请输入Email地址" :duplex="@info.valueDtoMap.EMAIL[0].val" name="EMAIL">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="footer-box">
+                        <p class="text-center">您留的手机号码和Email地址将在您找回密码时使用，请务必填写正确</p>
+                        <div class="checkbox checkbox-danger checkbox-inline">
+                            <input type="checkbox" id="comfirmchk" ms-duplex-checked="@comfirmValue" :change="@comfirmChange">
+                            <label for="comfirmchk">本机构保证资金来源的合法性和所提供资料的真实性、准确性、完整性，并对其承担责任。若本人提供的信息发生任何重大变化，本人将及时书面通知贵公司。</label>
+                        </div>
+                    </div>
+                    <div class="func-box text-center">
+                        <button id="nextBtn" class="m-btn btn-sm" type="button">继续</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../static/static/js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../static/static/js/validate/jquery.validate.js" th:src="@{/static/js/validate/jquery.validate.js}"></script>
+    <script src="../static/static/js/bootstrap.min.js" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../static/static/js/layer/layer.js" th:src="@{/static/js/layer/layer.js}"></script>
+    <script src="../static/static/js/avalon/avalon.js" th:src="@{/static/js/avalon/avalon.js}"></script>
+    <script src="../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var operation = [[${operation}]];
+    var businessId = [[${businessId}]];
+    var businessUrl = contextUrl + 'rest/business';
+    var baseInfoObj = {
+        urlContext: contextUrl,
+        urlBaseValue: businessUrl + '/findBusinessValueDtoById',
+        urlUpdate: businessUrl + '/updateBusiness',
+        formType: operation,
+        businessId: businessId
+    };
+    $('#indexhref').attr('href', contextUrl);
+    </script>
+    <script src="../static/static/info/js/baseInfo.js" th:src="@{/static/info/js/baseInfo.js}"></script>
+</body>

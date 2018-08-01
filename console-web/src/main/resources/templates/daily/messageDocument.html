@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息文档管理</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+</head>
+
+<body class="gray-bg">
+    <div id="u_header" class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <div class="title-queryform">
+                <form id="queryForm" role="queryForm" class="form-inline">
+                    <div class="form-group">
+                        <label for="" class="control-label">主题：</label>
+                        <input type="text" placeholder="请输入主题" id="subject_query" name="subject" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">类型：</label>
+                        <select class="form-control" id="type_select" name="type">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">部门：</label>
+                        <select class="form-control" id="organizationNo_select" name="organizationNo">
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="title-querybtn">
+                <a class="btn btn-primary" id="queryBtn">查询</a>
+            </div>
+        </div>
+    </div>
+    <div id="u_toolbar" class="row wrapper border-bottom white-bg wrapper-content">
+        <div class="col-sm-12">
+            <div class="toolbar-box text-left">
+                <button id="add_btn" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i>&nbsp;新增</button>
+                <button id="edit_btn" class="btn btn-success" type="button" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit"></i>&nbsp;修改</button>
+                <button id="delete_btn" class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-remove"></i>&nbsp;删除</button>
+            </div>
+        </div>
+    </div>
+    <div class="row datagrid-box white-bg border-bottom">
+        <div class="col-sm-12">
+            <table id="maindatagrid"></table>
+        </div>
+    </div>
+    <!-- 增删改弹框 start -->
+    <!-- 新增 -->
+    <div class="modal fade" id="addModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addModalLabel">新增</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm" role="form" class="form-horizontal" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="form-group">
+                            <label class="control-label">主题：</label>
+                            <input type="text" placeholder="请输入主题" class="form-control" id="subject_add" name="subject" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">类型：</label>
+                            <select class="form-control m-b" id="type_add" name="type"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">部门：</label>
+                            <select class="form-control m-b" id="organizationNo_add" name="organizationNo"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">内容：</label>
+                            <textarea rows="3" placeholder="请输入内容" class="form-control" id="name_content" name="content" maxlength="1000"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">附件：</label>
+                            <div id="file_add"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span id="addFormErrMsg" class="pull-left errmsg m-t-xs"></span>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="addModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 修改 -->
+    <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="editModalLabel">修改</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" role="form" class="form-horizontal" enctype="application/x-www-form-urlencoded" method="post">
+                        <input type="hidden" id="id_edit" name="id">
+                        <div class="form-group">
+                            <label class="control-label">主题：</label>
+                            <input type="text" placeholder="请输入主题" class="form-control" id="subject_edit" name="subject" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">类型：</label>
+                            <select class="form-control m-b" id="type_edit" name="type"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">部门：</label>
+                            <select class="form-control m-b" id="organizationNo_edit" name="organizationNo"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">内容：</label>
+                            <textarea rows="3" placeholder="请输入内容" class="form-control" id="content_edit" name="content" maxlength="1000"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">附件：</label>
+                            <div id="file_edit"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span id="editFormErrMsg" class="pull-left errmsg m-t-xs"></span>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="editModalBtn" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除 -->
+    <div class="modal fade" id="deleteModal" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="deleteModalLabel">删除</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确定删除吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button id="deleteModalBtn" type="button" class="btn btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 增删改弹框 end-->
+    <!-- 全局js -->
+    <script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+    <script src="../../static/static/js/plugins/validate/jquery.validate.js" th:src="@{/static/js/plugins/validate/jquery.validate.js}"></script>
+    <script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.js}"></script>
+    <script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+    <script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <script src="../../static/static/js/plugins/jsmd5/md5.min.js" th:src="@{/static/js/plugins/jsmd5/md5.min.js}"></script>
+    <script src="../../static/static/js/ajaxfileupload.js" th:src="@{/static/js/ajaxfileupload.js}"></script>
+    <script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+    <!-- 自定义js -->
+    <!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest})">
+    /*/-->
+    <script type="text/javascript">
+    var contextUrl = "/nginx/messageDocument";
+    </script>
+    <!--/*/
+    </th:block>
+    /*/-->
+    <script type="text/javascript" th:inline="javascript">
+    var dictionary = [[${data}]];
+    var organizationList = [[${organizationList}]];
+
+    var messageUrl = contextUrl + '/messageDocument';
+    var commonsUrl = contextUrl + '/commons';
+
+    var messageDocumentObj = {
+        urlContext: contextUrl,
+        urlUserQuery: messageUrl + '/list',
+        urlUserAdd: messageUrl + '/create',
+        urlUserEdit: messageUrl + '/update',
+        urlUserDelete: messageUrl + '/delete'
+    };
+    </script>
+    <script src="../../static/static/js/daily/messageDocument.js" th:src="@{/static/js/daily/messageDocument.js}"></script>
+</body>
+
+</html>

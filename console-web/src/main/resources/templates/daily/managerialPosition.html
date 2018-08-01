@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理岗查询</title>
+    <link rel="shortcut icon" href="../../static/static/favicon.ico" th:href="@{/static/favicon.ico}">
+    <link href="../../static/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet" th:href="@{/static/css/bootstrap.min14ed.css}">
+    <link href="../../static/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
+    <link href="../../static/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet" th:href="@{/static/css/font-awesome.min93e3.css}">
+    <link href="../../static/static/css/animate.min.css" rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link href="../../static/static/css/style.min.css?v=4.1.0" rel="stylesheet" th:href="@{/static/css/style.min.css}">
+    <link href="../../static/static/css/common/common-page.css" rel="stylesheet" th:href="@{/static/css/common/common-page.css}">
+</head>
+
+<body class="gray-bg">
+<div id="u_header" class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-10">
+        <div class="title-queryform">
+            <form id = "queryForm" role="form" class="form-inline">
+                <div class="form-group">
+                    <label for="username" class="control-label">登录名：</label>
+                    <input type="text" placeholder="请输入登录名" id="username" name="username" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="oaName" class="control-label">OA账户：</label>
+                    <input type="text" placeholder="请输入OA账户" id="oaName" name="oaName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="oaName" class="control-label">姓名：</label>
+                    <input type="text" placeholder="请输入姓名" id="name" name="name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="oaName" class="control-label">岗位：</label>
+                    <select class="form-control" id="station" name="station">
+                        <option value="">全部</option>
+                        <option value="信息管理岗">信息管理岗</option>
+                        <option value="信息维护岗">信息维护岗</option>
+                        <option value="信息备岗">信息备岗</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="title-querybtn">
+            <a class="btn btn-primary" id="queryBtn">查询</a>
+        </div>
+    </div>
+</div>
+<div id="u_toolbar" class="row wrapper border-bottom white-bg wrapper-content">
+    <div class="col-sm-12">
+        <div class="toolbar-box text-left">
+            <button id="add_btn" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i>&nbsp;新增</button>
+            <button id="delete_btn" class="btn btn-success" type="button" data-toggle="modal" data-target="#deleteModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit"></i>&nbsp;离岗</button>
+            <a id="export_btn" class="btn btn-primary" type="button" href=''
+               data-backdrop="static" data-keyboard="false"><i class="fa fa-book"></i>&nbsp;导出数据
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row datagrid-box white-bg border-bottom">
+    <div class="col-sm-12">
+        <table id="managerialPositionGrid"></table>
+    </div>
+</div>
+<!-- 增改弹框 start -->
+<!-- 新增 -->
+<div class="modal fade" id="addModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">新增</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm" role="form" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label">信息管理岗-登录名：</label>
+                        <input type="text" placeholder="请输入登录名" class="form-control" id="username_add" name="username" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">OA账户：</label>
+                        <input type="text" placeholder="请输入OA账户" class="form-control" id="oaName_add" name="oaName" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">邮箱：</label>
+                        <input type="text" placeholder="请输入邮箱" class="form-control" id="email_add" name="email" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">姓名：</label>
+                        <input type="text" placeholder="请输入姓名" class="form-control" id="name_add" name="name" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">电话：</label>
+                        <input type="text" placeholder="请输入电话号码" class="form-control" id="mobileNo_add" name="mobileNo" maxlength="13">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">座机：</label>
+                        <input type="text" placeholder="请输入座机号码" class="form-control" id="landlineNo_add" name="landlineNo" maxlength="13">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">岗位：</label>
+                        <select class="form-control" id="station_add" name="station">
+                            <option value="信息管理岗">信息管理岗</option>
+                            <option value="信息维护岗">信息维护岗</option>
+                            <option value="信息备岗">信息备岗</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">备注：</label>
+                        <textarea rows="3" placeholder="请填写信息备岗的兼职岗位及CRM账户，用于加分核对" class="form-control" id="name_remark" name="remark"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span id="addFormErrMsg" class="pull-left errmsg m-t-xs"></span>
+                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                <button id="addModalBtn" type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 删除 -->
+<div class="modal fade" id="deleteModal" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="deleteModalLabel">离岗</h4>
+            </div>
+            <div class="modal-body">
+                <p>确定离岗吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                <button id="deleteModalBtn" type="button" class="btn btn-danger">离岗</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 增改弹框 end-->
+
+<!-- 全局js -->
+<script src="../../static/static/js/jquery.min.js?v=2.1.4" th:src="@{/static/js/jquery.min.js}"></script>
+<script src="../../static/static/js/plugins/validate/jquery.validate.js" th:src="@{/static/js/plugins/validate/jquery.validate.js}"></script>
+<script src="../../static/static/js/bootstrap.min.js?v=3.3.6" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script src="../../static/static/js/plugins/bootstrap-table/bootstrap-table.js" th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.js}"></script>
+<script src="../../static/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script src="../../static/static/js/plugins/layer/layer.min.js" th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+<script src="../../static/static/js/tools.js" th:src="@{/static/js/tools.js}"></script>
+<!-- 自定义js -->
+<!--/*/
+    <th:block th:include="common/fragment::contextUrl(@{/rest})">
+    /*/-->
+<script type="text/javascript">
+    var contextUrl = "/nginx";
+</script>
+<!--/*/
+</th:block>
+/*/-->
+<script type="text/javascript" th:inline="javascript">
+
+    var dictionary = [[${data}]];
+    var systemLogUrl = contextUrl + '/managerialPosition';
+    var elementObj = {
+        urlContext: systemLogUrl,
+        urlElementQuery: systemLogUrl + '/list',
+        urlElementAdd: systemLogUrl + '/create',
+        urlElementEdit: systemLogUrl + '/update',
+        urlElementExport: systemLogUrl + '/export'
+    };
+</script>
+<script src="../../static/static/js/daily/managerialPosition.js" th:src="@{/static/js/daily/managerialPosition.js}"></script>
+</body>
+
+</html>

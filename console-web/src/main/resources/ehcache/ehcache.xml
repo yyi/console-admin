@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="es">
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <cacheManagerPeerProviderFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+            properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1, multicastGroupPort=4446,
+        multicastPacketTimeToLive=32"/>
+
+    <cacheManagerPeerListenerFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+            properties="port=40001"/>
+
+    <defaultCache maxElementsInMemory="10000" eternal="false"
+                  timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"
+                  maxElementsOnDisk="10000000" diskPersistent="false"
+                  diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="passwordRetryCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+    </cache>
+
+    <cache name="com.founder.shiro.realm.UserRealm.authorizationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+    </cache>
+
+    <cache name="authorizationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+    </cache>
+
+    <cache name="com.founder.shiro.realm.UserRealm.authenticationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+    </cache>
+
+    <cache name="authenticationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+    </cache>
+
+    <cache name="shiro-activeSessionCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+    </cache>
+
+    <cache name="captchaStoreCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"/>
+    </cache>
+
+</ehcache>

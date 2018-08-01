@@ -1,0 +1,6 @@
+<th:block th:fragment="contextUrl(url)" xmlns:th="http://www.thymeleaf.org">
+    <input type="hidden" id="urlContext" th:value="${url}">
+    <script type="text/javascript">
+    var contextUrl = $("#urlContext").val();
+    </script>
+</th:block>
