@@ -1,6 +1,8 @@
 package com.founder.domain.sysadmin;
 
-public interface CredentialedUser {
+import java.io.Serializable;
+
+public interface CredentialedUser extends Serializable {
     void  setSalt(String salt);
     String getPasswd();
     String getCredentialsSalt();
