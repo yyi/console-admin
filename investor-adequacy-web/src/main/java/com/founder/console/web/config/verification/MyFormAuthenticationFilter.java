@@ -1,4 +1,4 @@
-package com.founder.console.web.config;
+package com.founder.console.web.config.verification;
 
 import com.founder.console.web.captcha.LoginFormAuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
