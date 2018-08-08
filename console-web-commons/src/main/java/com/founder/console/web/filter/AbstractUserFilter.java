@@ -24,7 +24,7 @@ public abstract class AbstractUserFilter extends PathMatchingFilter {
             Object user = session.getAttribute(Constants.CURRENT_USER);
             if(Objects.isNull(user)){
                 user = getCurrentUser(username);
-                session.setAttribute(Constants.CURRENT_USER, user);
+//                session.setAttribute(Constants.CURRENT_USER, user);
             }
             request.setAttribute(Constants.CURRENT_USER, user);
         }
