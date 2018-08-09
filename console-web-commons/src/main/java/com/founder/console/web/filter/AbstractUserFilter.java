@@ -20,16 +20,20 @@ public abstract class AbstractUserFilter extends PathMatchingFilter {
         HttpServletRequest req = (HttpServletRequest) request;
 
         if (!StringUtils.isEmpty(username)) {
-            HttpSession session = req.getSession();
-            Object user = session.getAttribute(Constants.CURRENT_USER);
-            if(Objects.isNull(user)){
-                user = getCurrentUser(username);
-//                session.setAttribute(Constants.CURRENT_USER, user);
-            }
-            request.setAttribute(Constants.CURRENT_USER, user);
+            Object user = getCurrentSessionUser(req);
+            putCurrentUser2Request(request, username, user);
         }
 
         return true;
+    }
+
+    private void putCurrentUser2Request(ServletRequest request, String username, Object user) {
+        request.setAttribute(Constants.CURRENT_USER, Objects.nonNull(user) ? user : getCurrentUser(username));
+    }
+
+    private Object getCurrentSessionUser(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        return session.getAttribute(Constants.CURRENT_USER);
     }
 
     abstract Object getCurrentUser(String username);
