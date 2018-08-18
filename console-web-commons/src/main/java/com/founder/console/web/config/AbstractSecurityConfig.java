@@ -2,6 +2,7 @@ package com.founder.console.web.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.founder.console.web.captcha.*;
+import com.founder.console.web.tag.JExtDialect;
 import com.founder.shiro.autenticator.FirstExceptionStrategy;
 import com.founder.shiro.credentials.RetryLimitHashedCredentialsMatcher;
 import com.founder.shiro.spring.SpringCacheManagerWrapper;
@@ -299,5 +300,10 @@ public abstract class AbstractSecurityConfig {
     @Bean
     public ShiroDialect shiroDialect() {
         return new ShiroDialect();
+    }
+
+    @Bean
+    public JExtDialect jExtDialect(){
+        return new JExtDialect();
     }
 }
