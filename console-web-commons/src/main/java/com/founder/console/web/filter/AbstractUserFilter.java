@@ -20,7 +20,7 @@ public abstract class AbstractUserFilter extends PathMatchingFilter {
         HttpServletRequest req = (HttpServletRequest) request;
 
         if (!StringUtils.isEmpty(username)) {
-            Object user = getCurrentSessionUser(req);
+            Object user = getCurrentSessionUser(req, username);
             putCurrentUser2Request(request, username, user);
         }
 
@@ -28,12 +28,22 @@ public abstract class AbstractUserFilter extends PathMatchingFilter {
     }
 
     private void putCurrentUser2Request(ServletRequest request, String username, Object user) {
-        request.setAttribute(Constants.CURRENT_USER, Objects.nonNull(user) ? user : getCurrentUser(username));
+        request.setAttribute(Constants.CURRENT_USER, user);
     }
 
-    private Object getCurrentSessionUser(HttpServletRequest req) {
+    private Object getCurrentSessionUser(HttpServletRequest req, String username) {
         HttpSession session = req.getSession();
-        return session.getAttribute(Constants.CURRENT_USER);
+        Object user = session.getAttribute(Constants.CURRENT_USER);
+        user = putSessionIfAbsentUser(username, session, user);
+        return user;
+    }
+
+    private Object putSessionIfAbsentUser(String username, HttpSession session, Object user) {
+        if (Objects.isNull(user)) {
+            user = getCurrentUser(username);
+            session.setAttribute(Constants.CURRENT_USER, user);
+        }
+        return user;
     }
 
     abstract Object getCurrentUser(String username);

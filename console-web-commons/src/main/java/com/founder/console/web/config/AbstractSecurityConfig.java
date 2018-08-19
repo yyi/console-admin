@@ -62,7 +62,7 @@ public abstract class AbstractSecurityConfig {
         // 启动Redis缓存的默认设置
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         // 设置JDK序列化器
-        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer()));
+        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new KyroSerializer()));
         // 禁用前缀
         config = config.disableKeyPrefix();
         //设置30分钟超时
