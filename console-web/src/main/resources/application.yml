@@ -73,7 +73,7 @@ spring:
       max-active: 8
       max-wait: -1
   thymeleaf:
-    cache: false
+    cache: true
     mode: HTML
   aop:
     auto: true

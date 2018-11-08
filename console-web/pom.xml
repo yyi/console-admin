@@ -15,8 +15,7 @@
     </parent>
 
     <properties>
-        <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
-        <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+
         <start-class>com.founder.console.web.ConsoleWebApplication</start-class>
 
     </properties>

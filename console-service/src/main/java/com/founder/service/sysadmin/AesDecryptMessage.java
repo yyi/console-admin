@@ -1,14 +1,13 @@
 package com.founder.service.sysadmin;
 
 import com.founder.contract.sysadmin.DecryptMessage;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import java.security.Key;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 public class AesDecryptMessage implements DecryptMessage {
     private static Key key;
@@ -30,7 +29,7 @@ public class AesDecryptMessage implements DecryptMessage {
     }
 
     public static String getEncryptString(String str){
-        BASE64Encoder base64Encoder = new BASE64Encoder();
+
         System.out.println(key);
         try
         {
@@ -38,7 +37,7 @@ public class AesDecryptMessage implements DecryptMessage {
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encryptStrBytes = cipher.doFinal(strBytes);
-            return base64Encoder.encode(encryptStrBytes);
+            return new String( Base64.getEncoder().encode(encryptStrBytes));
         }
         catch (Exception e)
         {
@@ -49,10 +48,10 @@ public class AesDecryptMessage implements DecryptMessage {
 
 
     public static String getDecryptString(String str){
-        BASE64Decoder base64Decoder = new BASE64Decoder();
+
         try
         {
-            byte[] strBytes = base64Decoder.decodeBuffer(str);
+            byte[] strBytes = Base64.getDecoder().decode(str);
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] encryptStrBytes = cipher.doFinal(strBytes);

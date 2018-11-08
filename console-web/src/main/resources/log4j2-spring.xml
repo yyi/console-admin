@@ -1,4 +1,5 @@
 <Configuration monitorInterval="60">
+    <configuration status="info" packages="com.founder.log"/>
     <Properties>
         <Property name="log-path">../logs</Property>
     </Properties>
@@ -6,23 +7,25 @@
         <Console name="Console-Appender" target="SYSTEM_OUT">
             <PatternLayout>
                 <pattern>
-                    %d %p %C{1.} [%t] %m%n
+                    <!--lodId:%-10y  %d %p %C{1.} [%t] %m%n-->
+                     %d %p %C{1.} [%t] %m%n
                 </pattern>>
             </PatternLayout>
         </Console>
-        <RollingFile name="App-File-Appender" fileName="${log-path}/console_log.log" filePattern="${log-path}/app_log.%d{yyyy-MM-dd}.log" append="true">
+        <RollingFile name="App-File-Appender" fileName="${log-path}/console_log.log"
+                     filePattern="${log-path}/app_log.%d{yyyy-MM-dd}.log" append="true">
             <PatternLayout pattern=" %d %p %C{1.} [%t] %m%n"/>
             <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
             </Policies>
         </RollingFile>
     </Appenders>
     <Loggers>
-    <!--    <Logger name="org.apache.shiro" level="debug" additivity="false">
-            <AppenderRef ref="Console-Appender"/>
-            <AppenderRef ref="App-File-Appender"/>
-        </Logger>-->
-        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+        <!--    <Logger name="org.apache.shiro" level="debug" additivity="false">
+                <AppenderRef ref="Console-Appender"/>
+                <AppenderRef ref="App-File-Appender"/>
+            </Logger>-->
+        <Logger name="org.hibernate.SQL" level="info" additivity="false">
             <AppenderRef ref="Console-Appender"/>
             <AppenderRef ref="App-File-Appender"/>
         </Logger>
@@ -31,7 +34,7 @@
               <AppenderRef ref="App-File-Appender"/>
           </Logger>-->
         <Root level="info">
-            <AppenderRef ref="Console-Appender" />
+            <AppenderRef ref="Console-Appender"/>
             <AppenderRef ref="App-File-Appender"/>
         </Root>
     </Loggers>

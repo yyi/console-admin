@@ -17,7 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -158,7 +159,7 @@ public class CommonController {
         String relFilePath = separator + yearAndMonth + separator + newFileName;
 
 
-        BASE64Decoder decoder = new BASE64Decoder();
+
 
         FileOutputStream fos = null;
         try {
@@ -171,7 +172,7 @@ public class CommonController {
 
 
             //imgBase64 = URLDecoder.decode(imgBase64,"UTF-8");
-            byte[] decodedBytes = decoder.decodeBuffer(imgBase64);// 将字符串格式的imagedata转为二进制流（biye[])的decodedBytes
+            byte[] decodedBytes = Base64.getDecoder().decode(imgBase64);// 将字符串格式的imagedata转为二进制流（biye[])的decodedBytes
 
 
             fos = new FileOutputStream(absFilePath);
