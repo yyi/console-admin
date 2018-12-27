@@ -38,8 +38,8 @@ public class UserRestfulController {
 
     @RequiresPermissions("user:create")
     @RequestMapping("/create")
-    public UserDto createUser(
-            UserDto userDto) {
+    public UserDto createUser(@RequestBody
+                                          UserDto userDto) {
         User user = userMapper.UserDtoToUser(userDto);
         user = userService.createUser(user,userDto.getRoleIds(),userDto.getOrganizationIds());
         return userMapper.userToUserDto(user);
