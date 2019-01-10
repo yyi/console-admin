@@ -73,6 +73,7 @@ public class SecurityConfig extends  AbstractSecurityConfig {
         chains.put("/**/*.css", "anon");
         chains.put("/**/*.js", "anon");
         chains.put("/static/**/*", "anon");
+        chains.put("/spa/**/*", "anon");
         chains.put("/login", "jCaptchaValidate,authc");
         chains.put("/logout", "logout");
         chains.put("/rest/**", "authc");

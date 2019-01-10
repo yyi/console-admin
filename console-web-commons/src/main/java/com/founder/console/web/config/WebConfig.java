@@ -18,7 +18,7 @@ public class WebConfig extends AbstractWebConfiguration {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/static/");
+        registry.addResourceHandler("/static/**","/spa/**").addResourceLocations("classpath:/static/static/","classpath:/static/spa/");
     }
 
 
