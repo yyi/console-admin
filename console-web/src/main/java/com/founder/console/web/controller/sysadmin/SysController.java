@@ -43,4 +43,9 @@ public class SysController {
         return "sys/organization";
     }
 
+    @RequestMapping("/spa/user")
+    public String  spaUserIndex() {
+        return "spa/user/index";
+    }
+
 }

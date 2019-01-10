@@ -11,9 +11,14 @@ import net.sf.ehcache.CacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.web.cors.CorsConfiguration;
+
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.Filter;
 import java.util.Collection;
@@ -70,7 +75,7 @@ public class SecurityConfig extends  AbstractSecurityConfig {
         chains.put("/static/**/*", "anon");
         chains.put("/login", "jCaptchaValidate,authc");
         chains.put("/logout", "logout");
-        chains.put("/authenticated", "authc");
+        chains.put("/rest/**", "authc");
         chains.put("/**", "user,sysUser");
     }
 
@@ -83,5 +88,20 @@ public class SecurityConfig extends  AbstractSecurityConfig {
     @Override
     public ImageCaptchaService captchaService(SpringCacheManagerWrapper cacheManager) throws Exception {
         return super.captchaService(cacheManager);
+    }
+
+
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return bean;
     }
 }
