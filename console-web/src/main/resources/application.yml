@@ -50,6 +50,7 @@ spring:
     # 合并多个DruidDataSource的监控数据
     #useGlobalDataSourceStat=true
 
+
   jpa:
     database: ORACLE
     show-sql: false
@@ -80,6 +81,15 @@ spring:
   aop:
     auto: true
     proxy-target-class: true
+
+presto:
+  spring:
+    datasource:
+      marketing:
+        url: jdbc:presto://master:9002/hive
+        driver-class-name: com.facebook.presto.jdbc.PrestoDriver
+
+
 
 console:
   security:
