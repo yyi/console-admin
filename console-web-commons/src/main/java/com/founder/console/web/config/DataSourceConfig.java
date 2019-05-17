@@ -4,6 +4,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
+
+import com.founder.config.annotation.DataBase;
 import com.founder.contract.sysadmin.DecryptMessage;
 import com.founder.service.sysadmin.AesDecryptMessage;
 import lombok.extern.log4j.Log4j2;
@@ -11,6 +13,8 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +23,8 @@ import org.springframework.context.annotation.Scope;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Configuration
@@ -78,8 +84,23 @@ public class DataSourceConfig {
             log.error(e.getMessage());
         }
 
-        return druidDataSource;
+        MultiDataSource dynamicDataSource = new MultiDataSource();
+
+        dynamicDataSource.setDefaultTargetDataSource(druidDataSource);
+
+        DataSource prestoDataSource =DataSourceBuilder.create().url("jdbc:presto://master:9002/hive").driverClassName("com.facebook.presto.jdbc.PrestoDriver").username("1").build();
+        Map<Object, Object> dsMap = new HashMap<>();
+        dsMap.put(DataBase.oracle, druidDataSource);
+        dsMap.put(DataBase.presto, prestoDataSource);
+
+        dynamicDataSource.setTargetDataSources(dsMap);
+
+        return dynamicDataSource;
     }
+
+
+
+
 
 
     @Value("${console.security.druid.allow:0.0.0.0}")

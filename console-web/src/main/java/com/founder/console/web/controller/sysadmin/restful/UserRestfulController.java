@@ -2,6 +2,7 @@ package com.founder.console.web.controller.sysadmin.restful;
 
 import com.founder.console.web.config.annotation.AjaxController;
 import com.founder.contract.sysadmin.UserService;
+import com.founder.dao.sysadmin.WikiLogsDao;
 import com.founder.domain.sysadmin.User;
 import com.founder.dto.sysadmin.EmptyJsonResponse;
 import com.founder.dto.sysadmin.UserDto;
@@ -27,11 +28,15 @@ public class UserRestfulController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private WikiLogsDao wikiLogsDao;
+
     @RequiresPermissions("user:view")
     @RequestMapping("/list")
     public Page<UserDto> index(@RequestParam(value = "loginName", required = false) String loginName,
                                @RequestParam(value = "name", required = false) String name,
                                Pageable pageRequest) {
+       // List<WikiLogs> wikiLogs=wikiLogsDao.findWikiLogsByCurrentTitle("05_Fuck_Em");
         final Page<User> all = userService.findAll(loginName,name,pageRequest);
         return new PageImpl(userMapper.usersToUserDtos(all.getContent()), pageRequest, all.getTotalElements());
     }
