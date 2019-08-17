@@ -5,6 +5,7 @@ import com.founder.config.WhereClauseBuilder;
 import com.founder.contract.sysadmin.OrganizationService;
 import com.founder.contract.sysadmin.RoleService;
 import com.founder.contract.sysadmin.UserService;
+import com.founder.dao.business.TestKt;
 import com.founder.dao.sysadmin.ResourceDao;
 import com.founder.dao.sysadmin.UserDao;
 import com.founder.domain.sysadmin.Organization;
@@ -142,6 +143,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAll(String loginName, String userName, Pageable pageRequest) {
+        TestKt.test();
         QUser user = QUser.user;
         User.Status available = User.Status.AVAILIABLE;
         return userDao.findAll(
