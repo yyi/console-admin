@@ -21,7 +21,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@localhost:1521:orcl
+    url: jdbc:oracle:thin:@localhost:1521:helowin
     username: fzdb
     password: fzdb
     # 初始化大小，最小，最大
@@ -78,8 +78,8 @@ spring:
   aop:
     auto: true
     proxy-target-class: true
-
-console:
-  security:
-    authenticationCachingEnabled: false
-    authorizationCachingEnabled: false
+#
+#console:
+#  security:
+#    authenticationCachingEnabled: false
+#    authorizationCachingEnabled: false

@@ -20,7 +20,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@localhost:1521:orcl
+    url: jdbc:oracle:thin:@localhost:1521:helowin
     username: fzdb
     password: fzdb
 #    url: r74JfdP9cvWv4UKKydxOJ3OUnW2CHgCmf1mA7RjE65cVnt/hnjl3zFE8aWjZryum
@@ -100,3 +100,9 @@ console:
 #  datasource:
 #    monitor:
 #      enable: false
+
+#fix spring boot 2.2.0 bug
+management:
+  health:
+    db:
+      enabled: false

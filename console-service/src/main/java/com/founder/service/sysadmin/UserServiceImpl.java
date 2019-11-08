@@ -53,11 +53,6 @@ public class UserServiceImpl implements UserService {
 
     //List<Organization> childOrganization = new ArrayList<>();
 
-    private static ThreadLocal<List<Organization>> childOrganizationThread = new ThreadLocal<List<Organization>>() {
-        protected List<Organization> initialValue() {
-            return new ArrayList<Organization>();
-        }
-    };
 
     private static ThreadLocal<Integer> countThread = new ThreadLocal<Integer>() {
         protected Integer initialValue() {
@@ -129,11 +124,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User getUserById(Long userId) {
-        Optional<User> user = userDao.findById(userId);
-        if (!user.isPresent()) {
-            throw new OperationException(SysadminError.UserNotExists);
-        }
-        return user.get();
+        return userDao.findById(userId).orElseThrow(() ->
+                new OperationException(SysadminError.UserNotExists));
     }
 
     @Override
@@ -160,77 +152,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
-    public UserDto converUserToUserDto(User user) {
-        UserDto userDto = null;
-        try {
-            user = userDao.findById(user.getId()).orElse(null);
-            userDto = userMapper.userToUserDto(user);
-            //初始化所有子部门的id和no
-            userDto.setOrganizationNoList(generateOrganizationNoList(user).stream().collect(Collectors.toList()));
-            userDto.setOrganizationIdList(generateOrganizationIdList(user).stream().collect(Collectors.toList()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            childOrganizationThread.remove();
-            countThread.remove();
-        }
-        return userDto;
-    }
 
-    private Set<Long> generateOrganizationIdList(User user) {
-        Set<Organization> userHadOrganizations = user.getOrganizations();
-        Set<Long> orgIdSet = new HashSet<>();
-        List<Organization> organizationList = organizationService.findAllOrganizationList();
-        countThread.set(0);
-        //recursiveCount = 0;
-        for (Organization org : userHadOrganizations) {
-            treeOrganizationList(organizationList, user.getOrganizations().size(), org.getId());
-            Set<Long> idSet = childOrganizationThread.get().stream().map(organization -> organization.getId()).collect(Collectors.toSet());
-            orgIdSet.addAll(idSet);
-        }
-        return orgIdSet;
-    }
-
-
-    private Set<String> generateOrganizationNoList(User user) {
-        Set<Organization> userHadOrganizations = user.getOrganizations();
-        Set<String> orgNoSet = new HashSet<>();
-        List<Organization> organizationList = organizationService.findAllOrganizationList();
-        countThread.set(0);
-        //recursiveCount = 0;
-        for (Organization org : userHadOrganizations) {
-            treeOrganizationList(organizationList, user.getOrganizations().size(), org.getId());
-            Set<String> idSet = childOrganizationThread.get().stream().map(organization -> organization.getOrganizationNo()).collect(Collectors.toSet());
-            orgNoSet.addAll(idSet);
-        }
-        return orgNoSet;
-    }
-
-    /**
-     * 查找该部门下所有子节点
-     *
-     * @param organizationList
-     * @param parentId
-     * @return
-     */
-    private List<Organization> treeOrganizationList(List<Organization> organizationList, Integer orgSetCount, Long parentId) {
-        //recursiveCount += 1;
-        countThread.set(countThread.get() + 1);
-        if (countThread.get() > (organizationList.size() * orgSetCount)) {
-            throw new OperationException(SysadminError.organizationHasInfiniteRecursion, new RuntimeException(), "OrganizationId=" + parentId);
-        }
-        for (Organization organization : organizationList) {
-            if (organization.getId().equals(parentId)) {
-                //没有父级,添加自己
-                childOrganizationThread.get().add(organization);
-            } else if (null != organization.getParent() && organization.getParent().getId().equals(parentId)) {
-                treeOrganizationList(organizationList, orgSetCount, organization.getId());
-                childOrganizationThread.get().add(organization);
-            }
-        }
-        return childOrganizationThread.get();
-    }
 
     @Override
     public Set<String> findRoles(String username) {

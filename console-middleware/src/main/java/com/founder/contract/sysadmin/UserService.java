@@ -52,5 +52,4 @@ public interface UserService {
      */
     public Set<String> findPermissions(String username);
 
-    UserDto converUserToUserDto(User user);
 }
