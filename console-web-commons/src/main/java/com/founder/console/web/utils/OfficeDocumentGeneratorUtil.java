@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,7 @@ import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -27,13 +31,32 @@ import java.util.Objects;
 
 @Component
 @Slf4j
-public class PdfGeneratorUtil {
+public class OfficeDocumentGeneratorUtil {
 
     @Autowired
     private TemplateEngine templateEngine;
 
     @Resource(name = "PdfTextRenderer")
     private GenericObjectPool<ITextRenderer> pdfTextRendererObjectPool;
+
+    public byte[] createWordDoc(String templateName, Map map, String pdfFilePath) {
+        Assert.notNull(templateName, "The templateName can not be null");
+        String processedHtml = getHtml(templateName, map);
+        ByteArrayOutputStream bos = null;
+        try {
+            bos = new ByteArrayOutputStream();
+            POIFSFileSystem poifs = new POIFSFileSystem();
+            DirectoryEntry directory = poifs.getRoot();
+            directory.createDocument("文档名称", new ByteArrayInputStream(processedHtml.getBytes("utf-8")));
+            poifs.writeFilesystem(bos);
+            return bos.toByteArray();
+        } catch (Throwable e) {
+            log.error("excel文件生成失败", e);
+            throw new OperationException(SysadminError.PdfFileGenerateError, e);
+        } finally {
+            IOUtils.closeQuietly(bos);
+        }
+    }
 
     public byte[] createExcel(String templateName, Map map, String pdfFilePath) {
         Assert.notNull(templateName, "The templateName can not be null");

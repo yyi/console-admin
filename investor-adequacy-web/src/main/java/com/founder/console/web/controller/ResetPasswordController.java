@@ -2,7 +2,7 @@ package com.founder.console.web.controller;
 
 import com.founder.console.web.config.annotation.WebController;
 import com.founder.console.web.utils.LoginUtils;
-import com.founder.console.web.utils.PdfGeneratorUtil;
+import com.founder.console.web.utils.OfficeDocumentGeneratorUtil;
 import com.founder.console.web.view.DownloadingView;
 import com.founder.contract.business.ClientUserService;
 import com.founder.dto.business.CheckedItem;
@@ -33,7 +33,7 @@ public class ResetPasswordController {
     private String mainPage = "redirect:/";
 
 
-    private final  PdfGeneratorUtil pdfGeneratorUtil;
+    private final OfficeDocumentGeneratorUtil officeDocumentGeneratorUtil;
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(HttpSession session) {
@@ -125,7 +125,7 @@ public class ResetPasswordController {
 
 
         String fileName = UUID.randomUUID().toString();
-        byte[] buff = pdfGeneratorUtil.createPdf("investorBasicInformation", map, "G:\\" + fileName);
+        byte[] buff = officeDocumentGeneratorUtil.createPdf("investorBasicInformation", map, "G:\\" + fileName);
         return new DownloadingView("bbb测试中文aaa.pdf",
                 "application/pdf", buff);
 

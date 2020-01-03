@@ -1,30 +1,18 @@
 package com.founder.console.web.controller;
 
 
-import com.founder.Exception.OperationException;
 import com.founder.console.web.bind.annotation.CurrentUser;
-import com.founder.console.web.config.annotation.AjaxController;
 import com.founder.console.web.config.annotation.WebController;
-import com.founder.console.web.utils.PdfGeneratorUtil;
+import com.founder.console.web.utils.OfficeDocumentGeneratorUtil;
 import com.founder.console.web.view.DownloadingView;
 import com.founder.contract.business.BusinessService;
 import com.founder.contract.sysadmin.DictionaryService;
-import com.founder.dao.business.BusinessDao;
-import com.founder.dao.business.BusinessOperationDao;
-import com.founder.domain.business.Business;
-import com.founder.domain.business.BusinessOperation;
 import com.founder.domain.business.ClientUser;
 import com.founder.dto.business.BusinessValueDto;
 import com.founder.dto.business.CheckedItem;
-import com.founder.dto.business.ValueDto;
-import com.founder.dto.sysadmin.EmptyJsonResponse;
-import com.founder.exception.business.BusinessError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +27,7 @@ public class BusinessTabDownloadController {
 
 
     @Autowired
-    PdfGeneratorUtil pdfGeneratorUtil;
+    OfficeDocumentGeneratorUtil officeDocumentGeneratorUtil;
 
     @Autowired
     BusinessService businessService;
@@ -108,7 +96,7 @@ public class BusinessTabDownloadController {
         String uploadFilePath = dictionaryService.getDictionaryMapByTypeAndDtKey("UPLOAD_FILE_PATH", "UPLOAD_FILE_PATH");
 
         String fileName = UUID.randomUUID().toString();
-        byte[] buff = pdfGeneratorUtil.createPdf("investorBasicInformation_Specialty", map, uploadFilePath + fileName);
+        byte[] buff = officeDocumentGeneratorUtil.createPdf("investorBasicInformation_Specialty", map, uploadFilePath + fileName);
         return new DownloadingView("投资者基本信息表（机构）.pdf",
                 "application/pdf", buff);
     }
@@ -169,7 +157,7 @@ public class BusinessTabDownloadController {
         String uploadFilePath = dictionaryService.getDictionaryMapByTypeAndDtKey("UPLOAD_FILE_PATH", "UPLOAD_FILE_PATH");
 
         String fileName = UUID.randomUUID().toString();
-        byte[] buff = pdfGeneratorUtil.createPdf("investorBasicInformation_Org", map, uploadFilePath + fileName);
+        byte[] buff = officeDocumentGeneratorUtil.createPdf("investorBasicInformation_Org", map, uploadFilePath + fileName);
         return new DownloadingView("投资者基本信息表（机构）.pdf",
                 "application/pdf", buff);
     }
@@ -249,7 +237,7 @@ public class BusinessTabDownloadController {
 
         String uploadFilePath = dictionaryService.getDictionaryMapByTypeAndDtKey("UPLOAD_FILE_PATH", "UPLOAD_FILE_PATH");
         String fileName = UUID.randomUUID().toString();
-        byte[] buff = pdfGeneratorUtil.createPdf("investorBasicInformation", map, uploadFilePath + fileName);
+        byte[] buff = officeDocumentGeneratorUtil.createPdf("investorBasicInformation", map, uploadFilePath + fileName);
         return new DownloadingView("投资者基本信息表（自然人）.pdf",
                 "application/pdf", buff);
     }
@@ -331,7 +319,7 @@ public class BusinessTabDownloadController {
         String uploadFilePath = dictionaryService.getDictionaryMapByTypeAndDtKey("UPLOAD_FILE_PATH", "UPLOAD_FILE_PATH");
 
         String fileName = UUID.randomUUID().toString();
-        byte[] buff = pdfGeneratorUtil.createPdf("deptOrganizationOrdinaryBase", map, uploadFilePath + fileName);
+        byte[] buff = officeDocumentGeneratorUtil.createPdf("deptOrganizationOrdinaryBase", map, uploadFilePath + fileName);
         return new DownloadingView("投资者基本信息表（机构）.pdf",
                 "application/pdf", buff);
     }
@@ -345,7 +333,7 @@ public class BusinessTabDownloadController {
         Map<String,Object> map = new HashMap<String,Object>();
         String fileName = UUID.randomUUID().toString();
         String uploadFilePath = dictionaryService.getDictionaryMapByTypeAndDtKey("UPLOAD_FILE_PATH", "UPLOAD_FILE_PATH");
-        byte[] buff = pdfGeneratorUtil.createPdf("shareSpecialtyApply", map, uploadFilePath + fileName);
+        byte[] buff = officeDocumentGeneratorUtil.createPdf("shareSpecialtyApply", map, uploadFilePath + fileName);
         return new DownloadingView("专业投资者申请书.pdf",
                 "application/pdf", buff);
     }
