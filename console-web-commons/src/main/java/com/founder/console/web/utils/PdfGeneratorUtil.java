@@ -2,9 +2,12 @@ package com.founder.console.web.utils;
 
 import com.founder.Exception.OperationException;
 import com.founder.exception.sysadmin.SysadminError;
+import com.github.liaochong.myexcel.core.HtmlToExcelFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -32,19 +35,26 @@ public class PdfGeneratorUtil {
     @Resource(name = "PdfTextRenderer")
     private GenericObjectPool<ITextRenderer> pdfTextRendererObjectPool;
 
+    public byte[] createExcel(String templateName, Map map, String pdfFilePath) {
+        Assert.notNull(templateName, "The templateName can not be null");
+        String processedHtml = getHtml(templateName, map);
+        Workbook workbook = HtmlToExcelFactory.readHtml(processedHtml).useDefaultStyle().build();
+        ByteArrayOutputStream bos = null;
+        try {
+            bos = new ByteArrayOutputStream();
+            workbook.write(bos);
+            return bos.toByteArray();
+        } catch (Throwable e) {
+            log.error("excel文件生成失败", e);
+            throw new OperationException(SysadminError.PdfFileGenerateError, e);
+        } finally {
+            IOUtils.closeQuietly(bos);
+        }
+    }
 
     public byte[] createPdf(String templateName, Map map, String pdfFilePath) {
         Assert.notNull(templateName, "The templateName can not be null");
-        Context ctx = new Context();
-        if (map != null) {
-            Iterator itMap = map.entrySet().iterator();
-            while (itMap.hasNext()) {
-                Map.Entry pair = (Map.Entry) itMap.next();
-                ctx.setVariable(pair.getKey().toString(), pair.getValue());
-            }
-        }
-
-        String processedHtml = templateEngine.process(templateName, ctx);
+        String processedHtml = getHtml(templateName, map);
         ITextRenderer renderer = null;
         try {
             final File outputFile = new File(pdfFilePath);
@@ -88,5 +98,18 @@ public class PdfGeneratorUtil {
                 pdfTextRendererObjectPool.returnObject(renderer);
 
         }
+    }
+
+    private String getHtml(String templateName, Map map) {
+        Context ctx = new Context();
+        if (map != null) {
+            Iterator itMap = map.entrySet().iterator();
+            while (itMap.hasNext()) {
+                Map.Entry pair = (Map.Entry) itMap.next();
+                ctx.setVariable(pair.getKey().toString(), pair.getValue());
+            }
+        }
+
+        return templateEngine.process(templateName, ctx);
     }
 }

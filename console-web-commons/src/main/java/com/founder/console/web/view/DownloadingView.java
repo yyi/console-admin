@@ -5,6 +5,7 @@ import org.springframework.web.servlet.View;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.util.Map;
 
 public class DownloadingView implements View
@@ -31,7 +32,7 @@ public class DownloadingView implements View
                        HttpServletResponse response) throws Exception
     {
         response.setHeader("Content-Disposition",
-                "attachment; filename=" + new String(this.filename.getBytes("GBK"), "ISO_8859_1"));
+                "attachment; filename=" + URLEncoder.encode(this.filename, "UTF-8") );
         response.setContentType("application/octet-stream");
 
         ServletOutputStream stream = response.getOutputStream();
