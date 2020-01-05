@@ -8,10 +8,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
@@ -20,10 +18,8 @@ import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -33,47 +29,59 @@ import java.util.Objects;
 @Slf4j
 public class OfficeDocumentGeneratorUtil {
 
-    @Autowired
-    private TemplateEngine templateEngine;
+    public OfficeDocumentGeneratorUtil(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+
+    @FunctionalInterface
+    interface OfficeDocumentGenerator {
+        void apply(String t, OutputStream u) throws Exception;
+    }
+
+    private final TemplateEngine templateEngine;
 
     @Resource(name = "PdfTextRenderer")
     private GenericObjectPool<ITextRenderer> pdfTextRendererObjectPool;
 
-    public byte[] createWordDoc(String templateName, Map map, String pdfFilePath) {
+
+    private byte[] createOfficeDocument(String templateName, Map map, OfficeDocumentGenerator fun) {
         Assert.notNull(templateName, "The templateName can not be null");
         String processedHtml = getHtml(templateName, map);
         ByteArrayOutputStream bos = null;
         try {
             bos = new ByteArrayOutputStream();
-            POIFSFileSystem poifs = new POIFSFileSystem();
-            DirectoryEntry directory = poifs.getRoot();
-            directory.createDocument("文档名称", new ByteArrayInputStream(processedHtml.getBytes("utf-8")));
-            poifs.writeFilesystem(bos);
+            fun.apply(processedHtml, bos);
             return bos.toByteArray();
         } catch (Throwable e) {
-            log.error("excel文件生成失败", e);
+            log.error("文件生成失败", e);
             throw new OperationException(SysadminError.PdfFileGenerateError, e);
         } finally {
             IOUtils.closeQuietly(bos);
         }
     }
 
-    public byte[] createExcel(String templateName, Map map, String pdfFilePath) {
-        Assert.notNull(templateName, "The templateName can not be null");
-        String processedHtml = getHtml(templateName, map);
-        Workbook workbook = HtmlToExcelFactory.readHtml(processedHtml).useDefaultStyle().build();
-        ByteArrayOutputStream bos = null;
-        try {
-            bos = new ByteArrayOutputStream();
-            workbook.write(bos);
-            return bos.toByteArray();
-        } catch (Throwable e) {
-            log.error("excel文件生成失败", e);
-            throw new OperationException(SysadminError.PdfFileGenerateError, e);
-        } finally {
-            IOUtils.closeQuietly(bos);
-        }
+    public byte[] createWordDoc(String templateName, Map map, String pdfFilePath) throws Exception {
+        return createOfficeDocument(templateName, map, this::createWordDocument);
+
     }
+
+    public byte[] createExcel(String templateName, Map map, String pdfFilePath) {
+        return createOfficeDocument(templateName, map, this::createExcelDocument);
+    }
+
+    private void createWordDocument(String html, OutputStream bos) throws Exception {
+        POIFSFileSystem poifs = new POIFSFileSystem();
+        DirectoryEntry directory = poifs.getRoot();
+        directory.createDocument("文档名称", new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)));
+        poifs.writeFilesystem(bos);
+    }
+
+    private void createExcelDocument(String html, OutputStream bos) throws Exception {
+        Workbook workbook = HtmlToExcelFactory.readHtml(html).useDefaultStyle().build();
+        workbook.write(bos);
+    }
+
+
 
     public byte[] createPdf(String templateName, Map map, String pdfFilePath) {
         Assert.notNull(templateName, "The templateName can not be null");
