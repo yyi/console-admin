@@ -44,7 +44,7 @@ public class OfficeDocumentGeneratorUtil {
     private GenericObjectPool<ITextRenderer> pdfTextRendererObjectPool;
 
 
-    private byte[] createOfficeDocument(String templateName, Map map, OfficeDocumentGenerator fun) {
+    private byte[] createOfficeDocument(String templateName, Map<?, ?> map, OfficeDocumentGenerator<OutputStream> fun) {
         Assert.notNull(templateName, "The templateName can not be null");
         String processedHtml = getHtml(templateName, map);
         ByteArrayOutputStream bos = null;
@@ -54,23 +54,23 @@ public class OfficeDocumentGeneratorUtil {
             return bos.toByteArray();
         } catch (Throwable e) {
             log.error("文件生成失败", e);
-            throw new OperationException(SysadminError.PdfFileGenerateError, e);
+            throw new OperationException(SysadminError.OfficeFileGenerateError, e);
         } finally {
             IOUtils.closeQuietly(bos);
         }
     }
 
-    public byte[] createWordDoc(String templateName, Map map, String pdfFilePath) {
+    public byte[] createWordDoc(String templateName, Map<?, ?> map, String pdfFilePath) {
         return createOfficeDocument(templateName, map, this::createWordDocument);
 
     }
 
-    public byte[] createExcel(String templateName, Map map, String pdfFilePath) {
+    public byte[] createExcel(String templateName, Map<?, ?> map, String pdfFilePath) {
         return createOfficeDocument(templateName, map, this::createExcelDocument);
     }
 
 
-    public byte[] createPdf(String templateName, Map map, String pdfFilePath) {
+    public byte[] createPdf(String templateName, Map<?, ?> map, String pdfFilePath) {
         return createOfficeDocument(templateName, map, this::createPdfDocument);
     }
 
@@ -113,9 +113,9 @@ public class OfficeDocumentGeneratorUtil {
     }
 
 
-    private String getHtml(String templateName, Map<Object, Object> map) {
+    private String getHtml(String templateName, Map<?, ?> map) {
         Context ctx = new Context();
-        map.entrySet().stream().forEach(( Map.Entry entry)->ctx.setVariable(entry.getKey().toString(), entry.getValue()));
+        map.entrySet().forEach(entry -> ctx.setVariable(entry.getKey().toString(), entry.getValue()));
         return templateEngine.process(templateName, ctx);
     }
 }

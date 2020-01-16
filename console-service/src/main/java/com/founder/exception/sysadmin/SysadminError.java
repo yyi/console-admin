@@ -20,7 +20,7 @@ public enum SysadminError implements ErrorMessage {
     RoleNameExists("100011", "角色名已存在" ),
     OrganizationNoExists("100012", "部门编号已存在"),
 
-    PdfFileGenerateError("100013", "PDF文件生成失败"),
+    OfficeFileGenerateError("100013", "文件生成失败"),
     ;
 
     private String errorMessage;
