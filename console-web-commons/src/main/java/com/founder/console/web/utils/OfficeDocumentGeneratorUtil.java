@@ -21,7 +21,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -114,16 +113,9 @@ public class OfficeDocumentGeneratorUtil {
     }
 
 
-    private String getHtml(String templateName, Map map) {
+    private String getHtml(String templateName, Map<Object, Object> map) {
         Context ctx = new Context();
-        if (map != null) {
-            Iterator itMap = map.entrySet().iterator();
-            while (itMap.hasNext()) {
-                Map.Entry pair = (Map.Entry) itMap.next();
-                ctx.setVariable(pair.getKey().toString(), pair.getValue());
-            }
-        }
-
+        map.entrySet().stream().forEach(( Map.Entry entry)->ctx.setVariable(entry.getKey().toString(), entry.getValue()));
         return templateEngine.process(templateName, ctx);
     }
 }
