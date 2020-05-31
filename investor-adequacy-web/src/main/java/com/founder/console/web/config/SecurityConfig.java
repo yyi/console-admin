@@ -11,7 +11,7 @@ import com.founder.shiro.realm.ClientUserRealm;
 import com.founder.shiro.spring.SpringCacheManagerWrapper;
 import com.founder.utils.ConsoleUtils;
 import com.octo.captcha.engine.CaptchaEngine;
-import net.sf.ehcache.CacheManager;
+//import net.sf.ehcache.CacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -72,12 +72,12 @@ public abstract class AbstractSecurityConfig {
         return redisCacheManager;
     }
 
-    @Bean
-    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-        EhCacheManagerFactoryBean ehCacheManagerFactoryBean = new EhCacheManagerFactoryBean();
-        ehCacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache/ehcache.xml"));
-        return ehCacheManagerFactoryBean;
-    }
+//    @Bean
+//    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
+//        EhCacheManagerFactoryBean ehCacheManagerFactoryBean = new EhCacheManagerFactoryBean();
+//        ehCacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache/ehcache.xml"));
+//        return ehCacheManagerFactoryBean;
+//    }
 
 //    @Bean
 //    public CacheManager ehcacheManager() {
@@ -87,12 +87,12 @@ public abstract class AbstractSecurityConfig {
 //    }
 
 
-    @Bean("springcache")
-    public EhCacheCacheManager springCacheManager() {
-        EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager();
-        ehCacheCacheManager.setCacheManager(ehCacheManagerFactoryBean().getObject());
-        return ehCacheCacheManager;
-    }
+//    @Bean("springcache")
+//    public EhCacheCacheManager springCacheManager() {
+//        EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager();
+//        ehCacheCacheManager.setCacheManager(ehCacheManagerFactoryBean().getObject());
+//        return ehCacheCacheManager;
+//    }
 
 
     @Bean

@@ -7,7 +7,7 @@ import com.founder.console.web.filter.SysUserFilter;
 import com.founder.shiro.realm.UserRealm;
 import com.founder.shiro.spring.SpringCacheManagerWrapper;
 import com.octo.captcha.engine.CaptchaEngine;
-import net.sf.ehcache.CacheManager;
+//import net.sf.ehcache.CacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
