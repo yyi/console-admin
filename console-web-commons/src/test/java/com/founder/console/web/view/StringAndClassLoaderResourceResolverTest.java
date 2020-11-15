@@ -1,23 +1,17 @@
 package com.founder.console.web.view;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.thymeleaf.context.AbstractContext;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.context.IContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.StringTemplateResolver;
 
-import java.nio.charset.StandardCharsets;
-
-import static org.junit.Assert.assertEquals;
 
 public class StringAndClassLoaderResourceResolverTest {
     private static SpringTemplateEngine templateEngine;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup(){
         StringTemplateResolver resolver = new StringTemplateResolver();
      //   resolver.setResourceResolver(new StringAndClassLoaderResourceResolver());
@@ -38,7 +32,7 @@ public class StringAndClassLoaderResourceResolverTest {
         AbstractContext context = new StringAndClassLoaderResourceResolver.StringContext(input);
         context.setVariable("userName", "dave");
         String actual = templateEngine.process(expected, context);
-        assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
 //    @Test

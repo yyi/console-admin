@@ -26,6 +26,7 @@ import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -55,8 +56,8 @@ public abstract class AbstractWebConfiguration extends WebMvcConfigurerAdapter i
     @Autowired
     Unmarshaller unmarshaller;
 
-    @Autowired
-    SpringValidatorAdapter validator;
+  /*  @Autowired
+    SpringValidatorAdapter validator;*/
 
     Environment environment;
 
@@ -128,6 +129,11 @@ public abstract class AbstractWebConfiguration extends WebMvcConfigurerAdapter i
                 .mediaType("json", MediaType.APPLICATION_JSON);
     }
 
+    @Bean
+    public javax.validation.Validator localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
+    }
+
 //    @Override
 //    public Validator getValidator() {
 //        return this.validator;
@@ -138,11 +144,13 @@ public abstract class AbstractWebConfiguration extends WebMvcConfigurerAdapter i
         super.addInterceptors(registry);
         registry.addInterceptor(new LocaleChangeInterceptor());
     }
+/*
 
     @Bean
     public LocaleResolver localeResolver() {
         return new AcceptHeaderLocaleResolver();
     }
+*/
 
     @Bean
     public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(DefaultSecurityManager securityManager) {
@@ -152,7 +160,7 @@ public abstract class AbstractWebConfiguration extends WebMvcConfigurerAdapter i
         return sourceAdvisor;
     }
 
-    @Bean
+   /* @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         LifecycleBeanPostProcessor lifecycleBeanPostProcessor = new LifecycleBeanPostProcessor();
         return lifecycleBeanPostProcessor;
@@ -165,7 +173,7 @@ public abstract class AbstractWebConfiguration extends WebMvcConfigurerAdapter i
         proxyCreator.setProxyTargetClass(true);
         return proxyCreator;
     }
-
+*/
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipart = new CommonsMultipartResolver();
